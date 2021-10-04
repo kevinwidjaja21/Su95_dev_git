@@ -1,0 +1,31 @@
+<AssetPackage Name="SSJ100" Version="0.3.0">
+	<ItemSettings>
+		<ContentType>AIRCRAFT</ContentType>
+		<Title>Sukhoi Superjet 100</Title>
+		<Manufacturer>Sukhoi</Manufacturer>
+		<Creator>AEROPROYECTO</Creator>
+	</ItemSettings>
+	<Flags>
+		<VisibleInStore>true</VisibleInStore>
+		<CanBeReferenced>true</CanBeReferenced>
+	</Flags>
+	<AssetGroups>
+		<AssetGroup Name="ContentInfo">
+			<Type>Copy</Type>
+			<Flags>
+				<FSXCompatibility>true</FSXCompatibility>
+			</Flags>
+			<AssetDir>PackageDefinitions\SSJ100\ContentInfo\</AssetDir>
+			<OutputDir>ContentInfo\SSJ100\</OutputDir>
+		</AssetGroup>
+		<AssetGroup Name="SU95">
+			<Type>SimObject</Type>
+			<Flags>
+				<FSXCompatibility>true</FSXCompatibility>
+			</Flags>
+			<AssetDir>PackageSources\SimObjects\Airplanes\SU95\</AssetDir>
+			<OutputDir>SimObjects\Airplanes\SU95\</OutputDir>
+		</AssetGroup>
+	</AssetGroups>
+</AssetPackage>
+

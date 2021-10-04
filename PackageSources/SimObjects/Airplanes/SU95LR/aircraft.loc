@@ -1,0 +1,78 @@
+{
+  "LocalisationFile": {
+    "Version": 2,
+    "UUID": "acaa40d9-c7a8-4c96-8551-a256cc492ad7",
+    "Languages": [
+      "en-US"
+    ],
+    "Strings": {
+      "AIRCRAFT.DESCRIPTION": {
+        "UUID": "8ca28276-d9cf-4814-a1e6-1ead27ac91b7",
+        "LastModifiedBy": "kevin.widjaja21",
+        "LastModifiedDate": "2020-07-01 11:54:59",
+        "LocalizationStatus": "TranslationNeeded",
+        "Languages": {
+          "en-US": {
+            "Text": "Sukhoi Superjet 100 (Now only "Superjet 100" ) is a regional jet designed by Sukhoi Civil Aircraft.<\/br><\/br>It replaces Tupolev Tu-134 and Yakovlev Yak-42, as well as competes with Embraer E190 and Bombardier CRJ1000.<\/br><\/br>It is the first Russian airliners designed after the fall of the Soviet Union. It uses PowerJet (Joint Venture between Safran and Russia's NPO Saturn) SaM 146 to power the aircraft.<\/br><\/br>While it receives some international orders, SSJ100 has trouble gaining popularity outside Russia due to spare parts issues.",
+            "LocalizationStatus": "TranslationNeeded"
+          }
+        }
+      },
+      "AIRCRAFT.UI_MANUFACTURER": {
+        "UUID": "2fad742d-73fd-4dd9-a466-3d05fc39a0a6",
+        "LastModifiedBy": "kevin.widjaja21",
+        "LastModifiedDate": "2020-03-08 15:45:12",
+        "Languages": {
+          "en-US": {
+            "Text": "Sukhoi"
+          }
+        }
+      },
+      "AIRCRAFT.UI_MODEL": {
+        "UUID": "09d4bc99-8b2e-4152-b52c-5fdec66f6f5f",
+        "LastModifiedBy": "kevin.widjaja21",
+        "LastModifiedDate": "2020-03-08 15:45:12",
+        "Languages": {
+          "en-US": {
+            "Text": "SSJ100"
+          }
+        }
+      },
+      "AIRCRAFT.UI_VARIATION": {
+        "UUID": "fdf745d6-dae2-4326-9340-83cfa00dd3ae",
+        "LastModifiedBy": "kevin.widjaja21",
+        "LastModifiedDate": "2020-03-08 15:45:12",
+        "Languages": {
+          "en-US": {
+            "Text": "Sukhoi"
+          }
+        }
+      }
+    }
+  }
+}
+{
+  "LocalisationPackage": {
+    "Language": "en-US",
+    "Strings": {
+      "AIRCRAFT.DESCRIPTION": "Sukhoi Superjet 100 (Now only "Superjet 100" ) is a regional jet designed by Sukhoi Civil Aircraft.<\/br><\/br>It replaces Tupolev Tu-134 and Yakovlev Yak-42, as well as competes with Embraer E190 and Bombardier CRJ1000.<\/br><\/br>It is the first Russian airliners designed after the fall of the Soviet Union. It uses PowerJet (Joint Venture between Safran and Russia's NPO Saturn) SaM 146 to power the aircraft.<\/br><\/br>While it receives some international orders, SSJ100 has trouble gaining popularity outside Russia due to spare parts issues.",
+      "AIRCRAFT.UI_MANUFACTURER": "Sukhoi",
+      "AIRCRAFT.UI_MODEL": "SSJ100",
+      "AIRCRAFT.UI_VARIATION": "Sukhoi",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_LEFT": "Adjust selected heading to the left (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_RIGHT": "Adjust selected heading to the right  (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+	  "ATCCOM.AC_MODEL_SU95.0.text": "SU95",
+      "ATCCOM.AC_MODEL_SU95.0.tts": "SU95",
+	  "ATCCOM.ATC_NAME_SUKHOI.0.text": "Sukhoi",
+      "ATCCOM.ATC_NAME_SUKHOI.0.tts": "Sukhoi",
+	  "LOADING.TIPS.SU95_001": "Stall speed of SSJ100 is at 97 knot at 30000 kg and 118 kg at 45000 kg.",
+	  "LOADING.TIPS.SU95_002": "The engine sound will spool down just as it finished starting up.",
+      "LOADING.TIPS.SU95_003": "SSJ100 is the third Russian airliners with fly-by-wire flight system.",
+      "LOADING.TIPS.SU95_004": "SSJ100 competes with Embrar E190 and Bombardier CRJ1000",
+	  "LOADING.TIPS.SU95_005": "Sukhoi Superjet 100 or SSJ100 first took to the sky in 19 May 2008",
+	  "LOADING.TIPS.SU95_006": "Newer version of SSJ100 are equipped with a wingtip device called Saberlet",
+      "LOADING.TIPS.SU95_007": "Aeroflot is the largest operator of SSJ100",
+      "LOADING.TIPS.SU95_008": "2 new versions of SSJ100 are planned. A 75-seat shrink and a 130-seat strech."
+    }
+  }
+}

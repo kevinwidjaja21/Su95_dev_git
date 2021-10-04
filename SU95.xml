@@ -1,0 +1,8 @@
+<Project Version="2" Name="SU95" FolderName="Packages">
+	<OutputDirectory>.</OutputDirectory>
+	<TemporaryOutputDirectory>_PackageInt</TemporaryOutputDirectory>
+	<Packages>
+		<Package>PackageDefinitions\SSJ100.xml</Package>
+	</Packages>
+</Project>
+

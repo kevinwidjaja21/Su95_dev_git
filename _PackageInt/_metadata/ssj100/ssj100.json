@@ -1,0 +1,39 @@
+{
+  "validation": {
+    "validation_path": "F:\\MSFS_project\\SU95\\Packages\\ssj100",
+    "validation_time": "Sat Jun 19 18:28:01 2021",
+    "validation_msecs": 15,
+    "validation_result": "failed"
+  },
+  "meta": {
+    "valid": false,
+    "errors": {
+      "misc": [
+        "Invalid Package Name 'ssj100', package name should be in the form 'aaa-bbb-...-xxx' and only contain lower case letters or digits"
+      ]
+    }
+  },
+  "manifest": {
+    "valid": true,
+    "package_title": "Sukhoi Superjet 100",
+    "package_content_type": "AIRCRAFT",
+    "package_version": "0.0.1",
+    "package_minimum_game_version": "1.17.3"
+  },
+  "layout": {
+    "valid": true,
+    "num_directories": 0,
+    "num_files": 455
+  },
+  "marketplace_data": {
+    "valid": false,
+    "errors": {
+      "misc": [
+        "Missing folder 'F:\\MSFS_project\\SU95\\Packages\\ssj100\\MarketplaceData'"
+      ]
+    }
+  },
+  "business": {
+    "valid": true
+  }
+}

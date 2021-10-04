@@ -1,0 +1,41 @@
+{
+  "LocalisationFile": {
+    "Version": 2,
+    "UUID": "becb7735-0c83-4746-a948-65e12c789015",
+    "Languages": [
+      "en-US"
+    ],
+    "Strings": {
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_LEFT": {
+        "UUID": "61321fb5-056b-4582-8e86-90a7f6b34876",
+        "LastModifiedBy": "kevin.widjaja21",
+        "LastModifiedDate": "2020-04-26 09:25:28",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "Adjust selected heading to the left (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+            "LocalizationStatus": "TranslationNeeded"
+          }
+        }
+      },
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_RIGHT": {
+        "UUID": "1e9e50da-978d-44ea-9ae7-90d1c1ce8d8e",
+        "LastModifiedBy": "kevin.widjaja21",
+        "LastModifiedDate": "2020-04-26 09:25:46",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "Adjust selected heading to the right  (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+            "LocalizationStatus": "TranslationNeeded"
+          }
+        }
+      }
+    }
+  }
+}
