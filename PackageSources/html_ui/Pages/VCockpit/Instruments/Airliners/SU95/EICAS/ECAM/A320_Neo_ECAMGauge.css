@@ -1,4 +1,4 @@
-﻿@import url("/CSS/A32NX_Display_Common.css");
+﻿@import url("/CSS_SU95/A32NX_Display_Common.css");
 
 a320-neo-ecam-gauge {
   display: inline-block;
@@ -157,6 +157,9 @@ a320-neo-ecam-gauge #RootSVG #ExtraMessage text {
   text-anchor: middle;
   fill: var(--displayGreen);
   font-size: 15px;
+}
+a320-neo-ecam-gauge #RootSVG #ExtraMessage text.amber {
+  fill: var(--displayAmber);
 }
 a320-neo-ecam-gauge #RootSVG #ExtraMessage .active {
   display: block !important;

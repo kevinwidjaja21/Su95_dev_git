@@ -2,10 +2,14 @@ class CDUProgressPage {
     static ShowPage(mcdu) {
         mcdu.clearDisplay();
         mcdu.page.Current = mcdu.page.ProgressPage;
+        mcdu.returnPageCallback = () => {
+            CDUProgressPage.ShowPage(mcdu);
+        };
         mcdu.activeSystem = 'FMGC';
         const flightNo = SimVar.GetSimVarValue("ATC FLIGHT NUMBER", "string");
         const flMax = mcdu.getMaxFlCorrected();
         const flOpt = (mcdu._zeroFuelWeightZFWCGEntered && mcdu._blockFuelEntered && (mcdu.isAllEngineOn() || Simplane.getIsGrounded())) ? "{green}FL" + (Math.floor(flMax / 5) * 5).toString() + "{end}" : "-----";
+        const gpsPrimaryStatus = SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool") ? "{green}GPS PRIMARY{end}" : "";
         let flCrz = "-----";
         switch (mcdu.currentFlightPhase) {
             case FmgcFlightPhases.PREFLIGHT:
@@ -73,6 +77,21 @@ class CDUProgressPage {
         mcdu.onLeftInput[4] = () => {
             CDUProgressPage.ShowPredictiveGPSPage(mcdu);
         };
+
+        let progBearingDist = "{small}\xa0---°\xa0/----.-{end}";
+        let progWaypoint = "[\xa0\xa0\xa0\xa0\xa0]";
+        if (mcdu.progWaypointIdent !== undefined) {
+            progWaypoint = mcdu.progWaypointIdent.padEnd("7", "\xa0");
+            if (mcdu.progBearing > 0 && mcdu.progDistance > 0) {
+                const distDigits = mcdu.progDistance > 9999 ? 0 : 1;
+                progBearingDist = `{small}{green}\xa0${mcdu.progBearing.toFixed(0).padStart(3, "0")}°\xa0/${mcdu.progDistance.toFixed(distDigits).padStart(3)}{end}{end}`;
+            }
+        }
+        mcdu.onRightInput[3] = (input) => {
+            mcdu.trySetProgWaypoint(input, () => {
+                CDUProgressPage.ShowPage(mcdu);
+            });
+        };
         mcdu.setTemplate([
             ["{green}" + flightPhase.padStart(15, "\xa0") + "{end}\xa0" + flightNo.padEnd(11, "\xa0")],
             ["\xa0" + "CRZ\xa0", "OPT\xa0\xa0\xa0\xa0REC MAX"],
@@ -82,9 +101,9 @@ class CDUProgressPage {
             ["\xa0POSITION UPDATE AT"],
             ["{small}*{end}[\xa0\xa0\xa0\xa0][color]cyan"],
             ["\xa0\xa0BRG / DIST"],
-            ["{small}\xa0---°/----.-{end}", "{small}TO{end} {cyan}[{sp}{sp}{sp}{sp}{sp}]{end}"],
+            [progBearingDist, `{small}{white}TO{end}{end}\xa0{cyan}${progWaypoint}{end}`],
             ["\xa0PREDICTIVE"],
-            ["<GPS", "GPS PRIMARY[color]green"],
+            ["<GPS", gpsPrimaryStatus],
             ["REQUIRED", "ESTIMATED", "ACCUR{sp}"],
             ["{small}3.4NM{end}[color]cyan", "{small}0.07NM{end}[color]green", "HIGH[color]green"]
         ]);

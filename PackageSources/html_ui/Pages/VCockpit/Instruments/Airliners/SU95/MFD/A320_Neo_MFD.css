@@ -1,4 +1,4 @@
-@import url("/CSS/A32NX_Display_Common.css");
+@import url("/CSS_SU95/A32NX_Display_Common.css");
 
 :root {
   --bodyHeightScale: 1;
@@ -37,7 +37,7 @@
 
 @font-face {
   font-family: "Liberation Mono";
-  src: url("/Fonts/LiberationMono.ttf") format("truetype");
+  src: url("/Fonts_SU95/LiberationMono.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="A320_Neo_MFD.css" />
-<link rel="stylesheet" href="/CSS/A32NX_Display_Common.css" />
+<link rel="stylesheet" href="/CSS_SU95/A32NX_Display_Common.css" />
 
 <script type="text/html" id="A320_Neo_MFD">
     <glasscockpit-highlight id="highlight"></glasscockpit-highlight>
     <div id="Mainframe">
         <div id="Electricity" state="off">
+            <div id="LcdOverlay"></div>
+            <div id="BacklightBleed"></div>
             <svg id="MfdEngTest" class="engineering-mode-overlay" viewBox="0 0 600 600">
                 <text class="start" x="9" y="250">P/N : C19755BA01</text>
                 <text class="start" x="10" y="270">S/N : C1975517332</text>
@@ -156,7 +158,7 @@
                 </svg>
             </div>
 
-            <div style="position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; border: none; display: none;" id="SelfTestDiv">
+            <div style="position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; border: none;" id="SelfTestDiv">
                 <svg id="SelfTest" viewBox="0 0 600 600" style="position:absolute; top:0%; left: 0%; width: 100%; height:100%;">
                     <rect fill="url(#Backlight)" x="0" y="0" width="100%" height="100%"></rect>
                     <text id="self_test_text" class="valueText" text-anchor="middle" x="50%" y="50%" font-size="24px">SELF TEST IN PROGRESS</text>
@@ -185,10 +187,13 @@
 </script>
 
 <script type="text/html" import-script="/JS/SimPlane.js" import-async="false"></script>
-<script type="text/html" import-script="/JS/A32NX_Util.js"></script>
+<script type="text/html" import-script="/JS_SU95/A32NX_Util.js"></script>
 <script type="text/html" import-script="/JS/dataStorage.js"></script>
 <script type="text/html" import-script="/Pages/SU95_Utils/NXDataStore.js"></script>
 <script type="text/html" import-script="/Pages/SU95_Core/A32NX_DMC.js"></script>
+<script type="text/html" import-script="/Pages/SU95_Core/DisplayUnit.js"></script>
+<script type="text/html" import-script="/Pages/SU95_Core/Adirs.js"></script>
+<script type="text/html" import-script="/JS/Services/ToolBarPanels.js"></script>
 
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/Utils/RadioNav.js"></script>
 
