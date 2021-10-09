@@ -54,7 +54,7 @@ class A32NX_Speeds {
 
         this.lastFhi = fhi;
         this.lastGw = gw;
-        this.cgw = Math.ceil(((gw > 80 ? 80 : gw) - 40) / 5); //somehow changing this breaks speed indication
+        this.cgw = Math.ceil(((gw > 50 ? 50 : gw) - 24) / 2); //somehow changing this breaks speed indication
         this.ldgPos = ldg;
         this.alt = alt;
 

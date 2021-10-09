@@ -13111,7 +13111,7 @@
 
 	    const groundTrack = this.getAdirsValue("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_TRACK"), 'degrees');
 	    const isOnGround = getSimVar('SIM ON GROUND', 'Bool');
-	    const radioAlt = getSimVar('PLANE ALT ABOVE GROUND MINUS CG', 'feet');
+	    const radioAlt = getSimVar('PLANE ALT ABOVE GROUND MINUS CG', 'feet') - 1;
 	    const decisionHeight = getSimVar('L:AIRLINER_DECISION_HEIGHT', 'feet');
 	    const altitude = this.getAdirsValue("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_ALTITUDE"), 'feet');
 	    const verticalSpeed = this.getVerticalSpeed(inertialReferenceSource, airDataReferenceSource);
