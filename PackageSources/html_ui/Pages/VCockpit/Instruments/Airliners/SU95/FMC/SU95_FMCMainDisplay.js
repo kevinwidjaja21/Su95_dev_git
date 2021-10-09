@@ -420,7 +420,7 @@ class FMCMainDisplay extends BaseAirliners {
         this.constraintAlt = 0;
         this.constraintAltCached = 0;
         this.fcuSelAlt = 0;
-        this._forceNextAltitudeUpdate = false;  m ,
+        this._forceNextAltitudeUpdate = false;
         this._lastUpdateAPTime = NaN;
         this.updateAutopilotCooldown = 0;
         this._cruiseFlightLevel = undefined;

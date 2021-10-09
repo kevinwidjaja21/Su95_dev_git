@@ -19,7 +19,7 @@
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\FBW_A320_NEO_2.PC.PCK" Timestamp="13276398369"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\sound.xml" Timestamp="13277815622"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\model\model.CFG" Timestamp="13269105613"/>
-	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\panel\fadec.wasm" Timestamp="13278086669"/>
+	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\panel\fadec.wasm" Timestamp="13278222880"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\flight_model.cfg.bak" Timestamp="13271683292"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\turbine13.wav" Timestamp="12780581618"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\runway.flt" Timestamp="13276398368"/>
@@ -31,14 +31,14 @@
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\apron.FLT" Timestamp="13276398368"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\turbine12.wav" Timestamp="12996111972"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\xengine11.wav" Timestamp="12780582016"/>
-	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\panel\panel.cfg" Timestamp="13277952818"/>
+	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\panel\panel.cfg" Timestamp="13278222880"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\texture.aero\thumbnail.JPG" Timestamp="13266560185"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\taxi.flt" Timestamp="13276398369"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\xturbine13.wav" Timestamp="12993613206"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\turbine14.wav" Timestamp="12780581617"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\ban2t.wav" Timestamp="13030709756"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\model\A320_NEO_INTERIOR_LOD04.gltf" Timestamp="13277863436"/>
-	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\flight_model.cfg" Timestamp="13278083890"/>
+	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\flight_model.cfg" Timestamp="13278222880"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\xban2shut.wav" Timestamp="12780573868"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\engine14.wav" Timestamp="12780581384"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\final.FLT" Timestamp="13276398368"/>
@@ -49,7 +49,7 @@
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\Checklist\Library.xml" Timestamp="13276398357"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\ban1shut.wav" Timestamp="12631990766"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\model\A320_NEO_INTERIOR_LOD03.bin" Timestamp="13277863436"/>
-	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\engines.cfg" Timestamp="13278171647"/>
+	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\engines.cfg" Timestamp="13278222880"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\model\A320_NEO_INTERIOR_LOD01.gltf" Timestamp="13277863435"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\xturbine14.wav" Timestamp="12993613206"/>
 	<Entry Path="F:\MSFS_project\SU95_git\Su95_dev_git\Packages\ssj100\SimObjects\Airplanes\SU95\sound\xban2t.wav" Timestamp="12631990768"/>

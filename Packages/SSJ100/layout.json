@@ -12,8 +12,8 @@
     },
     {
       "path": "html_ui/CSS_SU95/A32NX_Display_Common.css",
-      "size": 3964,
-      "date": 132778253873114618
+      "size": 3969,
+      "date": 132782238146017872
     },
     {
       "path": "html_ui/CSS_SU95/thalesTest.svg",
@@ -217,13 +217,13 @@
     },
     {
       "path": "html_ui/Pages/SU95_Core/SU95_GPWS.js",
-      "size": 25693,
-      "date": 132781735153450000
+      "size": 26426,
+      "date": 132782228800424732
     },
     {
       "path": "html_ui/Pages/SU95_Core/SU95_Speeds.js",
-      "size": 3616,
-      "date": 132781726489865493
+      "size": 3700,
+      "date": 132782228800424732
     },
     {
       "path": "html_ui/Pages/SU95_Core/FMGC/A32NX_ConstraintManager.js",
@@ -232,8 +232,8 @@
     },
     {
       "path": "html_ui/Pages/SU95_Core/FMGC/SU95_FlightPhaseManager.js",
-      "size": 16322,
-      "date": 132782136944532954
+      "size": 16701,
+      "date": 132782228800414744
     },
     {
       "path": "html_ui/Pages/SU95_Utils/NXApi.js",
@@ -257,8 +257,8 @@
     },
     {
       "path": "html_ui/Pages/SU95_Utils/NXSpeeds.js",
-      "size": 19300,
-      "date": 132779124232146564
+      "size": 19937,
+      "date": 132782228800434739
     },
     {
       "path": "html_ui/Pages/SU95_Utils/NXSystemMessages.js",
@@ -437,8 +437,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/PFD/template.html",
-      "size": 364666,
-      "date": 132781739858874983
+      "size": 378347,
+      "date": 132782228800464746
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/PFD/template.js",
@@ -657,18 +657,18 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/CDU/SU95_CDU.html",
-      "size": 17025,
-      "date": 132781738628999450
+      "size": 17189,
+      "date": 132782236482293610
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/CDU/SU95_IdentPage.js",
-      "size": 2705,
-      "date": 132779502099206416
+      "size": 2795,
+      "date": 132782228800474728
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/CDU/SU95_WindPage.js",
-      "size": 7337,
-      "date": 132779499346270277
+      "size": 7588,
+      "date": 132782228800484723
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/CDU/AIDS/A320_Neo_CDU_AIDS_Menu.js",
@@ -792,8 +792,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/CDU/ATSU/SU95_CDU_AOC_OFPData.js",
-      "size": 20264,
-      "date": 132779507378750000
+      "size": 20826,
+      "date": 132782228800464746
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/CDU/BacklightTemp/MCDUGradient.png",
@@ -977,8 +977,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/EICAS/SU95_EICAS.html",
-      "size": 9785,
-      "date": 132779527794931437
+      "size": 9920,
+      "date": 132782236482293610
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/EICAS/DoorVideoResources/empty.png",
@@ -1062,13 +1062,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/EICAS/ECAM/SU95_UpperECAM.html",
-      "size": 1445,
-      "date": 132779527794941441
+      "size": 1469,
+      "date": 132782228800484723
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/EICAS/ECAM/SU95_UpperECAM.js",
-      "size": 157486,
-      "date": 132779523836244244
+      "size": 160749,
+      "date": 132782228800504726
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/FCU/A320_Neo_FCU.css",
@@ -1078,7 +1078,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/FCU/A320_Neo_FCU.html",
       "size": 6023,
-      "date": 132778261719917829
+      "date": 132782236482293610
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/FCU/A320_Neo_FCU.js",
@@ -1092,8 +1092,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/FMC/SU95_FMCMainDisplay.js",
-      "size": 153137,
-      "date": 132782126029407398
+      "size": 157049,
+      "date": 132782240473371268
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/SU95/MFD/A320_Neo_MFD.css",
@@ -1543,7 +1543,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/SU95/Map/A32NX_MapInstrument.html",
       "size": 5270,
-      "date": 132778261719917829
+      "date": 132782236482293610
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/SU95/Map/A32NX_MapInstrument.js",
@@ -1747,8 +1747,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/engines.cfg",
-      "size": 11981,
-      "date": 132781716479674552
+      "size": 12228,
+      "date": 132782509305117115
     },
     {
       "path": "SimObjects/Airplanes/SU95/final.FLT",
@@ -1757,8 +1757,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/flight_model.cfg",
-      "size": 33036,
-      "date": 132780838901210895
+      "size": 33500,
+      "date": 132782228800374749
     },
     {
       "path": "SimObjects/Airplanes/SU95/flight_model.cfg.bak",
@@ -1868,17 +1868,17 @@
     {
       "path": "SimObjects/Airplanes/SU95/panel/fadec.wasm",
       "size": 473881,
-      "date": 132780866694349621
+      "date": 132782268306227481
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/fbw.wasm",
-      "size": 646973,
-      "date": 132763987750000000
+      "size": 1001158,
+      "date": 132782466661188002
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/panel.cfg",
-      "size": 3087,
-      "date": 132779528185258750
+      "size": 3241,
+      "date": 132782228800414744
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/panel.xml",

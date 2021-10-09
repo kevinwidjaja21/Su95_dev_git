@@ -1200,10 +1200,10 @@ bool FlyByWireInterface::updateAutothrust(double sampleTime) {
     autoThrustInput.in.input.V_MAX_kn = idFmgcV_MAX->get();
     autoThrustInput.in.input.thrust_limit_REV_percent = -45;
     autoThrustInput.in.input.thrust_limit_IDLE_percent = engineEngineIdleN1->get();
-    autoThrustInput.in.input.thrust_limit_CLB_percent = 80.0;
-    autoThrustInput.in.input.thrust_limit_MCT_percent = 81.0;
-    autoThrustInput.in.input.thrust_limit_FLEX_percent = 81.0;
-    autoThrustInput.in.input.thrust_limit_TOGA_percent = 85.0;
+    autoThrustInput.in.input.thrust_limit_CLB_percent = 83.0;
+    autoThrustInput.in.input.thrust_limit_MCT_percent = 84.0;
+    autoThrustInput.in.input.thrust_limit_FLEX_percent = 84.0;
+    autoThrustInput.in.input.thrust_limit_TOGA_percent = 88.0;
     autoThrustInput.in.input.flex_temperature_degC = idFmgcFlexTemperature->get();
     autoThrustInput.in.input.mode_requested = autopilotStateMachineOutput.autothrust_mode;
     autoThrustInput.in.input.is_mach_mode_active = simData.is_mach_mode_active;
