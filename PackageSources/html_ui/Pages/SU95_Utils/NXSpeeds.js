@@ -422,10 +422,10 @@ function _compensateForMachEffect(v, alt) {
 /**
  * Calculates wind component for ground speed mini
  * @param vw {number} velocity wind (headwind)
- * @returns {number} velocity wind [0, 15] //SSJ doesn't seems to have 5+ knt for the landing speed
+ * @returns {number} velocity wind [5, 15] //SSJ doesn't seems to have 5+ knt for the landing speed
  */
 function _addWindComponent(vw) {
-    return Math.max(Math.min(15, vw), 0);
+    return Math.max(Math.min(15, vw), 5);
 }
 
 /**

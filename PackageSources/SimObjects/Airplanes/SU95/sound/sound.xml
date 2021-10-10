@@ -939,21 +939,21 @@
 
         <!-- Miscellaneous ==========================================================================================  -->
         
-        <Sound WwiseData="true" WwiseEvent="wiper_slowL" NodeName="WIPER_BASE_L" SimVar="CIRCUIT POWER SETTING" Units="percent" Index="77" Continuous="true">
+        <Sound WwiseData="true" WwiseEvent="wiper_slowL" NodeName="SCREEN_MCDUL" SimVar="CIRCUIT POWER SETTING" Units="percent" Index="77" Continuous="true">
             <Range LowerBound="75" UpperBound="75" />
             <Requires SimVar="CIRCUIT ON" Units="Bool" Index="77">
             <Range LowerBound="1" />
             </Requires>
         </Sound>
         
-        <Sound WwiseData="true" WwiseEvent="wiper_fastL" NodeName="WIPER_BASE_L" SimVar="CIRCUIT POWER SETTING" Units="percent" Index="77" Continuous="true">
+        <Sound WwiseData="true" WwiseEvent="wiper_fastL" NodeName="SCREEN_MCDUL" SimVar="CIRCUIT POWER SETTING" Units="percent" Index="77" Continuous="true">
             <Range LowerBound="100" />
             <Requires SimVar="CIRCUIT ON" Units="Bool" Index="77">
             <Range LowerBound="1" />
             </Requires>
         </Sound>
         
-        <Sound WwiseData="true" WwiseEvent="wiper_parkL" NodeName="WIPER_BASE_L" SimVar="CIRCUIT ON" Units="Bool" Index="77" Continuous="false">
+        <Sound WwiseData="true" WwiseEvent="wiper_parkL" NodeName="SCREEN_MCDUL" SimVar="CIRCUIT ON" Units="Bool" Index="77" Continuous="false">
             <Range UpperBound="0" />
         </Sound>
         
@@ -1076,7 +1076,7 @@
 
         <!-- CRC ==========================================================================================-->
 
-        <Sound WwiseData="true" WwiseEvent="CRC" NodeName="WIPER_BASE_L" ViewPoint="Inside" LocalVar="A32NX_MASTER_WARNING">
+        <Sound WwiseData="true" WwiseEvent="CRC" NodeName="SCREEN_MCDUL" ViewPoint="Inside" LocalVar="A32NX_MASTER_WARNING">
             <Range LowerBound="0.5" />
             <Requires SimVar="ELECTRICAL MAIN BUS VOLTAGE" Units="VOLTS" Index="1">
                 <Range LowerBound="28" />
@@ -1148,51 +1148,51 @@
         <Sound WwiseData="true" WwiseEvent="aural_v1" />
         <Sound WwiseEvent="cavcharge" WwiseData="true" NodeName="PEDALS_LEFT" Continuous="false" />
         <Sound WwiseEvent="3click" WwiseData="true" NodeName="PEDALS_LEFT" Continuous="false" />
-        <Sound WwiseData="true" WwiseEvent="fwdgalley" NodeName="WIPER_BASE_L" />
+        <Sound WwiseData="true" WwiseEvent="fwdgalley" NodeName="SCREEN_MCDUL" />
 
         <!-- New RA callouts ====================================================================================-->
-        <Sound WwiseData="true" WwiseEvent="new_5" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_10" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_20" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_30" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_40" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_50" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_100" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_200" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_300" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_400" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_500" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_1000" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_2500" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="new_retard" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="aural_minimumnew" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="aural_100above" NodeName="WIPER_BASE_L" />
+        <Sound WwiseData="true" WwiseEvent="new_5" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_10" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_20" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_30" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_40" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_50" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_100" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_200" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_300" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_400" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_500" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_1000" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_2500" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="new_retard" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="aural_minimumnew" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="aural_100above" NodeName="SCREEN_MCDUL" />
         
         <!-- TCAS callouts ====================================================================================-->
         
-        <Sound WwiseData="true" WwiseEvent="clear_of_conflict" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="climb_climb" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="climb_climb_now" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="climb_crossing_climb" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="descend_crossing_descend" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="descend_descend" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="descend_descend_now" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="increase_climb" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="increase_descent" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="level_off_level_off" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="maint_vs_crossing_maint" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="maint_vs_maint" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="monitor_vs" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="traffic" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="traffic_traffic" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="TCAS_sys_test_OK" NodeName="WIPER_BASE_L" />
+        <Sound WwiseData="true" WwiseEvent="clear_of_conflict" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="climb_climb" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="climb_climb_now" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="climb_crossing_climb" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="descend_crossing_descend" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="descend_descend" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="descend_descend_now" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="increase_climb" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="increase_descent" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="level_off_level_off" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="maint_vs_crossing_maint" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="maint_vs_maint" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="monitor_vs" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="traffic" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="traffic_traffic" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="TCAS_sys_test_OK" NodeName="SCREEN_MCDUL" />
         
         <!-- ROPS callouts ==================================================================================== -->
         
-        <Sound WwiseData="true" WwiseEvent="brake_max_braking" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="keep_max_reverse" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="runway_too_short" NodeName="WIPER_BASE_L" />
-        <Sound WwiseData="true" WwiseEvent="set_max_reverse" NodeName="WIPER_BASE_L" />
+        <Sound WwiseData="true" WwiseEvent="brake_max_braking" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="keep_max_reverse" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="runway_too_short" NodeName="SCREEN_MCDUL" />
+        <Sound WwiseData="true" WwiseEvent="set_max_reverse" NodeName="SCREEN_MCDUL" />
 
     </AvionicSounds>
 
@@ -1377,8 +1377,8 @@
         <Sound WwiseData="true" WwiseEvent="deice_windshield_switch_off" ViewPoint="Inside"/>
 
         <!-- Exterior ========================================================================================== -->
-        <Sound WwiseData="true" WwiseEvent="wipers_forward" NodeName="WIPER_BASE_L"/>
-        <Sound WwiseData="true" WwiseEvent="wipers_backward" NodeName="WIPER_BASE_L"/>
+        <Sound WwiseData="true" WwiseEvent="wipers_forward" NodeName="SCREEN_MCDUL"/>
+        <Sound WwiseData="true" WwiseEvent="wipers_backward" NodeName="SCREEN_MCDUL"/>
 
     </AnimationSounds>
 
