@@ -122,6 +122,8 @@ class Polynomial {
   double cflowNX(double cn1, double mach, double alt) {
     double cflow_out = 0;
 
+    double ssj_coeff = 0.84;
+
     double cflow_coef[21] = {-639.6602981, 0.00000e+00,  1.03705e+02,  -2.23264e+03, 5.70316e-03, -2.29404e+00, 1.08230e+02,
                              2.77667e-04,  -6.17180e+02, -7.20713e-02, 2.19013e-07,  2.49418e-02, -7.31662e-01, -1.00003e-05,
                              -3.79466e+01, 1.34552e-03,  5.72612e-09,  -2.71950e+02, 8.58469e-02, -2.72912e-06, 2.02928e-11};
@@ -135,7 +137,7 @@ class Polynomial {
                 (cflow_coef[17] * powFBW(mach, 3)) + (cflow_coef[18] * powFBW(mach, 2) * alt) + (cflow_coef[19] * mach * powFBW(alt, 2)) +
                 (cflow_coef[20] * powFBW(alt, 3));
 
-    return cflow_out;
+    return (cflow_out * ssj_coeff);
   }
 
   double oilGulpPct(double thrust) {
