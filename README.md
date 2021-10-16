@@ -1,11 +1,27 @@
 # SU95 MSFS Project
 New repository for MSFS Sukhoi Superjet 100 convert project. Hopefully it will be more cleaner easier to use in MSFS Project Editor.
+
+ ## Requirement
+Following software are required to build this project:
+- Any git client. I use the [GitHub Desktop](https://desktop.github.com/)
+- [Docker](https://docs.docker.com/get-docker/) (To build WASM and react instrument)
+
+Optional software that you don't need but I personally prefer to use it.
+- [VScode](https://code.visualstudio.com/download)
  
  ## How to use
 By default, the repository doesn't include AEROPROYECTO SSJ 3D model and engine sounds. You will have to obtain the model and sound file by either through the flightsim.to the release package.
 - Remove the SSJ100 folder from the community folder
 - Put the .mdl file inside "PackageSources/SimObjects/Airplanes/SU95/model".
 - Put the .wav and sound.cfg to "PackageSources/SimObjects/Airplanes/SU95/sound/"
+- Build fadec.wasm by running following command on the project root in powershell.
+```shell
+.\docker-env\run.cmd ./src/fadec/build.sh
+```
+- Build fbw.wasm by running following command on the project root in powershell.
+```shell
+.\docker-env\run.cmd ./src/fbw/build.sh
+```
 - Click on Sync.bat on the project root.
 - Now the plane should appears when you load the project.
 

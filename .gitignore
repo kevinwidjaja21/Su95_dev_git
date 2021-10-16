@@ -8,5 +8,5 @@ PackageSources/SimObjects/Airplanes/SU95/sound/sound.cfg
 Packages/SSJ100/en-US.locPak
 spreadsheet_calc/~$Su95_calc.ods
 _PackageInt
-_PackageInt/_timestamps/Output_3/ssj100/SU95.xml
-_PackageInt/_timestamps/Output_3/ssj100/SU95_output.xml
+PackageSources\SimObjects\Airplanes\SU95\panel\fadec.wasm
+PackageSources\SimObjects\Airplanes\SU95\panel\fbw.wasm
