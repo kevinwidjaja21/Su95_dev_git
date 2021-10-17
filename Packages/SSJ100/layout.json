@@ -11,6 +11,201 @@
       "date": 132665601850888153
     },
     {
+      "path": "effects/LIGHT_A32NX-SU95_BeaconBelly.fx",
+      "size": 1156,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_BeaconBelly_Left.fx",
+      "size": 1156,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_BeaconBelly_Right.fx",
+      "size": 1156,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_BeaconTop.fx",
+      "size": 1152,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_BeaconTop_Left.fx",
+      "size": 1155,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_BeaconTop_Right.fx",
+      "size": 1155,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_CockpitMinimalAmbiant.fx",
+      "size": 1287,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_CockpitMinimalAmbiantLarge.fx",
+      "size": 1287,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_CockpitSpot.fx",
+      "size": 1283,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_CockpitSpotLarge.fx",
+      "size": 1276,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_CockpitSpotNarrow.fx",
+      "size": 1294,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_Console.fx",
+      "size": 1279,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_Glareshield.fx",
+      "size": 1280,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_LandingLarge(V).fx",
+      "size": 1204,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_LandingLarge.fx",
+      "size": 1205,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_LeftRunway(V).fx",
+      "size": 1203,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_LeftRunway.fx",
+      "size": 1204,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_LogoLight(V).fx",
+      "size": 1200,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_LogoLight.fx",
+      "size": 1201,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_MainPanelFloodAmbientCenter.fx",
+      "size": 1281,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_MainPanelFloodAmbientEnd.fx",
+      "size": 1282,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_MainPanelFloodCenter.fx",
+      "size": 1277,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_MainPanelFloodEnd.fx",
+      "size": 1277,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_NavigationGreen.fx",
+      "size": 1155,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_NavigationRed.fx",
+      "size": 1152,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_NavigationWhite.fx",
+      "size": 1270,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_Pedestal.fx",
+      "size": 1279,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_PedestalAmbient.fx",
+      "size": 1283,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_RightRunway(V).fx",
+      "size": 1201,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_RightRunway.fx",
+      "size": 1202,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_ScreenOrange.fx",
+      "size": 1282,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_StrobeDouble.fx",
+      "size": 3525,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_StrobeTail.fx",
+      "size": 3348,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_TakeOff(V).fx",
+      "size": 1200,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_TakeOff.fx",
+      "size": 1202,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_TaxiLarge(V).fx",
+      "size": 1199,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_TaxiLarge.fx",
+      "size": 1200,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_WingLarge(V).fx",
+      "size": 1217,
+      "date": 132763983690000000
+    },
+    {
+      "path": "effects/LIGHT_A32NX-SU95_WingLarge.fx",
+      "size": 1217,
+      "date": 132763983690000000
+    },
+    {
       "path": "html_ui/CSS_SU95/A32NX_Display_Common.css",
       "size": 3969,
       "date": 132782238146017872
@@ -1782,8 +1977,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/systems.cfg",
-      "size": 27898,
-      "date": 132779083391341811
+      "size": 27687,
+      "date": 132789462203010024
     },
     {
       "path": "SimObjects/Airplanes/SU95/taxi.flt",
@@ -1803,52 +1998,52 @@
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.bin",
       "size": 20426696,
-      "date": 132763986620000000
+      "date": 132788568535910169
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.gltf",
-      "size": 2604715,
-      "date": 132763986620000000
+      "size": 2615615,
+      "date": 132788568536100130
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.bin",
       "size": 14431636,
-      "date": 132763986730000000
+      "date": 132788568539410143
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.gltf",
-      "size": 2574390,
-      "date": 132763986730000000
+      "size": 2585156,
+      "date": 132788568539580135
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.bin",
       "size": 5618488,
-      "date": 132763986740000000
+      "date": 132788568541330163
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.gltf",
-      "size": 157731,
-      "date": 132763986740000000
+      "size": 158204,
+      "date": 132788568541350169
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.bin",
       "size": 2223804,
-      "date": 132763986750000000
+      "date": 132788568541650151
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.gltf",
-      "size": 149942,
-      "date": 132763986750000000
+      "size": 150386,
+      "date": 132788568541670169
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.bin",
       "size": 716968,
-      "date": 132763986750000000
+      "date": 132788568541910156
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.gltf",
-      "size": 140362,
-      "date": 132763986750000000
+      "size": 140740,
+      "date": 132788568541930164
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/model.cfg",
