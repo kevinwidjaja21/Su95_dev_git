@@ -111,7 +111,7 @@ void FlapsHandler::updateSimPosition(HANDLE_POSITION targetHandlePosition) {
         }
 
         case HANDLE_POSITION_FLAPS_1: {
-          if (airspeed >= 210) {
+          if (airspeed >= 205) {
             simPosition = SIM_POSITION_FLAPS_1;
           } else if (airspeed <= 100) {
             simPosition = SIM_POSITION_FLAPS_1F;
@@ -122,7 +122,7 @@ void FlapsHandler::updateSimPosition(HANDLE_POSITION targetHandlePosition) {
         case HANDLE_POSITION_FLAPS_2:
         case HANDLE_POSITION_FLAPS_3:
         case HANDLE_POSITION_FLAPS_4: {
-          if (airspeed < 210) {
+          if (airspeed < 205) {
             simPosition = SIM_POSITION_FLAPS_1F;
           } else {
             simPosition = SIM_POSITION_FLAPS_1;
