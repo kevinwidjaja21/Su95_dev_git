@@ -25,7 +25,7 @@ double table1502(int i, int j) {
 double IdleCN2(double pressAltitude, double ambientTemp) {
 	double idle_cn2 = 0;
 
-	idle_cn2 = (66 / sqrt((288.15 - (1.98 * pressAltitude / 1000)) / 288.15)) - 3;
+	idle_cn2 = (66 / sqrt((288.15 - (1.98 * pressAltitude / 1000)) / 288.15));
 
 	return idle_cn2;
 }
@@ -34,7 +34,7 @@ double IdleCN2(double pressAltitude, double ambientTemp) {
 double IdleCN1(double pressAltitude, double ambientTemp) {
 	int i;
 	double idle_cn1 = 0;
-	double idle_cn2 = (66 / sqrt((288.15 - (1.98 * pressAltitude / 1000)) / 288.15)) - 3;
+	double idle_cn2 = (66 / sqrt((288.15 - (1.98 * pressAltitude / 1000)) / 288.15));
 	double cell = 0;
 	double cn2lo = 0, cn2hi = 0, cn1lo = 0, cn1hi = 0;
 
