@@ -9206,6 +9206,86 @@
 	  });
 	};
 
+	/**
+	 * Allows interacting with the persistent storage
+	 */
+	class NXDataStore {
+	  static get listener() {
+	    if (this.mListener === undefined) {
+	      this.mListener = RegisterViewListener('JS_LISTENER_SIMVARS');
+	    }
+
+	    return this.mListener;
+	  }
+	  /**
+	   * Reads a value from persistent storage
+	   * @param key The property key
+	   * @param defaultVal The default value if the property is not set
+	   */
+
+
+	  static get(key, defaultVal) {
+	    const val = GetStoredData("A32NX_".concat(key)); // GetStoredData returns null on error, or empty string for keys that don't exist (why isn't that an error??)
+	    // We could use SearchStoredData, but that spams the console with every key (somebody left their debug print in)
+
+	    if (val === null || val.length === 0) {
+	      return defaultVal;
+	    }
+
+	    return val;
+	  }
+	  /**
+	   * Sets a value in persistent storage
+	   *
+	   * @param key The property key
+	   * @param val The value to assign to the property
+	   */
+
+
+	  static set(key, val) {
+	    SetStoredData("A32NX_".concat(key), val);
+	    this.listener.triggerToAllSubscribers('A32NX_NXDATASTORE_UPDATE', key, val);
+	  }
+
+	  static subscribe(key, callback) {
+	    return Coherent.on('A32NX_NXDATASTORE_UPDATE', (updatedKey, value) => {
+	      if (key === '*' || key === updatedKey) {
+	        callback(updatedKey, value);
+	      }
+	    }).clear;
+	  }
+
+	  static getAndSubscribe(key, callback, defaultVal) {
+	    callback(key, NXDataStore.get(key, defaultVal));
+	    return NXDataStore.subscribe(key, callback);
+	  }
+
+	}
+
+	_defineProperty(NXDataStore, "mListener", void 0);
+
+	/**
+	 * This hook allows to read and set a persistent storage property.
+	 * Overloads are provided to absolve callers with defaults from dealing with possibly undefined
+	 */
+
+	function usePersistentProperty(propertyName, defaultValue) {
+	  const [propertyValue, rawPropertySetter] = react.useState(() => NXDataStore.get(propertyName, defaultValue));
+	  react.useEffect(() => {
+	    const unsubscribe = NXDataStore.subscribe(propertyName, (key, value) => rawPropertySetter(value));
+	    return () => {
+	      unsubscribe();
+	    };
+	  }, []);
+
+	  const propertySetter = value => {
+	    NXDataStore.set(propertyName, value);
+	    rawPropertySetter(value);
+	  };
+
+	  return [propertyValue, propertySetter];
+	}
+
 	const TensDigits = (value, offset, color) => {
 	  let text;
 
@@ -9533,39 +9613,42 @@
 	  altitude,
 	  mda,
 	  bugs
-	}) => /*#__PURE__*/jsxRuntime.jsxs("g", {
-	  id: "AltitudeIndicator",
-	  children: [/*#__PURE__*/jsxRuntime.jsx("svg", {
-	    x: 404,
-	    y: 112,
-	    width: 108,
-	    height: 296,
-	    viewBox: "0 0 108 296",
-	    children: /*#__PURE__*/jsxRuntime.jsx(VerticalTape, {
-	      displayRange: 1000,
-	      valueSpacing: 100,
-	      distanceSpacing: 20,
-	      graduationElementFunction: (altitude, offset) => /*#__PURE__*/jsxRuntime.jsx(Tick$1, {
-	        altitude: altitude,
-	        offset: offset
-	      }),
-	      bugs: bugs,
-	      bugElementFunction: (bug, offset) => /*#__PURE__*/jsxRuntime.jsx(BugElement$1, {
-	        bug: bug,
-	        offset: offset
-	      }),
-	      tapeValue: altitude,
-	      lowerLimit: -2000,
-	      upperLimit: 50000
-	    })
-	  }), /*#__PURE__*/jsxRuntime.jsx(DigitalAltitudeIndicator, {
-	    altitude: altitude,
-	    mda: mda,
-	    bugs: bugs
-	  }), /*#__PURE__*/jsxRuntime.jsx(MetricAltitudeIndicator, {
-	    altitude: altitude
-	  })]
-	});
+	}) => {
+	  const [metricAltitude] = usePersistentProperty('ISIS_METRIC_ALTITUDE', '0');
+	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
+	    id: "AltitudeIndicator",
+	    children: [/*#__PURE__*/jsxRuntime.jsx("svg", {
+	      x: 404,
+	      y: 112,
+	      width: 108,
+	      height: 296,
+	      viewBox: "0 0 108 296",
+	      children: /*#__PURE__*/jsxRuntime.jsx(VerticalTape, {
+	        displayRange: 1000,
+	        valueSpacing: 100,
+	        distanceSpacing: 20,
+	        graduationElementFunction: (altitude, offset) => /*#__PURE__*/jsxRuntime.jsx(Tick$1, {
+	          altitude: altitude,
+	          offset: offset
+	        }),
+	        bugs: bugs,
+	        bugElementFunction: (bug, offset) => /*#__PURE__*/jsxRuntime.jsx(BugElement$1, {
+	          bug: bug,
+	          offset: offset
+	        }),
+	        tapeValue: altitude,
+	        lowerLimit: -2000,
+	        upperLimit: 50000
+	      })
+	    }), /*#__PURE__*/jsxRuntime.jsx(DigitalAltitudeIndicator, {
+	      altitude: altitude,
+	      mda: mda,
+	      bugs: bugs
+	    }), metricAltitude === '1' && /*#__PURE__*/jsxRuntime.jsx(MetricAltitudeIndicator, {
+	      altitude: altitude
+	    })]
+	  });
+	};
 	const MetricAltitudeIndicator = ({
 	  altitude
 	}) => {
@@ -9692,16 +9775,27 @@
 	})(BaroMode || (BaroMode = {}));
 
 	const PressureIndicator = () => {
+	  const [baroUnitInHg] = usePersistentProperty('ISIS_BARO_UNIT_INHG', '0');
 	  const [baroMode] = useSimVar('L:A32NX_ISIS_BARO_MODE', 'enum');
 	  const [hpaQnh] = useSimVar('A:KOHLSMAN SETTING MB:2', 'millibars');
 	  const [inHgQnh] = useSimVar('A:KOHLSMAN SETTING MB:2', 'inHg');
+	  const [baroText, setBaroText] = react.useState('');
+	  react.useEffect(() => {
+	    if (baroMode === BaroMode.STD) {
+	      setBaroText('STD');
+	    } else if (baroUnitInHg === '1') {
+	      setBaroText("\xA0\xA0".concat(Math.round(hpaQnh).toString().padStart(4, '\xa0'), "/").concat(inHgQnh.toFixed(2)));
+	    } else {
+	      setBaroText("".concat(Math.round(hpaQnh).toString().padStart(4, '\xa0'), "\xA0\xA0\xA0\xA0"));
+	    }
+	  }, [baroUnitInHg, baroMode, hpaQnh, inHgQnh]);
 	  return /*#__PURE__*/jsxRuntime.jsx("text", {
 	    x: 256,
 	    y: 466,
 	    className: "TextCyan",
 	    textAnchor: "middle",
-	    fontSize: 36,
-	    children: baroMode === BaroMode.STD ? 'STD' : "".concat(Math.round(hpaQnh), "/").concat(inHgQnh.toFixed(2))
+	    fontSize: baroMode === BaroMode.STD ? 36 : 28,
+	    children: baroText
 	  });
 	};
 
@@ -25897,7 +25991,9 @@
 	  });
 	  exports.GitVersions = exports.Airport = exports.Telex = exports.Taf = exports.Atis = exports.Metar = exports.NXApi = exports.TelexNotConnectedError = exports.HttpError = void 0;
 
-	  var HttpError = function (_super) {
+	  var HttpError =
+	  /** @class */
+	  function (_super) {
 	    __extends(HttpError, _super);
 
 	    function HttpError(status, message) {
@@ -25912,7 +26008,9 @@
 
 	  exports.HttpError = HttpError;
 
-	  var TelexNotConnectedError = function (_super) {
+	  var TelexNotConnectedError =
+	  /** @class */
+	  function (_super) {
 	    __extends(TelexNotConnectedError, _super);
 
 	    function TelexNotConnectedError() {
@@ -25985,7 +26083,9 @@
 	    });
 	  }
 
-	  var NXApi = function () {
+	  var NXApi =
+	  /** @class */
+	  function () {
 	    function NXApi() {}
 
 	    NXApi.url = new URL("https://api.flybywiresim.com");
@@ -25994,7 +26094,9 @@
 
 	  exports.NXApi = NXApi;
 
-	  var Metar = function () {
+	  var Metar =
+	  /** @class */
+	  function () {
 	    function Metar() {}
 
 	    Metar.get = function (icao, source) {
@@ -26016,7 +26118,9 @@
 
 	  exports.Metar = Metar;
 
-	  var Atis = function () {
+	  var Atis =
+	  /** @class */
+	  function () {
 	    function Atis() {}
 
 	    Atis.get = function (icao, source) {
@@ -26038,7 +26142,9 @@
 
 	  exports.Atis = Atis;
 
-	  var Taf = function () {
+	  var Taf =
+	  /** @class */
+	  function () {
 	    function Taf() {}
 
 	    Taf.get = function (icao, source) {
@@ -26060,7 +26166,9 @@
 
 	  exports.Taf = Taf;
 
-	  var Telex = function () {
+	  var Telex =
+	  /** @class */
+	  function () {
 	    function Telex() {}
 
 	    Telex.connect = function (status) {
@@ -26248,7 +26356,9 @@
 
 	  exports.Telex = Telex;
 
-	  var Airport = function () {
+	  var Airport =
+	  /** @class */
+	  function () {
 	    function Airport() {}
 
 	    Airport.get = function (icao) {
@@ -26274,7 +26384,9 @@
 
 	  exports.Airport = Airport;
 
-	  var GitVersions = function () {
+	  var GitVersions =
+	  /** @class */
+	  function () {
 	    function GitVersions() {}
 
 	    GitVersions.getNewestCommit = function (user, repo, branch) {
@@ -26541,7 +26653,7 @@
 
 	return exports;
 
-}({}));
+})({});
 
     </script>
     <style id="ISIS_BUNDLED_STYLE">
@@ -26549,7 +26661,7 @@
         @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
+  src: url("/fonts/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -26744,4 +26856,4 @@
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/ISIS/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/ISIS/template.js" import-async="false"></script>

@@ -9506,9 +9506,8 @@
 	      className: "Bus"
 	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	      x: width / 2,
-	      y: 10.5,
-	      className: "Large ".concat(number ? 'Right' : 'Middle', " ").concat(isNormal ? 'Green' : 'Amber'),
-	      dominantBaseline: "middle",
+	      y: 21,
+	      className: "QuiteLarge ".concat(number ? 'Right' : 'Middle', " ").concat(isNormal ? 'Green' : 'Amber'),
 	      children: name
 	    }), number ? /*#__PURE__*/jsxRuntime.jsx("text", {
 	      x: width / 2 + 3.75,
@@ -9965,7 +9964,7 @@
 
 	return exports;
 
-}({}));
+})({});
 
     </script>
     <style id="A32NX_elec_page_BUNDLED_STYLE">
@@ -9975,6 +9974,29 @@
   text-decoration: underline;
   fill: #ffffff;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #main-elec .Box {
   stroke: #EEEEEE;
   fill: none;
@@ -10008,6 +10030,10 @@
 
 #main-elec text.ExtraLarge {
   font-size: 26px;
+}
+
+#main-elec text.QuiteLarge {
+  font-size: 24px;
 }
 
 #main-elec text.Large {
@@ -10046,4 +10072,4 @@
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/elec-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/elec-page/template.js"></script>

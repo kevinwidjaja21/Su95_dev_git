@@ -9662,12 +9662,35 @@
 
 	return exports;
 
-}({}));
+})({});
 
     </script>
     <style id="A32NX_crz_page_BUNDLED_STYLE">
         /* same deal as above */
-        #crz-page text {
+        @font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
+#crz-page text {
   fill: #ffffff;
 }
 
@@ -9752,4 +9775,4 @@
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/crz-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/crz-page/template.js"></script>

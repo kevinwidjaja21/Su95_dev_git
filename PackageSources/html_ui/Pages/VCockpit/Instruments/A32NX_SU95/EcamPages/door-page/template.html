@@ -8980,7 +8980,7 @@
 	const DoorPage = () => {
 	  const [cabin] = useSimVar('INTERACTIVE POINT OPEN:0', 'percent', 1000);
 	  const [catering] = useSimVar('INTERACTIVE POINT OPEN:3', 'percent', 1000);
-	  const [cargo] = useSimVar('INTERACTIVE POINT OPEN:5', 'percent', 1000);
+	  const [cargoLocked] = useSimVar('L:A32NX_FWD_DOOR_CARGO_LOCKED', 'bool', 1000);
 	  const [oxygen] = useSimVar('L:PUSH_OVHD_OXYGEN_CREW', 'bool', 1000);
 	  const [slides] = useSimVar('L:A32NX_SLIDES_ARMED', 'bool', 1000);
 	  return /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
@@ -9028,7 +9028,7 @@
 	          d: "M300 181 l0 10 l16 0 l0 -10Z"
 	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	          id: "DoorFwdCargo",
-	          className: cargo > 20 ? 'WarningShape' : 'DoorShape',
+	          className: cargoLocked ? 'DoorShape' : 'WarningShape',
 	          d: "M336 221 l0 -20 l-18 0 l0 20Z"
 	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	          className: "DoorShape",
@@ -9080,7 +9080,7 @@
 	          d: "M346, 438 l77 0"
 	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	          id: "cargo1dash",
-	          className: cargo > 20 ? 'WarningShape' : 'Hide',
+	          className: cargoLocked ? 'Hide' : 'WarningShape',
 	          strokeDasharray: "7,4",
 	          d: "M346, 210 l77 0"
 	        })]
@@ -9161,7 +9161,7 @@
 	          children: "CABIN"
 	        }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	          id: "cargo1",
-	          className: cargo > 20 ? 'Warning' : 'Hide',
+	          className: cargoLocked ? 'Hide' : 'Warning',
 	          x: "455",
 	          y: "211",
 	          textAnchor: "middle",
@@ -9214,12 +9214,35 @@
 
 	return exports;
 
-}({}));
+})({});
 
     </script>
     <style id="A32NX_door_page_BUNDLED_STYLE">
         /* same deal as above */
-        #door-page .Hide {
+        @font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
+#door-page .Hide {
   display: none;
 }
 
@@ -9278,4 +9301,4 @@
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/door-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/door-page/template.js"></script>

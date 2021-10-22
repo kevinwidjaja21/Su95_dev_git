@@ -10,7 +10,7 @@
         // We embed it into this file, even though it is useless, because this file can
         // be hot-reloaded, but `template.js` cannot.
         /* eslint-disable */
-        (function () {
+        (function (exports) {
 	'use strict';
 
 	function getDefaultExportFromCjs (x) {
@@ -30,27 +30,6 @@
 	function commonjsRequire () {
 		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
 	}
-
-	var defineProperty = createCommonjsModule(function (module) {
-	  function _defineProperty(obj, key, value) {
-	    if (key in obj) {
-	      Object.defineProperty(obj, key, {
-	        value: value,
-	        enumerable: true,
-	        configurable: true,
-	        writable: true
-	      });
-	    } else {
-	      obj[key] = value;
-	    }
-
-	    return obj;
-	  }
-
-	  module.exports = _defineProperty;
-	  module.exports["default"] = module.exports, module.exports.__esModule = true;
-	});
-	var _defineProperty = /*@__PURE__*/getDefaultExportFromCjs(defineProperty);
 
 	/*
 	object-assign
@@ -549,6 +528,27 @@
 	  }
 	});
 
+	var defineProperty = createCommonjsModule(function (module) {
+	  function _defineProperty(obj, key, value) {
+	    if (key in obj) {
+	      Object.defineProperty(obj, key, {
+	        value: value,
+	        enumerable: true,
+	        configurable: true,
+	        writable: true
+	      });
+	    } else {
+	      obj[key] = value;
+	    }
+
+	    return obj;
+	  }
+
+	  module.exports = _defineProperty;
+	  module.exports["default"] = module.exports, module.exports.__esModule = true;
+	});
+	var _defineProperty = /*@__PURE__*/getDefaultExportFromCjs(defineProperty);
+
 	/**
 	 * Provides queued reading on top of another reader.
 	 *
@@ -690,6 +690,67 @@
 	  RightPfdDisplay: 31001
 	});
 
+	// We currently assume that these two elements will be found.
+	// Might be worth implementing checking in the future.
+	let reactMount = document.getElementById('MSFS_REACT_MOUNT');
+	/**
+	 * Returns the render target which React mounts onto
+	 */
+
+	const getRenderTarget = () => reactMount;
+	/**
+	 * Returns the root element which receives `update` events
+	 */
+
+	const getRootElement = () => {
+	  var _reactMount;
+
+	  if ((_reactMount = reactMount) !== null && _reactMount !== void 0 && _reactMount.parentElement) {
+	    return reactMount.parentElement;
+	  }
+
+	  throw new Error('Could not find rootElement');
+	};
+
+	const useUpdate = handler => {
+	  // Logic based on https://usehooks.com/useEventListener/
+	  const savedHandler = react.useRef(handler);
+	  react.useEffect(() => {
+	    savedHandler.current = handler;
+	  }, [handler]);
+	  react.useEffect(() => {
+	    const wrappedHandler = event => {
+	      savedHandler.current(event.detail);
+	    };
+
+	    getRootElement().addEventListener('update', wrappedHandler);
+	    return () => {
+	      getRootElement().removeEventListener('update', wrappedHandler);
+	    };
+	  });
+	};
+	const useInteractionEvent = (event, handler) => {
+	  // Logic based on https://usehooks.com/useEventListener/
+	  const savedHandler = react.useRef(handler);
+	  react.useEffect(() => {
+	    savedHandler.current = handler;
+	  }, [handler]);
+	  react.useEffect(() => {
+	    const wrappedHandler = e => {
+	      if (event === '*') {
+	        savedHandler.current(e.detail);
+	      } else {
+	        savedHandler.current();
+	      }
+	    };
+
+	    getRootElement().addEventListener(event, wrappedHandler);
+	    return () => {
+	      getRootElement().removeEventListener(event, wrappedHandler);
+	    };
+	  }, [event]);
+	};
+
 	var reactJsxRuntime_production_min = createCommonjsModule(function (module, exports) {
 
 	  var g = 60103;
@@ -745,6 +806,421 @@
 	    module.exports = reactJsxRuntime_production_min;
 	  }
 	});
+
+	function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+	function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+	const normalizeUnitName = unit => {
+	  switch (unit) {
+	    case 'bool':
+	    case 'Bool':
+	    case 'boolean':
+	    case 'Boolean':
+	      return 'bool';
+
+	    case 'number':
+	    case 'Number':
+	      return 'number';
+
+	    case 'Degrees':
+	    case 'degree':
+	      return 'degree';
+
+	    case 'Percent':
+	    case 'percent':
+	      return 'percent';
+
+	    case 'Feet':
+	    case 'feet':
+	    case 'feets':
+	    case 'Feets':
+	      return 'feet';
+
+	    case 'Knots':
+	    case 'knots':
+	      return 'knots';
+
+	    default:
+	      return unit;
+	  }
+	};
+
+	const errorCallback = () => {
+	  throw Error('useSimVar was called in a React tree with no SimVarProvider');
+	};
+
+	const context = /*#__PURE__*/react.createContext({
+	  retrieve: errorCallback,
+	  update: errorCallback,
+	  register: errorCallback,
+	  unregister: errorCallback
+	});
+	const {
+	  Provider: InternalProvider
+	} = context;
+
+	/**
+	 * This component provides the basic functionality for the useSimVar hooks.
+	 * By keeping the last known SimVar values inside this provider, we're
+	 * effectively caching each SimVar, so that there is no additional overhead when
+	 * using multiple useSimVar hooks for the same SimVar.
+	 * For improved performance, this component will only trigger renders when the
+	 * "update" custom event is emitted through an instrument.
+	 */
+	const SimVarProvider = ({
+	  children
+	}) => {
+	  const listeners = react.useRef({});
+	  const [cache, setCache] = react.useState({});
+	  useUpdate(deltaTime => {
+	    const stateUpdates = {};
+
+	    for (const [key, intervals] of Object.entries(listeners.current)) {
+	      // First, let's check if there are any listeners at all
+	      if (!intervals.length) {
+	        continue;
+	      } // The refresh time is given by the *smallest* maximum update
+	      // interval.
+
+
+	      const threshold = Math.min(...intervals);
+	      const lastUpdatedAgo = (cache[key] ? cache[key].lastUpdatedAgo || 0 : 0) + deltaTime;
+
+	      if (lastUpdatedAgo >= threshold) {
+	        // At this point, as we haven't updated this SimVar recently, we
+	        // need to fetch the latest value from the simulator and store
+	        // it.
+	        const [name, rawUnit] = key.split('/');
+	        const unit = normalizeUnitName(rawUnit);
+	        let value;
+
+	        if (name.startsWith('_GLOBAL_')) {
+	          value = SimVar.GetGlobalVarValue(name.substr(8), unit);
+	        } else if (name.startsWith('_GAME_')) {
+	          value = SimVar.GetGameVarValue(name.substr(6), unit);
+	        } else {
+	          value = SimVar.GetSimVarValue(name, unit);
+	        }
+
+	        stateUpdates[key] = {
+	          value,
+	          lastUpdatedAgo: lastUpdatedAgo % threshold
+	        };
+	      } else {
+	        // Otherwise, just increment lastUpdatedAgo.
+	        stateUpdates[key] = {
+	          lastUpdatedAgo
+	        };
+	      }
+	    }
+
+	    setCache(oldCache => {
+	      const newCache = {};
+
+	      for (const [key, update] of Object.entries(stateUpdates)) {
+	        newCache[key] = _objectSpread(_objectSpread({}, oldCache[key]), update);
+	      }
+
+	      return _objectSpread(_objectSpread({}, oldCache), newCache);
+	    });
+	  });
+
+	  const getKey = (name, unit, varType) => {
+	    switch (varType) {
+	      default:
+	        return "".concat(name, "/").concat(normalizeUnitName(unit));
+
+	      case 1:
+	        return "_GLOBAL_".concat(name, "/").concat(normalizeUnitName(unit));
+
+	      case 2:
+	        return "_GAME_".concat(name, "/").concat(normalizeUnitName(unit));
+	    }
+	  };
+	  /**
+	   * This function will be called by the SimVar hooks through the context and
+	   * retrieves the appropriate SimVar value from the cache if it exists, and
+	   * retrieve it from the simulator otherwise.
+	   * @param name The SimVar to update.
+	   * @param unit The unit of the SimVar to update.
+	   * @param force Whether to always bypass the cache and always retrieve it
+	   * from the simulator.
+	   */
+
+
+	  const retrieve = (name, unit, force, varType) => {
+	    const key = getKey(name, unit, varType || 0);
+
+	    if (cache[key] && !force) {
+	      return cache[key].value;
+	    }
+
+	    let value;
+
+	    switch (varType) {
+	      default:
+	        value = SimVar.GetSimVarValue(name, unit);
+	        break;
+
+	      case 1:
+	        value = SimVar.GetGlobalVarValue(name, unit);
+	        break;
+
+	      case 2:
+	        value = SimVar.GetGameVarValue(name, unit);
+	        break;
+	    }
+
+	    setCache(oldCache => _objectSpread(_objectSpread({}, oldCache), {}, {
+	      [key]: {
+	        value,
+	        lastUpdatedAgo: 0
+	      }
+	    }));
+	    return value;
+	  };
+	  /**
+	   * This function will be called by the SimVar hooks through the context and
+	   * updates the appropriate SimVar for the specific unit with the supplied
+	   * value.
+	   * @param name The SimVar to update.
+	   * @param unit The unit of the SimVar to update.
+	   * @param value {*|(function(*): *)} Either the new value for the
+	   * SimVar, or an update function that takes the old value and returns an
+	   * updated value.
+	   * @param proxy If the SimVar used to set the SimVar is different from the
+	   * SimVar used to retrieve it, set this parameter to the SimVar for the set
+	   * operation.
+	   */
+
+
+	  const update = (name, unit, value, proxy) => {
+	    const key = getKey(name, unit, 0);
+	    setCache(oldCache => {
+	      const newValue = typeof value === 'function' ? value(oldCache[key].value) : value;
+	      SimVar.SetSimVarValue(proxy || name, unit, newValue);
+	      return _objectSpread(_objectSpread({}, oldCache), {}, {
+	        [key]: {
+	          value: newValue,
+	          lastUpdatedAgo: 0
+	        }
+	      });
+	    });
+	  };
+	  /**
+	   * This function will be called by the useSimVar hook through the context
+	   * and ensures the SimVar with the supplied name and unit will be updated
+	   * every maxStaleness.
+	   */
+
+
+	  const register = (name, unit, maxStaleness, varType) => {
+	    const key = getKey(name, unit, varType);
+
+	    if (!listeners.current[key]) {
+	      listeners.current[key] = [];
+	    }
+
+	    listeners.current[key].push(maxStaleness || 0);
+	  };
+	  /**
+	   * This function will be called by the useSimVar hook through the context
+	   * and notifies us that there is one listener less for this specific SimVar
+	   * and unit combination.
+	   */
+
+
+	  const unregister = (name, unit, maxStaleness, varType) => {
+	    const key = getKey(name, unit, varType);
+	    const old = listeners.current[key];
+
+	    if (!Array.isArray(old) || old.length === 0) {
+	      throw new Error('Attempted to unregisterHook with no known listener');
+	    }
+
+	    if (old.length === 1) {
+	      // if we're unregistering the last entry, delete the array...
+	      delete listeners.current[key];
+	    } else {
+	      // ...otherwise, filter out the first occurence of this value
+	      const index = listeners.current[key].indexOf(maxStaleness || 0); // splice removes in-place, so an assignment would be wrong here as the return value is the removed element
+
+	      listeners.current[key].splice(index, 1);
+	    }
+	  };
+
+	  return /*#__PURE__*/jsxRuntime.jsx(InternalProvider, {
+	    value: {
+	      retrieve,
+	      update,
+	      register,
+	      unregister
+	    },
+	    children: children
+	  });
+	};
+	/**
+	 * The useSimVar hook provides an easy way to read and write SimVars from React.
+	 *
+	 * It's signature is similar to useState and it regularly refreshes the SimVar
+	 * to ensure your React component stays in sync with the SimVar being modified
+	 * from outside your component (like from other components, XML or SimConnect).
+	 *
+	 * You may optionally specify the maximum refresh interval. If the same SimVar
+	 * is used in multiple places, this hook will automatically deduplicate those
+	 * for maximum performance, rather than fetching the SimVar multiple times.
+	 * Setting the SimVar will instantly cause it to be updated in all other places
+	 * within the same React tree.
+	 *
+	 * @param name The name of the SimVar.
+	 * @param unit The unit of the SimVar.
+	 * @param maxStaleness The maximum time in milliseconds that may elapse before
+	 * the next render will cause a SimVar refresh from the simulator. This
+	 * parameter is only an upper bound! If another hook requests the same SimVar
+	 * with a lower maxStaleness, this hook will also benefit from that and refresh
+	 * the value more often.
+	 *
+	 * @example
+	 * // the return value is the value itself and a setter, similar to useState
+	 * const [v1, setV1] = useSimVar('L:AIRLINER_V1_SPEED', 'Knots');
+	 *
+	 * @example
+	 * // only refresh the SimVar every 500ms (unless this SimVar is lower elsewhere)
+	 * const [lightsTest] = useSimVar('L:A32NX_OVHD_INTLT_ANN', 'Bool', 500);
+	 *
+	 * @returns {[*, (function(*): void)]}
+	 *
+	 * @see {@link useSplitSimVar} if your SimVar is set through a K event
+	 * @see {@link useInteractionSimVar} if you emit an H event whenever your SimVar changes
+	 * @see {@link useGlobalVar} if you have a Global Var instead
+	 */
+
+
+	const useSimVar = (name, unit, maxStaleness = 0) => {
+
+	  const value = useSimVarValue(name, unit, maxStaleness);
+	  const setter = useSimVarSetter(name, unit);
+	  return [value, setter];
+	};
+	/**
+	 * This is an internal hook that exposes the internal value for a SimVar only.
+	 * You will usually want to useSimVar instead. Don't use this unless you know
+	 * what you're doing and writing your own hook.
+	 */
+
+	const useSimVarValue = (name, unit, maxStaleness) => {
+	  const contextValue = react.useContext(context);
+	  react.useEffect(() => {
+	    // This part of useEffect will be called whenever either:
+	    // - the component has just mounted, or
+	    // - one the parameters below (name, unit, maxStaleness) has changed.
+	    // In these cases, we want to register our current parameters with the
+	    // SimVarProvider that we access through the context.
+	    contextValue.register(name, unit, maxStaleness, 0);
+	    return () => {
+	      // This part of useEffect will be called whenever either:
+	      // - one of the parameters below (name, unit, maxStaleness) is about
+	      //   to change, or
+	      // - the component is about to unmount
+	      // In these cases, we want to unregister our current parameters from
+	      // the SimVar provider, that we again access through the context.
+	      contextValue.unregister(name, unit, maxStaleness, 0);
+	    };
+	  }, [name, unit, maxStaleness]);
+	  return contextValue.retrieve(name, unit);
+	};
+	/**
+	 * This is an internal hook that exposes the internal setter for a SimVar only.
+	 * You will usually want to useSimVar instead. Don't use this unless you know
+	 * what you're doing and writing your own hook.
+	 */
+
+	const useSimVarSetter = (name, unit, proxy) => {
+	  const contextValue = react.useContext(context);
+	  return value => contextValue.update(name, unit, value, proxy);
+	};
+
+	class Arinc429WordSsmParseError extends Error {
+	  constructor(ssm) {
+	    super();
+	    this.ssm = ssm;
+	  }
+
+	}
+
+	class Arinc429Word {
+	  constructor(word) {
+	    _defineProperty(this, "ssm", void 0);
+
+	    _defineProperty(this, "value", void 0);
+
+	    Arinc429Word.f64View[0] = word; // eslint-disable-next-line prefer-destructuring
+
+	    const ssm = Arinc429Word.u32View[0];
+
+	    if (ssm >= 0b00 && ssm <= 0b11) {
+	      this.ssm = ssm;
+	    } else {
+	      throw new Arinc429WordSsmParseError(ssm);
+	    } // eslint-disable-next-line prefer-destructuring
+
+
+	    this.value = Arinc429Word.f32View[1];
+	  }
+
+	  isFailureWarning() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.FailureWarning;
+	  }
+
+	  isNoComputedData() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.NoComputedData;
+	  }
+
+	  isFunctionalTest() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.FunctionalTest;
+	  }
+
+	  isNormalOperation() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.NormalOperation;
+	  }
+	  /**
+	   * Returns the value when normal operation, the supplied default value otherwise.
+	   */
+
+
+	  valueOr(defaultValue) {
+	    return this.isNormalOperation() ? this.value : defaultValue;
+	  }
+
+	}
+
+	_defineProperty(Arinc429Word, "SignStatusMatrix", Object.freeze({
+	  FailureWarning: 0b00,
+	  NoComputedData: 0b01,
+	  FunctionalTest: 0b10,
+	  NormalOperation: 0b11
+	}));
+
+	_defineProperty(Arinc429Word, "f64View", new Float64Array(1));
+
+	_defineProperty(Arinc429Word, "u32View", new Uint32Array(Arinc429Word.f64View.buffer));
+
+	_defineProperty(Arinc429Word, "f32View", new Float32Array(Arinc429Word.f64View.buffer));
+
+	const useArinc429Var = (name, maxStaleness = 0) => {
+	  const value = useSimVarValue(name, 'number', maxStaleness);
+
+	  try {
+	    return new Arinc429Word(value);
+	  } catch (e) {
+	    if (e instanceof Arinc429WordSsmParseError) {
+	      throw new Error("SimVar \"".concat(name, "\" has an ARINC 429 SSM value ").concat(e.ssm, ", which is outside of the valid range."));
+	    }
+
+	    throw e;
+	  }
+	};
 
 	const calculateHorizonOffsetFromPitch = pitch => {
 	  if (pitch > -5 && pitch <= 20) {
@@ -802,9 +1278,9 @@
 	  yOffset = 0
 	}) => {
 	  const numTicks = Math.round(displayRange * 2 / valueSpacing);
-	  let leftmostHeading = Math.round((heading - displayRange) / valueSpacing) * valueSpacing;
+	  let leftmostHeading = Math.round((heading.value - displayRange) / valueSpacing) * valueSpacing;
 
-	  if (leftmostHeading < heading - displayRange) {
+	  if (leftmostHeading < heading.value - displayRange) {
 	    leftmostHeading += valueSpacing;
 	  }
 
@@ -818,7 +1294,7 @@
 	  }
 
 	  bugs.forEach(currentElement => {
-	    const angleToZero = getSmallestAngle(heading, 0);
+	    const angleToZero = getSmallestAngle(heading.value, 0);
 	    const smallestAngle = getSmallestAngle(currentElement[1], 0);
 	    let offset = currentElement[1];
 
@@ -834,7 +1310,7 @@
 	    bugElements.push(currentElement[0](offset));
 	  });
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    transform: "translate(".concat(-heading * distanceSpacing / valueSpacing, " ").concat(yOffset, ")"),
+	    transform: "translate(".concat(-heading.value * distanceSpacing / valueSpacing, " ").concat(yOffset, ")"),
 	    children: [graduationElements, bugElements]
 	  });
 	};
@@ -864,14 +1340,18 @@
 
 	    if (elementValue <= upperLimit) {
 	      const offset = -elementValue * distanceSpacing / valueSpacing;
-	      graduationElements.push(graduationElementFunction(elementValue, offset));
+	      const element = graduationElementFunction(elementValue, offset);
+
+	      if (element) {
+	        graduationElements.push(element);
+	      }
 	    }
 	  }
 
 	  bugs.forEach(currentElement => {
 	    const value = currentElement[1];
 	    const offset = -value * distanceSpacing / valueSpacing;
-	    bugElements.push(currentElement[0](offset, value));
+	    bugElements.push(currentElement[0](offset));
 	  });
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    transform: "translate(0 ".concat(clampedValue * distanceSpacing / valueSpacing, ")"),
@@ -1017,7 +1497,6 @@
 	const DisplayRange$3 = 35;
 	const DistanceSpacing$3 = 15;
 	const ValueSpacing$3 = 10;
-	const SideslipIndicatorFilter = new LagFilter(0.8);
 
 	const TickFunction = (_, offset) => /*#__PURE__*/jsxRuntime.jsx("path", {
 	  transform: "translate(".concat(offset, " 0)"),
@@ -1046,15 +1525,13 @@
 	  decisionHeight,
 	  selectedHeading,
 	  FDActive,
-	  isAttExcessive,
-	  deltaTime
+	  isAttExcessive
 	}) => {
-	  if (Number.isNaN(pitch) || Number.isNaN(roll)) {
+	  if (!pitch.isNormalOperation() || !roll.isNormalOperation()) {
 	    return null;
 	  }
 
-	  const headingAvailable = !Number.isNaN(heading);
-	  const yOffset = Math.max(Math.min(calculateHorizonOffsetFromPitch(pitch), 31.563), -31.563);
+	  const yOffset = Math.max(Math.min(calculateHorizonOffsetFromPitch(-pitch.value), 31.563), -31.563);
 	  const bugs = [];
 
 	  if (!Number.isNaN(selectedHeading) && !FDActive) {
@@ -1063,10 +1540,10 @@
 
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "RollGroup",
-	    transform: "rotate(".concat(roll, " 68.814 80.730)"),
+	    transform: "rotate(".concat(roll.value, " 68.814 80.730)"),
 	    children: [/*#__PURE__*/jsxRuntime.jsxs("g", {
 	      id: "PitchGroup",
-	      transform: "translate(0 ".concat(calculateHorizonOffsetFromPitch(pitch), ")"),
+	      transform: "translate(0 ".concat(calculateHorizonOffsetFromPitch(-pitch.value), ")"),
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
 	        d: "m23.906 80.823v-160h90v160z",
 	        className: "SkyFill"
@@ -1276,12 +1753,11 @@
 	      className: "NormalStroke White"
 	    }), /*#__PURE__*/jsxRuntime.jsx(SideslipIndicator, {
 	      isOnGround: isOnGround,
-	      roll: roll,
-	      deltaTime: deltaTime
+	      roll: roll
 	    }), /*#__PURE__*/jsxRuntime.jsx(RisingGround, {
 	      radioAlt: radioAlt,
 	      pitch: pitch
-	    }), headingAvailable && /*#__PURE__*/jsxRuntime.jsx(HorizontalTape, {
+	    }), heading.isNormalOperation() && /*#__PURE__*/jsxRuntime.jsx(HorizontalTape, {
 	      graduationElementFunction: TickFunction,
 	      bugs: bugs,
 	      yOffset: yOffset,
@@ -1359,14 +1835,14 @@
 
 	  const FDRollOrder = getSimVar('L:A32NX_FLIGHT_DIRECTOR_BANK', 'number');
 	  const currentRoll = getSimVar('PLANE BANK DEGREES', 'degrees');
-	  const FDRollOffset = -FDRollOrder * 0.77;
+	  const FDRollOffset = (FDRollOrder - currentRoll) * 0.77;
 	  const DA = getSmallestAngle(getSimVar('GPS GROUND TRUE TRACK', 'degrees'), getSimVar('GPS GROUND TRUE HEADING', 'degrees'));
 	  const xOffset = Math.max(Math.min(DA, 21), -21) * DistanceSpacing$3 / ValueSpacing$3;
 	  const FDPitchOrder = getSimVar('L:A32NX_FLIGHT_DIRECTOR_PITCH', 'number');
 	  const currentPitch = -getSimVar('PLANE PITCH DEGREES', 'degrees');
 	  const AOA = getSimVar('INCIDENCE ALPHA', 'degrees');
 	  const FPA = currentPitch - Math.cos(currentRoll * Math.PI / 180) * AOA;
-	  const yOffset = calculateHorizonOffsetFromPitch(currentPitch) - calculateHorizonOffsetFromPitch(FPA) + (FDPitchOrder + currentPitch) * 0.44;
+	  const yOffset = calculateHorizonOffsetFromPitch(currentPitch) - calculateHorizonOffsetFromPitch(FPA) + FDPitchOrder * 0.44;
 	  return /*#__PURE__*/jsxRuntime.jsx("g", {
 	    transform: "translate(".concat(xOffset, " ").concat(yOffset, ")"),
 	    children: /*#__PURE__*/jsxRuntime.jsx("svg", {
@@ -1412,7 +1888,7 @@
 	  roll
 	}) => {
 	  if (radioAlt <= 2500) {
-	    const verticalOffset = calculateVerticalOffsetFromRoll(roll);
+	    const verticalOffset = calculateVerticalOffsetFromRoll(roll.value);
 	    const size = radioAlt > 400 ? 'FontLarge' : 'FontLargest';
 	    const DHValid = decisionHeight >= 0;
 	    const color = radioAlt > 400 || radioAlt > decisionHeight + 100 && DHValid ? 'Green' : 'Amber';
@@ -1450,22 +1926,29 @@
 
 	const SideslipIndicator = ({
 	  isOnGround,
-	  roll,
-	  deltaTime
+	  roll
 	}) => {
-	  let SIIndexOffset = 0;
-	  const verticalOffset = calculateVerticalOffsetFromRoll(roll);
+	  const [SIIndexOffset, setSIIndexOffset] = react.useState(0);
+	  const [betaTargetActive, setBetaTargetActive] = react.useState(false);
+	  const [sideslipIndicatorFilter] = react.useState(() => new LagFilter(0.8));
+	  const verticalOffset = calculateVerticalOffsetFromRoll(roll.value);
+	  useUpdate(deltaTime => {
+	    let offset = 0;
 
-	  if (isOnGround) {
-	    // on ground, lateral g is indicated. max 0.3g, max deflection is 15mm
-	    const latAcc = getSimVar('ACCELERATION BODY X', 'G Force');
-	    const accInG = Math.min(0.3, Math.max(-0.3, latAcc));
-	    SIIndexOffset = -accInG * 15 / 0.3;
-	  } else {
-	    SIIndexOffset = Math.max(Math.min(getSimVar('INCIDENCE BETA', 'degrees'), 15), -15);
-	  }
+	    if (isOnGround) {
+	      // on ground, lateral g is indicated. max 0.3g, max deflection is 15mm
+	      const latAcc = getSimVar('ACCELERATION BODY X', 'G Force');
+	      const accInG = Math.min(0.3, Math.max(-0.3, latAcc));
+	      offset = -accInG * 15 / 0.3;
+	    } else {
+	      const beta = getSimVar('INCIDENCE BETA', 'degrees');
+	      const betaTarget = getSimVar('L:A32NX_BETA_TARGET', 'Number');
+	      offset = Math.max(Math.min(beta - betaTarget, 15), -15);
+	    }
 
-	  SIIndexOffset = SideslipIndicatorFilter.step(SIIndexOffset, deltaTime / 1000);
+	    setBetaTargetActive(getSimVar('L:A32NX_BETA_TARGET_ACTIVE', 'Number') === 1);
+	    setSIIndexOffset(sideslipIndicatorFilter.step(offset, deltaTime / 1000));
+	  });
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "RollTriangleGroup",
 	    transform: "translate(0 ".concat(verticalOffset, ")"),
@@ -1475,7 +1958,8 @@
 	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	      id: "SideSlipIndicator",
 	      transform: "translate(".concat(SIIndexOffset, " 0)"),
-	      d: "m73.974 47.208-1.4983-2.2175h-7.0828l-1.4983 2.2175z"
+	      d: "m73.974 47.208-1.4983-2.2175h-7.0828l-1.4983 2.2175z",
+	      className: "".concat(betaTargetActive ? 'Cyan' : 'Yellow')
 	    })]
 	  });
 	};
@@ -1485,7 +1969,7 @@
 	  pitch
 	}) => {
 	  const targetPitch = -0.1 * radioAlt;
-	  const targetOffset = Math.max(Math.min(calculateHorizonOffsetFromPitch(pitch - targetPitch) - 31.563, 0), -63.093);
+	  const targetOffset = Math.max(Math.min(calculateHorizonOffsetFromPitch(-pitch.value - targetPitch) - 31.563, 0), -63.093);
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "HorizonGroundRectangle",
 	    transform: "translate(0 ".concat(targetOffset, ")"),
@@ -1503,7 +1987,7 @@
 	  pitch,
 	  roll
 	}) => {
-	  if (Number.isNaN(pitch) || Number.isNaN(roll)) {
+	  if (!pitch.isNormalOperation() || !roll.isNormalOperation()) {
 	    return null;
 	  }
 
@@ -1555,7 +2039,7 @@
 	      })]
 	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	      className: "NormalStroke Yellow CornerRound",
-	      d: "m68.906 38.741-2.5184-4.7373h5.0367l-2.5184 4.7373"
+	      d: "m68.906 38.650-2.5184-3.7000h5.0367l-2.5184 3.7000"
 	    })]
 	  });
 	};
@@ -1566,7 +2050,7 @@
 	  FDActive,
 	  isAttExcessive
 	}) => {
-	  if (Number.isNaN(pitch) || Number.isNaN(roll)) {
+	  if (!pitch.isNormalOperation() || !roll.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsx("text", {
 	      id: "AttFailText",
 	      className: "Blink9Seconds FontLargest Red EndAlign",
@@ -1652,14 +2136,12 @@
 
 	  if (showLateralFD) {
 	    const FDRollOrder = getSimVar('L:A32NX_FLIGHT_DIRECTOR_BANK', 'number');
-	    const currentRoll = getSimVar('PLANE BANK DEGREES', 'degrees');
-	    FDRollOffset = Math.min(Math.max(currentRoll - FDRollOrder, -45), 45) * 0.44;
+	    FDRollOffset = Math.min(Math.max(FDRollOrder, -45), 45) * 0.44;
 	  }
 
 	  if (showVerticalFD) {
 	    const FDPitchOrder = getSimVar('L:A32NX_FLIGHT_DIRECTOR_PITCH', 'number');
-	    const currentPitch = -getSimVar('PLANE PITCH DEGREES', 'degrees');
-	    FDPitchOffset = Math.min(Math.max(FDPitchOrder + currentPitch, -22.5), 22.5) * 0.89;
+	    FDPitchOffset = Math.min(Math.max(FDPitchOrder, -22.5), 22.5) * 0.89;
 	  }
 
 	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
@@ -1712,11 +2194,8 @@
 	  });
 	};
 
-	const filterLocalizerIndicator = new LagFilter(1.5);
-	const filterGlideslopeIndicator = new LagFilter(1.5);
 	function LandingSystem({
-	  LSButtonPressed,
-	  deltaTime
+	  LSButtonPressed
 	}) {
 	  let showVDev = false;
 
@@ -1730,11 +2209,7 @@
 	      displayed: LSButtonPressed
 	    }), LSButtonPressed && /*#__PURE__*/jsxRuntime.jsxs("g", {
 	      id: "LSGroup",
-	      children: [/*#__PURE__*/jsxRuntime.jsx(LocalizerIndicator, {
-	        deltaTime: deltaTime
-	      }), /*#__PURE__*/jsxRuntime.jsx(GlideslopeIndicator, {
-	        deltaTime: deltaTime
-	      }), /*#__PURE__*/jsxRuntime.jsx(MarkerBeaconIndicator, {})]
+	      children: [/*#__PURE__*/jsxRuntime.jsx(LocalizerIndicator, {}), /*#__PURE__*/jsxRuntime.jsx(GlideslopeIndicator, {}), /*#__PURE__*/jsxRuntime.jsx(MarkerBeaconIndicator, {})]
 	    }), showVDev && /*#__PURE__*/jsxRuntime.jsxs("g", {
 	      id: "DeviationGroup",
 	      children: [/*#__PURE__*/jsxRuntime.jsx(VDevIndicator, {}), /*#__PURE__*/jsxRuntime.jsx(LDevIndicator, {})]
@@ -1816,40 +2291,41 @@
 	  });
 	};
 
-	const LocalizerIndicator = ({
-	  deltaTime
-	}) => {
-	  const hasLoc = getSimVar('NAV HAS LOCALIZER:3', 'Bool');
-	  let diamond = null;
+	const LocalizerIndicator = () => {
+	  const [hasLoc] = useSimVar('NAV HAS LOCALIZER:3', 'Bool', 250);
+	  const [radialError] = useSimVar('NAV RADIAL ERROR:3', 'degrees', 250);
+	  const [filterLocalizerIndicator] = react.useState(() => new LagFilter(1.5));
+	  const [diamond, setDiamond] = react.useState(null);
+	  useUpdate(deltaTime => {
+	    if (hasLoc) {
+	      const deviation = filterLocalizerIndicator.step(radialError, deltaTime / 1000);
+	      const dots = deviation / 0.8;
 
-	  if (hasLoc) {
-	    const deviation = filterLocalizerIndicator.step(getSimVar('NAV RADIAL ERROR:3', 'degrees'), deltaTime / 1000);
-	    const dots = deviation / 0.8;
-
-	    if (dots > 2) {
-	      diamond = /*#__PURE__*/jsxRuntime.jsx("path", {
-	        id: "LocDiamondRight",
-	        className: "NormalStroke Magenta",
-	        d: "m99.127 133.03 3.7776-2.5198-3.7776-2.5198"
-	      });
-	    } else if (dots < -2) {
-	      diamond = /*#__PURE__*/jsxRuntime.jsx("path", {
-	        id: "LocDiamondLeft",
-	        className: "NormalStroke Magenta",
-	        d: "m38.686 133.03-3.7776-2.5198 3.7776-2.5198"
-	      });
+	      if (dots > 2) {
+	        setDiamond( /*#__PURE__*/jsxRuntime.jsx("path", {
+	          id: "LocDiamondRight",
+	          className: "NormalStroke Magenta",
+	          d: "m99.127 133.03 3.7776-2.5198-3.7776-2.5198"
+	        }));
+	      } else if (dots < -2) {
+	        setDiamond( /*#__PURE__*/jsxRuntime.jsx("path", {
+	          id: "LocDiamondLeft",
+	          className: "NormalStroke Magenta",
+	          d: "m38.686 133.03-3.7776-2.5198 3.7776-2.5198"
+	        }));
+	      } else {
+	        setDiamond( /*#__PURE__*/jsxRuntime.jsx("path", {
+	          id: "LocDiamond",
+	          className: "NormalStroke Magenta",
+	          transform: "translate(".concat(dots * 30.221 / 2, " 0)"),
+	          d: "m65.129 130.51 3.7776 2.5198 3.7776-2.5198-3.7776-2.5198z"
+	        }));
+	      }
 	    } else {
-	      diamond = /*#__PURE__*/jsxRuntime.jsx("path", {
-	        id: "LocDiamond",
-	        className: "NormalStroke Magenta",
-	        transform: "translate(".concat(dots * 30.221 / 2, " 0)"),
-	        d: "m65.129 130.51 3.7776 2.5198 3.7776-2.5198-3.7776-2.5198z"
-	      });
+	      setDiamond(null);
+	      filterLocalizerIndicator.reset();
 	    }
-	  } else {
-	    filterLocalizerIndicator.reset();
-	  }
-
+	  });
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "LocalizerSymbolsGroup",
 	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -1872,41 +2348,41 @@
 	  });
 	};
 
-	const GlideslopeIndicator = ({
-	  deltaTime
-	}) => {
-	  const hasGlideslope = getSimVar('NAV HAS GLIDE SLOPE:3', 'Bool');
-	  let diamond = null;
+	const GlideslopeIndicator = () => {
+	  const [hasGlideslope] = useSimVar('NAV HAS GLIDE SLOPE:3', 'Bool', 250);
+	  const [glideSlopeError] = useSimVar('NAV GLIDE SLOPE ERROR:3', 'degrees', 250);
+	  const [filterGlideslopeIndicator] = react.useState(() => new LagFilter(1.5));
+	  const [diamond, setDiamond] = react.useState(null);
+	  useUpdate(deltaTime => {
+	    if (hasGlideslope) {
+	      const deviation = filterGlideslopeIndicator.step(glideSlopeError, deltaTime / 1000);
+	      const dots = deviation / 0.4;
 
-	  if (hasGlideslope) {
-	    const deviation = filterGlideslopeIndicator.step(getSimVar('NAV GLIDE SLOPE ERROR:3', 'degrees'), deltaTime / 1000);
-	    const dots = deviation / 0.4;
-
-	    if (dots > 2) {
-	      diamond = /*#__PURE__*/jsxRuntime.jsx("path", {
-	        id: "GlideSlopeDiamondLower",
-	        className: "NormalStroke Magenta",
-	        d: "m107.19 111.06 2.5184 3.7798 2.5184-3.7798"
-	      });
-	    } else if (dots < -2) {
-	      diamond = /*#__PURE__*/jsxRuntime.jsx("path", {
-	        id: "GlideSlopeDiamondUpper",
-	        className: "NormalStroke Magenta",
-	        d: "m107.19 50.585 2.5184-3.7798 2.5184 3.7798"
-	      });
+	      if (dots > 2) {
+	        setDiamond( /*#__PURE__*/jsxRuntime.jsx("path", {
+	          id: "GlideSlopeDiamondLower",
+	          className: "NormalStroke Magenta",
+	          d: "m107.19 111.06 2.5184 3.7798 2.5184-3.7798"
+	        }));
+	      } else if (dots < -2) {
+	        setDiamond( /*#__PURE__*/jsxRuntime.jsx("path", {
+	          id: "GlideSlopeDiamondUpper",
+	          className: "NormalStroke Magenta",
+	          d: "m107.19 50.585 2.5184-3.7798 2.5184 3.7798"
+	        }));
+	      } else {
+	        setDiamond( /*#__PURE__*/jsxRuntime.jsx("path", {
+	          id: "GlideSlopeDiamond",
+	          className: "NormalStroke Magenta",
+	          transform: "translate(0 ".concat(dots * 30.238 / 2, ")"),
+	          d: "m109.7 77.043-2.5184 3.7798 2.5184 3.7798 2.5184-3.7798z"
+	        }));
+	      }
 	    } else {
-	      // eslint-disable-next-line max-len
-	      diamond = /*#__PURE__*/jsxRuntime.jsx("path", {
-	        id: "GlideSlopeDiamond",
-	        className: "NormalStroke Magenta",
-	        transform: "translate(0 ".concat(dots * 30.238 / 2, ")"),
-	        d: "m109.7 77.043-2.5184 3.7798 2.5184 3.7798 2.5184-3.7798z"
-	      });
+	      setDiamond(null);
+	      filterGlideslopeIndicator.reset();
 	    }
-	  } else {
-	    filterGlideslopeIndicator.reset();
-	  }
-
+	  });
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "GlideslopeSymbolsGroup",
 	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -2045,7 +2521,7 @@
 	  radioAlt,
 	  verticalSpeed
 	}) => {
-	  if (Number.isNaN(verticalSpeed)) {
+	  if (!verticalSpeed.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
 	        className: "TapeBackground",
@@ -2072,22 +2548,22 @@
 	    });
 	  }
 
+	  const absVSpeed = Math.abs(verticalSpeed.value);
 	  let isAmber = false;
 
-	  if (Math.abs(verticalSpeed) > 6000 || radioAlt < 2500 && radioAlt > 1000 && verticalSpeed < -2000 || radioAlt < 1000 && verticalSpeed < -1200) {
+	  if (absVSpeed > 6000 || radioAlt < 2500 && radioAlt > 1000 && verticalSpeed.value < -2000 || radioAlt < 1000 && verticalSpeed.value < -1200) {
 	    isAmber = true;
 	  }
 
-	  const absVSpeed = Math.abs(verticalSpeed);
-	  const sign = Math.sign(verticalSpeed);
+	  const sign = Math.sign(verticalSpeed.value);
 	  let yOffset = 0;
 
 	  if (absVSpeed < 1000) {
-	    yOffset = verticalSpeed / 1000 * -27.22;
+	    yOffset = verticalSpeed.value / 1000 * -27.22;
 	  } else if (absVSpeed < 2000) {
-	    yOffset = (verticalSpeed - sign * 1000) / 1000 * -10.1 - sign * 27.22;
+	    yOffset = (verticalSpeed.value - sign * 1000) / 1000 * -10.1 - sign * 27.22;
 	  } else if (absVSpeed < 6000) {
-	    yOffset = (verticalSpeed - sign * 2000) / 4000 * -10.1 - sign * 37.32;
+	    yOffset = (verticalSpeed.value - sign * 2000) / 4000 * -10.1 - sign * 37.32;
 	  } else {
 	    yOffset = sign * -47.37;
 	  }
@@ -2164,7 +2640,7 @@
 	      }), /*#__PURE__*/jsxRuntime.jsx(VSpeedText, {
 	        yOffset: yOffset,
 	        isAmber: isAmber,
-	        VSpeed: verticalSpeed
+	        VSpeed: verticalSpeed.value
 	      })]
 	    })]
 	  });
@@ -2268,7 +2744,7 @@
 	const HeadingTape = ({
 	  heading
 	}) => {
-	  if (Number.isNaN(heading)) {
+	  if (!heading.isNormalOperation()) {
 	    return null;
 	  }
 
@@ -2294,7 +2770,7 @@
 	  ILSCourse,
 	  groundTrack
 	}) => {
-	  if (Number.isNaN(heading)) {
+	  if (!heading.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
 	        id: "HeadingTapeBackground",
@@ -2329,7 +2805,7 @@
 	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	      className: "Fill Yellow",
 	      d: "m69.61 147.31h-1.5119v-8.0635h1.5119z"
-	    }), !Number.isNaN(groundTrack) ? /*#__PURE__*/jsxRuntime.jsx(GroundTrackBug, {
+	    }), groundTrack.isNormalOperation() ? /*#__PURE__*/jsxRuntime.jsx(GroundTrackBug, {
 	      groundTrack: groundTrack,
 	      heading: heading
 	    }) : null]
@@ -2344,7 +2820,7 @@
 	    return null;
 	  }
 
-	  const headingDelta = getSmallestAngle(selectedHeading, heading);
+	  const headingDelta = getSmallestAngle(selectedHeading, heading.value);
 	  const text = Math.round(selectedHeading).toString().padStart(3, '0');
 
 	  if (Math.abs(headingDelta) < DisplayRange$2) {
@@ -2380,7 +2856,7 @@
 	  heading,
 	  groundTrack
 	}) => {
-	  const offset = getSmallestAngle(groundTrack, heading) * DistanceSpacing$2 / ValueSpacing$2;
+	  const offset = getSmallestAngle(groundTrack.value, heading.value) * DistanceSpacing$2 / ValueSpacing$2;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "ActualTrackIndicator",
 	    transform: "translate(".concat(offset, " 0)"),
@@ -2402,7 +2878,7 @@
 	    return null;
 	  }
 
-	  const delta = getSmallestAngle(ILSCourse, heading);
+	  const delta = getSmallestAngle(ILSCourse, heading.value);
 	  const text = Math.round(ILSCourse).toString().padStart(3, '0');
 
 	  if (Math.abs(delta) > DisplayRange$2) {
@@ -2437,7 +2913,7 @@
 	    });
 	  }
 
-	  const offset = getSmallestAngle(ILSCourse, heading) * DistanceSpacing$2 / ValueSpacing$2;
+	  const offset = getSmallestAngle(ILSCourse, heading.value) * DistanceSpacing$2 / ValueSpacing$2;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "ILSCoursePointer",
 	    transform: "translate(".concat(offset, " 0)"),
@@ -2531,9 +3007,9 @@
 	  altitude,
 	  MDA
 	}) => {
-	  const isNegative = altitude < 0;
-	  const color = MDA !== 0 && altitude < MDA ? 'Amber' : 'Green';
-	  const absAlt = Math.abs(Math.max(Math.min(altitude, 50000), -1500));
+	  const isNegative = altitude.value < 0;
+	  const color = MDA !== 0 && altitude.value < MDA ? 'Amber' : 'Green';
+	  const absAlt = Math.abs(Math.max(Math.min(altitude.value, 50000), -1500));
 	  const tensDigits = absAlt % 100;
 	  const HundredsValue = Math.floor(absAlt / 100 % 10);
 	  let HundredsPosition = 0;
@@ -2725,7 +3201,7 @@
 	  }
 
 	  const landingElevation = getSimVar('C:fs9gps:FlightPlanDestinationAltitude', 'feet');
-	  const delta = altitude - landingElevation;
+	  const delta = altitude.value - landingElevation;
 
 	  if (delta > DisplayRange$1) {
 	    return null;
@@ -2758,7 +3234,7 @@
 	  altitude,
 	  FWCFlightPhase
 	}) => {
-	  if (Number.isNaN(altitude)) {
+	  if (!altitude.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsx(AltTapeBackground, {});
 	  }
 
@@ -2768,7 +3244,7 @@
 	      altitude: altitude,
 	      FWCFlightPhase: FWCFlightPhase
 	    }), /*#__PURE__*/jsxRuntime.jsx(VerticalTape, {
-	      tapeValue: altitude,
+	      tapeValue: altitude.value,
 	      graduationElementFunction: GraduationElement$1,
 	      bugs: bugs,
 	      displayRange: DisplayRange$1 + 30,
@@ -2787,7 +3263,7 @@
 	  mode,
 	  radioAlt
 	}) => {
-	  if (Number.isNaN(altitude)) {
+	  if (!altitude.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
 	        id: "AltTapeOutline",
@@ -2813,7 +3289,7 @@
 	      className: "NormalStroke White",
 	      d: "m117.75 123.56h17.83m-4.7345-85.473v85.473m-13.096-85.473h17.83"
 	    }), /*#__PURE__*/jsxRuntime.jsx(LinearDeviationIndicator, {
-	      alt: altitude,
+	      altitude: altitude,
 	      linearDeviation: NaN
 	    }), /*#__PURE__*/jsxRuntime.jsx(SelectedAltIndicator, {
 	      currentAlt: altitude,
@@ -2822,7 +3298,7 @@
 	      mode: mode
 	    }), /*#__PURE__*/jsxRuntime.jsx(AltimeterIndicator, {
 	      mode: mode,
-	      alt: altitude
+	      altitude: altitude
 	    }), /*#__PURE__*/jsxRuntime.jsx(MetricAltIndicator, {
 	      altitude: altitude,
 	      MDA: MDA,
@@ -2865,7 +3341,7 @@
 	    text = Math.round(targetAlt).toString().padStart(5, ' ');
 	  }
 
-	  if (currentAlt - targetAlt > DisplayRange$1) {
+	  if (currentAlt.value - targetAlt > DisplayRange$1) {
 	    return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	      id: "SelectedAltLowerGroup",
 	      children: [/*#__PURE__*/jsxRuntime.jsx("text", {
@@ -2885,7 +3361,7 @@
 	    });
 	  }
 
-	  if (currentAlt - targetAlt < -DisplayRange$1) {
+	  if (currentAlt.value - targetAlt < -DisplayRange$1) {
 	    return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	      id: "SelectedAltUpperGroup",
 	      children: [/*#__PURE__*/jsxRuntime.jsx("text", {
@@ -2905,7 +3381,7 @@
 	    });
 	  }
 
-	  const offset = (currentAlt - targetAlt) * DistanceSpacing$1 / ValueSpacing$1;
+	  const offset = (currentAlt.value - targetAlt) * DistanceSpacing$1 / ValueSpacing$1;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "AltTapeTargetSymbol",
 	    transform: "translate(0 ".concat(offset, ")"),
@@ -2928,7 +3404,7 @@
 
 	const LinearDeviationIndicator = ({
 	  linearDeviation,
-	  alt
+	  altitude
 	}) => {
 	  if (Number.isNaN(linearDeviation)) {
 	    return null;
@@ -2936,7 +3412,7 @@
 
 	  const circleRadius = 30;
 
-	  if (alt - linearDeviation > DisplayRange$1 - circleRadius) {
+	  if (altitude.value - linearDeviation > DisplayRange$1 - circleRadius) {
 	    return /*#__PURE__*/jsxRuntime.jsx("path", {
 	      id: "VDevDotLower",
 	      className: "Fill Green",
@@ -2944,7 +3420,7 @@
 	    });
 	  }
 
-	  if (alt - linearDeviation < -DisplayRange$1 + circleRadius) {
+	  if (altitude.value - linearDeviation < -DisplayRange$1 + circleRadius) {
 	    return /*#__PURE__*/jsxRuntime.jsx("path", {
 	      id: "VDevDotUpper",
 	      className: "Fill Green",
@@ -2952,7 +3428,7 @@
 	    });
 	  }
 
-	  const offset = (alt - linearDeviation) * DistanceSpacing$1 / ValueSpacing$1;
+	  const offset = (altitude.value - linearDeviation) * DistanceSpacing$1 / ValueSpacing$1;
 	  return /*#__PURE__*/jsxRuntime.jsx("path", {
 	    id: "VDevDot",
 	    className: "Fill Green",
@@ -2963,7 +3439,7 @@
 
 	const AltimeterIndicator = ({
 	  mode,
-	  alt
+	  altitude
 	}) => {
 	  const phase = getSimVar('L:A32NX_FMGC_FLIGHT_PHASE', 'enum');
 	  const transAlt = getSimVar(phase <= 3 ? 'L:AIRLINER_TRANS_ALT' : 'L:AIRLINER_APPR_TRANS_ALT', 'number');
@@ -2971,7 +3447,7 @@
 	  if (mode === 'STD') {
 	    return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	      id: "STDAltimeterModeGroup",
-	      className: phase > 3 && transAlt > alt && transAlt !== 0 ? 'BlinkInfinite' : '',
+	      className: phase > 3 && transAlt > altitude.value && transAlt !== 0 ? 'BlinkInfinite' : '',
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
 	        className: "NormalStroke Yellow",
 	        d: "m124.79 131.74h13.096v7.0556h-13.096z"
@@ -3000,7 +3476,7 @@
 
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "AltimeterGroup",
-	    className: phase <= 3 && transAlt < alt && transAlt !== 0 ? 'BlinkInfinite' : '',
+	    className: phase <= 3 && transAlt < altitude.value && transAlt !== 0 ? 'BlinkInfinite' : '',
 	    children: [mode === 'QFE' && /*#__PURE__*/jsxRuntime.jsx("path", {
 	      className: "NormalStroke White",
 	      d: "m 116.83686,133.0668 h 13.93811 v 5.8933 h -13.93811 z"
@@ -3026,10 +3502,10 @@
 	  targetAlt,
 	  altIsManaged
 	}) => {
-	  const currentMetricAlt = Math.round(altitude * 0.3048 / 10) * 10;
+	  const currentMetricAlt = Math.round(altitude.value * 0.3048 / 10) * 10;
 	  const targetMetric = Math.round(targetAlt * 0.3048 / 10) * 10;
 	  const targetAltColor = altIsManaged ? 'Magenta' : 'Cyan';
-	  const currentMetricAltColor = altitude > MDA ? 'Green' : 'Amber';
+	  const currentMetricAltColor = altitude.value > MDA ? 'Green' : 'Amber';
 	  const showMetricAlt = getSimVar('L:A32NX_METRIC_ALT_TOGGLE', 'bool');
 
 	  if (!showMetricAlt) {
@@ -3269,7 +3745,7 @@
 	    bugs.push([FlapRetractBugElement, FlapRetractSpeed]);
 	  }
 
-	  if (altitude < 15000 && flapsHandleIndex < 4) {
+	  if (altitude.isNormalOperation() && altitude.value < 15000 && flapsHandleIndex < 4) {
 	    const VFENext = getSimVar('L:A32NX_SPEEDS_VFEN', 'number');
 	    bugs.push([VFENextBugElement, VFENext]);
 	  }
@@ -3439,10 +3915,21 @@
 	};
 
 	const MachNumber = ({
-	  mach,
-	  airspeedAcc
+	  mach
 	}) => {
-	  if (Number.isNaN(mach)) {
+	  const machPermille = Math.round(mach.valueOr(0) * 1000);
+	  const [showMach, setShowMach] = react.useState(machPermille > 500);
+	  react.useEffect(() => {
+	    if (showMach && machPermille < 450) {
+	      setShowMach(false);
+	    }
+
+	    if (!showMach && machPermille > 500) {
+	      setShowMach(true);
+	    }
+	  }, [showMach, machPermille]);
+
+	  if (!mach.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsx("text", {
 	      id: "MachFailText",
 	      className: "Blink9Seconds FontLargest StartAlign Red",
@@ -3452,7 +3939,7 @@
 	    });
 	  }
 
-	  if (airspeedAcc >= 0 && mach < 0.5 || airspeedAcc < 0 && mach <= 0.45) {
+	  if (!showMach) {
 	    return null;
 	  }
 
@@ -3461,7 +3948,7 @@
 	    className: "FontLargest StartAlign Green",
 	    x: "5.4257932",
 	    y: "136.88908",
-	    children: ".".concat(Math.round(mach * 1000))
+	    children: ".".concat(machPermille)
 	  });
 	};
 
@@ -4527,380 +5014,6 @@
 	}
 
 	_defineProperty(NXDataStore, "mListener", void 0);
-
-	// We currently assume that these two elements will be found.
-	// Might be worth implementing checking in the future.
-	let reactMount = document.getElementById('MSFS_REACT_MOUNT');
-	/**
-	 * Returns the render target which React mounts onto
-	 */
-
-	const getRenderTarget = () => reactMount;
-	/**
-	 * Returns the root element which receives `update` events
-	 */
-
-	const getRootElement = () => {
-	  var _reactMount;
-
-	  if ((_reactMount = reactMount) !== null && _reactMount !== void 0 && _reactMount.parentElement) {
-	    return reactMount.parentElement;
-	  }
-
-	  throw new Error('Could not find rootElement');
-	};
-
-	const useUpdate = handler => {
-	  // Logic based on https://usehooks.com/useEventListener/
-	  const savedHandler = react.useRef(handler);
-	  react.useEffect(() => {
-	    savedHandler.current = handler;
-	  }, [handler]);
-	  react.useEffect(() => {
-	    const wrappedHandler = event => {
-	      savedHandler.current(event.detail);
-	    };
-
-	    getRootElement().addEventListener('update', wrappedHandler);
-	    return () => {
-	      getRootElement().removeEventListener('update', wrappedHandler);
-	    };
-	  });
-	};
-
-	function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-	function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-	const normalizeUnitName = unit => {
-	  switch (unit) {
-	    case 'bool':
-	    case 'Bool':
-	    case 'boolean':
-	    case 'Boolean':
-	      return 'bool';
-
-	    case 'number':
-	    case 'Number':
-	      return 'number';
-
-	    case 'Degrees':
-	    case 'degree':
-	      return 'degree';
-
-	    case 'Percent':
-	    case 'percent':
-	      return 'percent';
-
-	    case 'Feet':
-	    case 'feet':
-	    case 'feets':
-	    case 'Feets':
-	      return 'feet';
-
-	    case 'Knots':
-	    case 'knots':
-	      return 'knots';
-
-	    default:
-	      return unit;
-	  }
-	};
-
-	const errorCallback = () => {
-	  throw Error('useSimVar was called in a React tree with no SimVarProvider');
-	};
-
-	const context = /*#__PURE__*/react.createContext({
-	  retrieve: errorCallback,
-	  update: errorCallback,
-	  register: errorCallback,
-	  unregister: errorCallback
-	});
-	const {
-	  Provider: InternalProvider
-	} = context;
-
-	/**
-	 * This component provides the basic functionality for the useSimVar hooks.
-	 * By keeping the last known SimVar values inside this provider, we're
-	 * effectively caching each SimVar, so that there is no additional overhead when
-	 * using multiple useSimVar hooks for the same SimVar.
-	 * For improved performance, this component will only trigger renders when the
-	 * "update" custom event is emitted through an instrument.
-	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
-	  const listeners = react.useRef({});
-	  const [cache, setCache] = react.useState({});
-	  useUpdate(deltaTime => {
-	    const stateUpdates = {};
-
-	    for (const [key, intervals] of Object.entries(listeners.current)) {
-	      // First, let's check if there are any listeners at all
-	      if (!intervals.length) {
-	        continue;
-	      } // The refresh time is given by the *smallest* maximum update
-	      // interval.
-
-
-	      const threshold = Math.min(...intervals);
-	      const lastUpdatedAgo = (cache[key] ? cache[key].lastUpdatedAgo || 0 : 0) + deltaTime;
-
-	      if (lastUpdatedAgo >= threshold) {
-	        // At this point, as we haven't updated this SimVar recently, we
-	        // need to fetch the latest value from the simulator and store
-	        // it.
-	        const [name, rawUnit] = key.split('/');
-	        const unit = normalizeUnitName(rawUnit);
-	        let value;
-
-	        if (name.startsWith('_GLOBAL_')) {
-	          value = SimVar.GetGlobalVarValue(name.substr(8), unit);
-	        } else if (name.startsWith('_GAME_')) {
-	          value = SimVar.GetGameVarValue(name.substr(6), unit);
-	        } else {
-	          value = SimVar.GetSimVarValue(name, unit);
-	        }
-
-	        stateUpdates[key] = {
-	          value,
-	          lastUpdatedAgo: lastUpdatedAgo % threshold
-	        };
-	      } else {
-	        // Otherwise, just increment lastUpdatedAgo.
-	        stateUpdates[key] = {
-	          lastUpdatedAgo
-	        };
-	      }
-	    }
-
-	    setCache(oldCache => {
-	      const newCache = {};
-
-	      for (const [key, update] of Object.entries(stateUpdates)) {
-	        newCache[key] = _objectSpread(_objectSpread({}, oldCache[key]), update);
-	      }
-
-	      return _objectSpread(_objectSpread({}, oldCache), newCache);
-	    });
-	  });
-
-	  const getKey = (name, unit, varType) => {
-	    switch (varType) {
-	      default:
-	        return "".concat(name, "/").concat(normalizeUnitName(unit));
-
-	      case 1:
-	        return "_GLOBAL_".concat(name, "/").concat(normalizeUnitName(unit));
-
-	      case 2:
-	        return "_GAME_".concat(name, "/").concat(normalizeUnitName(unit));
-	    }
-	  };
-	  /**
-	   * This function will be called by the SimVar hooks through the context and
-	   * retrieves the appropriate SimVar value from the cache if it exists, and
-	   * retrieve it from the simulator otherwise.
-	   * @param name The SimVar to update.
-	   * @param unit The unit of the SimVar to update.
-	   * @param force Whether to always bypass the cache and always retrieve it
-	   * from the simulator.
-	   */
-
-
-	  const retrieve = (name, unit, force, varType) => {
-	    const key = getKey(name, unit, varType || 0);
-
-	    if (cache[key] && !force) {
-	      return cache[key].value;
-	    }
-
-	    let value;
-
-	    switch (varType) {
-	      default:
-	        value = SimVar.GetSimVarValue(name, unit);
-	        break;
-
-	      case 1:
-	        value = SimVar.GetGlobalVarValue(name, unit);
-	        break;
-
-	      case 2:
-	        value = SimVar.GetGameVarValue(name, unit);
-	        break;
-	    }
-
-	    setCache(oldCache => _objectSpread(_objectSpread({}, oldCache), {}, {
-	      [key]: {
-	        value,
-	        lastUpdatedAgo: 0
-	      }
-	    }));
-	    return value;
-	  };
-	  /**
-	   * This function will be called by the SimVar hooks through the context and
-	   * updates the appropriate SimVar for the specific unit with the supplied
-	   * value.
-	   * @param name The SimVar to update.
-	   * @param unit The unit of the SimVar to update.
-	   * @param value {*|(function(*): *)} Either the new value for the
-	   * SimVar, or an update function that takes the old value and returns an
-	   * updated value.
-	   * @param proxy If the SimVar used to set the SimVar is different from the
-	   * SimVar used to retrieve it, set this parameter to the SimVar for the set
-	   * operation.
-	   */
-
-
-	  const update = (name, unit, value, proxy) => {
-	    const key = getKey(name, unit, 0);
-	    setCache(oldCache => {
-	      const newValue = typeof value === 'function' ? value(oldCache[key].value) : value;
-	      SimVar.SetSimVarValue(proxy || name, unit, newValue);
-	      return _objectSpread(_objectSpread({}, oldCache), {}, {
-	        [key]: {
-	          value: newValue,
-	          lastUpdatedAgo: 0
-	        }
-	      });
-	    });
-	  };
-	  /**
-	   * This function will be called by the useSimVar hook through the context
-	   * and ensures the SimVar with the supplied name and unit will be updated
-	   * every maxStaleness.
-	   */
-
-
-	  const register = (name, unit, maxStaleness, varType) => {
-	    const key = getKey(name, unit, varType);
-
-	    if (!listeners.current[key]) {
-	      listeners.current[key] = [];
-	    }
-
-	    listeners.current[key].push(maxStaleness || 0);
-	  };
-	  /**
-	   * This function will be called by the useSimVar hook through the context
-	   * and notifies us that there is one listener less for this specific SimVar
-	   * and unit combination.
-	   */
-
-
-	  const unregister = (name, unit, maxStaleness, varType) => {
-	    const key = getKey(name, unit, varType);
-	    const old = listeners.current[key];
-
-	    if (!Array.isArray(old) || old.length === 0) {
-	      throw new Error('Attempted to unregisterHook with no known listener');
-	    }
-
-	    if (old.length === 1) {
-	      // if we're unregistering the last entry, delete the array...
-	      delete listeners.current[key];
-	    } else {
-	      // ...otherwise, filter out the first occurence of this value
-	      const index = listeners.current[key].indexOf(maxStaleness || 0); // splice removes in-place, so an assignment would be wrong here as the return value is the removed element
-
-	      listeners.current[key].splice(index, 1);
-	    }
-	  };
-
-	  return /*#__PURE__*/jsxRuntime.jsx(InternalProvider, {
-	    value: {
-	      retrieve,
-	      update,
-	      register,
-	      unregister
-	    },
-	    children: children
-	  });
-	};
-	/**
-	 * The useSimVar hook provides an easy way to read and write SimVars from React.
-	 *
-	 * It's signature is similar to useState and it regularly refreshes the SimVar
-	 * to ensure your React component stays in sync with the SimVar being modified
-	 * from outside your component (like from other components, XML or SimConnect).
-	 *
-	 * You may optionally specify the maximum refresh interval. If the same SimVar
-	 * is used in multiple places, this hook will automatically deduplicate those
-	 * for maximum performance, rather than fetching the SimVar multiple times.
-	 * Setting the SimVar will instantly cause it to be updated in all other places
-	 * within the same React tree.
-	 *
-	 * @param name The name of the SimVar.
-	 * @param unit The unit of the SimVar.
-	 * @param maxStaleness The maximum time in milliseconds that may elapse before
-	 * the next render will cause a SimVar refresh from the simulator. This
-	 * parameter is only an upper bound! If another hook requests the same SimVar
-	 * with a lower maxStaleness, this hook will also benefit from that and refresh
-	 * the value more often.
-	 *
-	 * @example
-	 * // the return value is the value itself and a setter, similar to useState
-	 * const [v1, setV1] = useSimVar('L:AIRLINER_V1_SPEED', 'Knots');
-	 *
-	 * @example
-	 * // only refresh the SimVar every 500ms (unless this SimVar is lower elsewhere)
-	 * const [lightsTest] = useSimVar('L:A32NX_OVHD_INTLT_ANN', 'Bool', 500);
-	 *
-	 * @returns {[*, (function(*): void)]}
-	 *
-	 * @see {@link useSplitSimVar} if your SimVar is set through a K event
-	 * @see {@link useInteractionSimVar} if you emit an H event whenever your SimVar changes
-	 * @see {@link useGlobalVar} if you have a Global Var instead
-	 */
-
-
-	const useSimVar = (name, unit, maxStaleness = 0) => {
-
-	  const value = useSimVarValue(name, unit, maxStaleness);
-	  const setter = useSimVarSetter(name, unit);
-	  return [value, setter];
-	};
-	/**
-	 * This is an internal hook that exposes the internal value for a SimVar only.
-	 * You will usually want to useSimVar instead. Don't use this unless you know
-	 * what you're doing and writing your own hook.
-	 */
-
-	const useSimVarValue = (name, unit, maxStaleness) => {
-	  const contextValue = react.useContext(context);
-	  react.useEffect(() => {
-	    // This part of useEffect will be called whenever either:
-	    // - the component has just mounted, or
-	    // - one the parameters below (name, unit, maxStaleness) has changed.
-	    // In these cases, we want to register our current parameters with the
-	    // SimVarProvider that we access through the context.
-	    contextValue.register(name, unit, maxStaleness, 0);
-	    return () => {
-	      // This part of useEffect will be called whenever either:
-	      // - one of the parameters below (name, unit, maxStaleness) is about
-	      //   to change, or
-	      // - the component is about to unmount
-	      // In these cases, we want to unregister our current parameters from
-	      // the SimVar provider, that we again access through the context.
-	      contextValue.unregister(name, unit, maxStaleness, 0);
-	    };
-	  }, [name, unit, maxStaleness]);
-	  return contextValue.retrieve(name, unit);
-	};
-	/**
-	 * This is an internal hook that exposes the internal setter for a SimVar only.
-	 * You will usually want to useSimVar instead. Don't use this unless you know
-	 * what you're doing and writing your own hook.
-	 */
-
-	const useSimVarSetter = (name, unit, proxy) => {
-	  const contextValue = react.useContext(context);
-	  return value => contextValue.update(name, unit, value, proxy);
-	};
 
 	var DisplayUnitState;
 
@@ -12996,274 +13109,226 @@
 	  }), getRenderTarget());
 	};
 
-	class PFD extends react.Component {
-	  constructor(props) {
-	    super(props);
-
-	    _defineProperty(this, "displayIndex", void 0);
-
-	    _defineProperty(this, "deltaTime", void 0);
-
-	    _defineProperty(this, "GetDeltaTime", void 0);
-
-	    _defineProperty(this, "prevAirspeed", void 0);
-
-	    _defineProperty(this, "VLs", void 0);
-
-	    _defineProperty(this, "barTimer", void 0);
-
-	    _defineProperty(this, "smoothFactor", void 0);
-
-	    _defineProperty(this, "isAttExcessive", void 0);
-
-	    _defineProperty(this, "AirspeedAccFilter", void 0);
-
-	    _defineProperty(this, "AirspeedAccRateLimiter", void 0);
-
-	    _defineProperty(this, "LSButtonPressed", void 0);
-
-	    _defineProperty(this, "failuresConsumer", void 0);
-
+	const PFD = () => {
+	  const [displayIndex] = react.useState(() => {
 	    const url = document.getElementsByTagName('a32nx-pfd')[0].getAttribute('url');
-
-	    if (url) {
-	      this.displayIndex = parseInt(url.substring(url.length - 1), 10);
-	    }
-
-	    this.deltaTime = 0;
-	    this.GetDeltaTime = createDeltaTimeCalculator();
-	    this.prevAirspeed = 0;
-	    this.VLs = 0;
-	    this.barTimer = 10;
-	    this.smoothFactor = 0.5;
-	    this.isAttExcessive = false;
-	    this.AirspeedAccFilter = new LagFilter(1.2);
-	    this.AirspeedAccRateLimiter = new RateLimiter(1.2, -1.2);
-	    this.LSButtonPressed = false;
-	    this.failuresConsumer = new FailuresConsumer('A32NX');
-	    this.failuresConsumer.register(this.isCaptainSide() ? A320Failure.LeftPfdDisplay : A320Failure.RightPfdDisplay);
-	  }
-
-	  componentDidMount() {
-	    renderTarget.parentElement.addEventListener('update', () => {
-	      this.update(this.GetDeltaTime());
-	    });
-	    renderTarget.parentElement.addEventListener("A320_Neo_PFD_BTN_LS_".concat(this.displayIndex), () => {
-	      this.onLSButtonPressed();
-	    });
-	  }
-
-	  onLSButtonPressed() {
-	    this.LSButtonPressed = !this.LSButtonPressed;
-	    setSimVar("L:BTN_LS_".concat(this.displayIndex, "_FILTER_ACTIVE"), this.LSButtonPressed, 'Bool');
-	  }
-
-	  getSupplier(knobValue) {
-	    const adirs3ToCaptain = 0;
-	    const adirs3ToFO = 2;
-
-	    if (this.isCaptainSide()) {
-	      return knobValue === adirs3ToCaptain ? 3 : 1;
-	    }
-
-	    return knobValue === adirs3ToFO ? 3 : 2;
-	  }
-
-	  getAdirsValue(name, type) {
-	    const value = getSimVar(name, type);
-	    const unavailable = -1000000;
-	    return Math.abs(value - unavailable) < 0.0001 ? NaN : value;
-	  }
-
-	  getVerticalSpeed(inertialReferenceSource, airDataReferenceSource) {
-	    // When available, the IR V/S has priority over the ADR barometric V/S.
-	    const verticalSpeed = this.getAdirsValue("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_VERTICAL_SPEED"), 'feet per minute');
-	    return !Number.isNaN(verticalSpeed) ? verticalSpeed : this.getAdirsValue("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_BAROMETRIC_VERTICAL_SPEED"), 'feet per minute');
-	  }
-
-	  isCaptainSide() {
-	    return this.displayIndex === 1;
-	  }
-
-	  smoothSpeeds(_dTime, _vls) {
-	    const seconds = _dTime / 1000;
-	    this.VLs = SmoothSin(this.VLs, _vls, this.smoothFactor, seconds);
-	  }
-
-	  update(_deltaTime) {
-	    this.deltaTime = _deltaTime;
-	    this.failuresConsumer.update();
-	    this.forceUpdate();
-	  }
-
-	  render() {
-	    const inertialReferenceSource = this.getSupplier(getSimVar('L:A32NX_ATT_HDG_SWITCHING_KNOB', 'Enum'));
-	    const airDataReferenceSource = this.getSupplier(getSimVar('L:A32NX_AIR_DATA_SWITCHING_KNOB', 'Enum'));
-	    const pitch = -this.getAdirsValue("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_PITCH"), 'degrees');
-	    const roll = this.getAdirsValue("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_ROLL"), 'degrees');
-	    const heading = this.getAdirsValue("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_HEADING"), 'degrees');
-
-	    if (!this.isAttExcessive && (pitch > 25 || pitch < -13 || Math.abs(roll) > 45)) {
-	      this.isAttExcessive = true;
-	    } else if (this.isAttExcessive && pitch < 22 && pitch > -10 && Math.abs(roll) < 40) {
-	      this.isAttExcessive = false;
-	    }
-
-	    const groundTrack = this.getAdirsValue("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_TRACK"), 'degrees');
-	    const isOnGround = getSimVar('SIM ON GROUND', 'Bool');
-	    const radioAlt = getSimVar('PLANE ALT ABOVE GROUND MINUS CG', 'feet') - 1;
-	    const decisionHeight = getSimVar('L:AIRLINER_DECISION_HEIGHT', 'feet');
-	    const altitude = this.getAdirsValue("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_ALTITUDE"), 'feet');
-	    const verticalSpeed = this.getVerticalSpeed(inertialReferenceSource, airDataReferenceSource);
-	    const mda = getSimVar('L:AIRLINER_MINIMUM_DESCENT_ALTITUDE', 'feet');
-	    const FlightPhase = getSimVar('L:A32NX_FWC_FLIGHT_PHASE', 'Enum'); // eslint-disable-next-line no-undef
-
-	    const pressureMode = Simplane.getPressureSelectedMode(Aircraft.A320_NEO);
-	    const computedAirspeed = this.getAdirsValue("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_COMPUTED_AIRSPEED"), 'knots');
-	    const clampedAirspeed = Math.max(computedAirspeed, 30);
-	    const airspeedAcc = (clampedAirspeed - this.prevAirspeed) / this.deltaTime * 1000;
-	    this.prevAirspeed = clampedAirspeed;
-	    const rateLimitedAirspeedAcc = this.AirspeedAccRateLimiter.step(airspeedAcc, this.deltaTime / 1000);
-	    const filteredAirspeedAcc = this.AirspeedAccFilter.step(rateLimitedAirspeedAcc, this.deltaTime / 1000);
-	    const mach = this.getAdirsValue("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_MACH"), 'mach');
-	    const VMax = getSimVar('L:A32NX_SPEEDS_VMAX', 'number');
-	    const VLs = getSimVar('L:A32NX_SPEEDS_VLS', 'number');
-	    let showSpeedBars = true;
+	    return url ? parseInt(url.substring(url.length - 1), 10) : 0;
+	  });
+	  const [failuresConsumer] = react.useState(() => {
+	    const consumer = new FailuresConsumer('A32NX');
+	    consumer.register(isCaptainSide(displayIndex) ? A320Failure.LeftPfdDisplay : A320Failure.RightPfdDisplay);
+	    return consumer;
+	  });
+	  const [previousAirspeed, setPreviousAirspeed] = react.useState(0);
+	  const [clampedAirspeed, setClampedAirspeed] = react.useState(0);
+	  const [filteredAirspeedAcc, setfilteredAirspeedAcc] = react.useState(0);
+	  const [airspeedAccFilter] = react.useState(() => new LagFilter(1.2));
+	  const [airspeedAccRateLimiter] = react.useState(() => new RateLimiter(1.2, -1.2));
+	  const [isAttExcessive, setIsAttExcessive] = react.useState(false);
+	  const [lsButtonPressed, setLsButtonPressed] = react.useState(false);
+	  const [barTimer, setBarTimer] = react.useState(10);
+	  const [showSpeedBars, setShowSpeedBars] = react.useState(true);
+	  const inertialReferenceSource = getSupplier(displayIndex, getSimVar('L:A32NX_ATT_HDG_SWITCHING_KNOB', 'Enum'));
+	  const airDataReferenceSource = getSupplier(displayIndex, getSimVar('L:A32NX_AIR_DATA_SWITCHING_KNOB', 'Enum'));
+	  const computedAirspeed = useArinc429Var("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_COMPUTED_AIRSPEED"));
+	  const isOnGround = getSimVar('SIM ON GROUND', 'Bool');
+	  const [vls, setVls] = react.useState(0);
+	  const [_, forceUpdate] = react.useReducer(x => x > Number.MAX_SAFE_INTEGER ? 0 : x + 1, 0);
+	  useUpdate(deltaTime => {
+	    failuresConsumer.update();
+	    const clamped = computedAirspeed.isNormalOperation() ? Math.max(computedAirspeed.value, 30) : NaN;
+	    const airspeedAcc = (clamped - previousAirspeed) / deltaTime * 1000;
+	    setPreviousAirspeed(clamped);
+	    setClampedAirspeed(clamped);
+	    const rateLimitedAirspeedAcc = airspeedAccRateLimiter.step(airspeedAcc, deltaTime / 1000);
+	    setfilteredAirspeedAcc(airspeedAccFilter.step(rateLimitedAirspeedAcc, deltaTime / 1000));
 
 	    if (isOnGround) {
-	      showSpeedBars = false;
-	      this.barTimer = 0;
-	    } else if (this.barTimer < 10) {
-	      showSpeedBars = false;
-	      this.barTimer += this.deltaTime / 1000;
-	    }
-
-	    this.smoothSpeeds(this.deltaTime, VLs);
-	    const armedVerticalBitmask = getSimVar('L:A32NX_FMA_VERTICAL_ARMED', 'number');
-	    const activeVerticalMode = getSimVar('L:A32NX_FMA_VERTICAL_MODE', 'enum');
-	    const armedLateralBitmask = getSimVar('L:A32NX_FMA_LATERAL_ARMED', 'number');
-	    const fmgcFlightPhase = getSimVar('L:A32NX_FMGC_FLIGHT_PHASE', 'enum');
-	    const cstnAlt = getSimVar('L:A32NX_AP_CSTN_ALT', 'feet');
-	    const altArmed = armedVerticalBitmask >> 1 & 1;
-	    const clbArmed = armedVerticalBitmask >> 2 & 1;
-	    const navArmed = armedLateralBitmask >> 0 & 1;
-	    const isManaged = altArmed || activeVerticalMode === 21 || activeVerticalMode === 20 || !!cstnAlt && fmgcFlightPhase < 2 && clbArmed && navArmed;
-	    const targetAlt = isManaged ? cstnAlt : Simplane.getAutoPilotDisplayedAltitudeLockValue();
-	    let targetSpeed;
-	    const isSelected = Simplane.getAutoPilotAirspeedSelected();
-	    const isMach = Simplane.getAutoPilotMachModeActive();
-
-	    if (isSelected) {
-	      if (isMach) {
-	        const holdValue = Simplane.getAutoPilotMachHoldValue();
-	        targetSpeed = SimVar.GetGameVarValue('FROM MACH TO KIAS', 'number', holdValue === null ? undefined : holdValue);
-	      } else {
-	        targetSpeed = Simplane.getAutoPilotAirspeedHoldValue();
-	      }
+	      setShowSpeedBars(false);
+	      setBarTimer(0);
+	    } else if (barTimer < 10) {
+	      setShowSpeedBars(false);
+	      setBarTimer(barTimer + deltaTime / 1000);
 	    } else {
-	      targetSpeed = getSimVar('L:A32NX_SPEEDS_MANAGED_PFD', 'knots') || NaN;
+	      setShowSpeedBars(true);
 	    }
 
-	    const FDActive = getSimVar("AUTOPILOT FLIGHT DIRECTOR ACTIVE:".concat(this.displayIndex), 'Bool');
-	    let selectedHeading = NaN;
+	    setVls(smoothSpeeds(deltaTime, vls, getSimVar('L:A32NX_SPEEDS_VLS', 'number')));
+	    forceUpdate();
+	  });
+	  useInteractionEvent("A320_Neo_PFD_BTN_LS_".concat(displayIndex), () => {
+	    setLsButtonPressed(!lsButtonPressed);
+	    setSimVar("L:BTN_LS_".concat(displayIndex, "_FILTER_ACTIVE"), !lsButtonPressed, 'Bool');
+	  });
+	  const pitch = useArinc429Var("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_PITCH"));
+	  const roll = useArinc429Var("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_ROLL"));
 
-	    if (getSimVar('L:A320_FCU_SHOW_SELECTED_HEADING', 'number')) {
-	      selectedHeading = Simplane.getAutoPilotSelectedHeadingLockValue(false);
-	    }
-
-	    let ILSCourse = NaN;
-
-	    if (this.LSButtonPressed) {
-	      ILSCourse = getSimVar('NAV LOCALIZER:3', 'degrees');
-	    }
-
-	    return /*#__PURE__*/jsxRuntime.jsx(DisplayUnit, {
-	      electricitySimvar: this.isCaptainSide() ? 'L:A32NX_ELEC_AC_ESS_BUS_IS_POWERED' : 'L:A32NX_ELEC_AC_2_BUS_IS_POWERED',
-	      potentiometerIndex: this.isCaptainSide() ? 88 : 90,
-	      failed: this.failuresConsumer.isActive(this.isCaptainSide() ? A320Failure.LeftPfdDisplay : A320Failure.RightPfdDisplay),
-	      children: /*#__PURE__*/jsxRuntime.jsxs("svg", {
-	        className: "pfd-svg",
-	        version: "1.1",
-	        viewBox: "0 0 158.75 158.75",
-	        xmlns: "http://www.w3.org/2000/svg",
-	        children: [/*#__PURE__*/jsxRuntime.jsx(Horizon, {
-	          pitch: pitch,
-	          roll: roll,
-	          heading: heading,
-	          FDActive: FDActive,
-	          selectedHeading: selectedHeading,
-	          isOnGround: isOnGround,
-	          radioAlt: radioAlt,
-	          decisionHeight: decisionHeight,
-	          isAttExcessive: this.isAttExcessive,
-	          deltaTime: this.deltaTime
-	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	          id: "Mask1",
-	          className: "BackgroundFill",
-	          d: "m32.138 101.25c7.4164 13.363 21.492 21.652 36.768 21.652 15.277 0 29.352-8.2886 36.768-21.652v-40.859c-7.4164-13.363-21.492-21.652-36.768-21.652-15.277 0-29.352 8.2886-36.768 21.652zm-32.046 57.498h158.66v-158.75h-158.66z"
-	        }), /*#__PURE__*/jsxRuntime.jsx(HeadingTape, {
-	          heading: heading
-	        }), /*#__PURE__*/jsxRuntime.jsx(AltitudeIndicator, {
-	          altitude: altitude,
-	          FWCFlightPhase: FlightPhase
-	        }), /*#__PURE__*/jsxRuntime.jsx(AirspeedIndicator, {
-	          airspeed: clampedAirspeed,
-	          airspeedAcc: filteredAirspeedAcc,
-	          FWCFlightPhase: FlightPhase,
-	          altitude: altitude,
-	          VLs: this.VLs,
-	          VMax: VMax,
-	          showBars: showSpeedBars
-	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	          id: "Mask2",
-	          className: "BackgroundFill",
-	          d: "m32.138 145.34h73.536v10.382h-73.536zm0-44.092c7.4164 13.363 21.492 21.652 36.768 21.652 15.277 0 29.352-8.2886 36.768-21.652v-40.859c-7.4164-13.363-21.492-21.652-36.768-21.652-15.277 0-29.352 8.2886-36.768 21.652zm-32.046 57.498h158.66v-158.75h-158.66zm115.14-35.191v-85.473h15.609v85.473zm-113.33 0v-85.473h27.548v85.473z"
-	        }), /*#__PURE__*/jsxRuntime.jsx(LandingSystem, {
-	          LSButtonPressed: this.LSButtonPressed,
-	          deltaTime: this.deltaTime
-	        }), /*#__PURE__*/jsxRuntime.jsx(AttitudeIndicatorFixedUpper, {
-	          pitch: pitch,
-	          roll: roll
-	        }), /*#__PURE__*/jsxRuntime.jsx(AttitudeIndicatorFixedCenter, {
-	          pitch: pitch,
-	          roll: roll,
-	          isOnGround: isOnGround,
-	          FDActive: FDActive,
-	          isAttExcessive: this.isAttExcessive
-	        }), /*#__PURE__*/jsxRuntime.jsx(VerticalSpeedIndicator, {
-	          radioAlt: radioAlt,
-	          verticalSpeed: verticalSpeed
-	        }), /*#__PURE__*/jsxRuntime.jsx(HeadingOfftape, {
-	          ILSCourse: ILSCourse,
-	          groundTrack: groundTrack,
-	          heading: heading,
-	          selectedHeading: selectedHeading
-	        }), /*#__PURE__*/jsxRuntime.jsx(AltitudeIndicatorOfftape, {
-	          altitude: altitude,
-	          radioAlt: radioAlt,
-	          MDA: mda,
-	          targetAlt: targetAlt,
-	          altIsManaged: isManaged,
-	          mode: pressureMode
-	        }), /*#__PURE__*/jsxRuntime.jsx(AirspeedIndicatorOfftape, {
-	          airspeed: clampedAirspeed,
-	          targetSpeed: targetSpeed,
-	          speedIsManaged: !isSelected
-	        }), /*#__PURE__*/jsxRuntime.jsx(MachNumber, {
-	          mach: mach,
-	          airspeedAcc: filteredAirspeedAcc
-	        }), /*#__PURE__*/jsxRuntime.jsx(FMA, {
-	          isAttExcessive: this.isAttExcessive
-	        })]
-	      })
-	    });
+	  if (!isAttExcessive && (pitch.isNormalOperation() && (-pitch.value > 25 || -pitch.value < -13) || roll.isNormalOperation() && Math.abs(roll.value) > 45)) {
+	    setIsAttExcessive(true);
+	  } else if (isAttExcessive && pitch.isNormalOperation() && -pitch.value < 22 && -pitch.value > -10 && roll.isNormalOperation() && Math.abs(roll.value) < 40) {
+	    setIsAttExcessive(false);
 	  }
 
-	}
+	  const heading = useArinc429Var("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_HEADING"));
+	  const groundTrack = useArinc429Var("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_TRACK"));
+	  const radioAlt = getSimVar('PLANE ALT ABOVE GROUND MINUS CG', 'feet');
+	  const decisionHeight = getSimVar('L:AIRLINER_DECISION_HEIGHT', 'feet');
+	  const altitude = useArinc429Var("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_ALTITUDE")); // When available, the IR V/S has priority over the ADR barometric V/S.
+
+	  const inertialVerticalSpeed = useArinc429Var("L:A32NX_ADIRS_IR_".concat(inertialReferenceSource, "_VERTICAL_SPEED"));
+	  const barometricVerticalSpeed = useArinc429Var("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_BAROMETRIC_VERTICAL_SPEED"));
+	  const verticalSpeed = inertialVerticalSpeed.isNormalOperation() ? inertialVerticalSpeed : barometricVerticalSpeed;
+	  const mda = getSimVar('L:AIRLINER_MINIMUM_DESCENT_ALTITUDE', 'feet');
+	  const FlightPhase = getSimVar('L:A32NX_FWC_FLIGHT_PHASE', 'Enum');
+	  const pressureMode = Simplane.getPressureSelectedMode(Aircraft.A320_NEO);
+	  const mach = useArinc429Var("L:A32NX_ADIRS_ADR_".concat(airDataReferenceSource, "_MACH"));
+	  const VMax = getSimVar('L:A32NX_SPEEDS_VMAX', 'number');
+	  const armedVerticalBitmask = getSimVar('L:A32NX_FMA_VERTICAL_ARMED', 'number');
+	  const activeVerticalMode = getSimVar('L:A32NX_FMA_VERTICAL_MODE', 'enum');
+	  const armedLateralBitmask = getSimVar('L:A32NX_FMA_LATERAL_ARMED', 'number');
+	  const fmgcFlightPhase = getSimVar('L:A32NX_FMGC_FLIGHT_PHASE', 'enum');
+	  const cstnAlt = getSimVar('L:A32NX_AP_CSTN_ALT', 'feet');
+	  const altArmed = armedVerticalBitmask >> 1 & 1;
+	  const clbArmed = armedVerticalBitmask >> 2 & 1;
+	  const navArmed = armedLateralBitmask >> 0 & 1;
+	  const isManaged = !!(altArmed || activeVerticalMode === 21 || activeVerticalMode === 20 || !!cstnAlt && fmgcFlightPhase < 2 && clbArmed && navArmed);
+	  const targetAlt = isManaged ? cstnAlt : Simplane.getAutoPilotDisplayedAltitudeLockValue();
+	  let targetSpeed;
+	  const isSelected = Simplane.getAutoPilotAirspeedSelected();
+	  const isMach = Simplane.getAutoPilotMachModeActive();
+
+	  if (isSelected) {
+	    if (isMach) {
+	      const holdValue = Simplane.getAutoPilotMachHoldValue();
+	      targetSpeed = SimVar.GetGameVarValue('FROM MACH TO KIAS', 'number', holdValue === null ? undefined : holdValue);
+	    } else {
+	      targetSpeed = Simplane.getAutoPilotAirspeedHoldValue();
+	    }
+	  } else {
+	    targetSpeed = getSimVar('L:A32NX_SPEEDS_MANAGED_PFD', 'knots') || NaN;
+	  }
+
+	  const FDActive = getSimVar("AUTOPILOT FLIGHT DIRECTOR ACTIVE:".concat(displayIndex), 'Bool');
+	  let selectedHeading = NaN;
+
+	  if (getSimVar('L:A320_FCU_SHOW_SELECTED_HEADING', 'number')) {
+	    selectedHeading = Simplane.getAutoPilotSelectedHeadingLockValue(false) || 0;
+	  }
+
+	  let ILSCourse = NaN;
+
+	  if (lsButtonPressed) {
+	    ILSCourse = getSimVar('NAV LOCALIZER:3', 'degrees');
+	  }
+
+	  return /*#__PURE__*/jsxRuntime.jsx(DisplayUnit, {
+	    electricitySimvar: isCaptainSide(displayIndex) ? 'L:A32NX_ELEC_AC_ESS_BUS_IS_POWERED' : 'L:A32NX_ELEC_AC_2_BUS_IS_POWERED',
+	    potentiometerIndex: isCaptainSide(displayIndex) ? 88 : 90,
+	    failed: failuresConsumer.isActive(isCaptainSide(displayIndex) ? A320Failure.LeftPfdDisplay : A320Failure.RightPfdDisplay),
+	    children: /*#__PURE__*/jsxRuntime.jsxs("svg", {
+	      className: "pfd-svg",
+	      version: "1.1",
+	      viewBox: "0 0 158.75 158.75",
+	      xmlns: "http://www.w3.org/2000/svg",
+	      children: [/*#__PURE__*/jsxRuntime.jsx(Horizon, {
+	        pitch: pitch,
+	        roll: roll,
+	        heading: heading,
+	        FDActive: FDActive,
+	        selectedHeading: selectedHeading,
+	        isOnGround: isOnGround,
+	        radioAlt: radioAlt,
+	        decisionHeight: decisionHeight,
+	        isAttExcessive: isAttExcessive
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        id: "Mask1",
+	        className: "BackgroundFill" // eslint-disable-next-line max-len
+	        ,
+	        d: "m32.138 101.25c7.4164 13.363 21.492 21.652 36.768 21.652 15.277 0 29.352-8.2886 36.768-21.652v-40.859c-7.4164-13.363-21.492-21.652-36.768-21.652-15.277 0-29.352 8.2886-36.768 21.652zm-32.046 57.498h158.66v-158.75h-158.66z"
+	      }), /*#__PURE__*/jsxRuntime.jsx(HeadingTape, {
+	        heading: heading
+	      }), /*#__PURE__*/jsxRuntime.jsx(AltitudeIndicator, {
+	        altitude: altitude,
+	        FWCFlightPhase: FlightPhase
+	      }), /*#__PURE__*/jsxRuntime.jsx(AirspeedIndicator, {
+	        airspeed: clampedAirspeed,
+	        airspeedAcc: filteredAirspeedAcc,
+	        FWCFlightPhase: FlightPhase,
+	        altitude: altitude,
+	        VLs: vls,
+	        VMax: VMax,
+	        showBars: showSpeedBars
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        id: "Mask2",
+	        className: "BackgroundFill" // eslint-disable-next-line max-len
+	        ,
+	        d: "m32.138 145.34h73.536v10.382h-73.536zm0-44.092c7.4164 13.363 21.492 21.652 36.768 21.652 15.277 0 29.352-8.2886 36.768-21.652v-40.859c-7.4164-13.363-21.492-21.652-36.768-21.652-15.277 0-29.352 8.2886-36.768 21.652zm-32.046 57.498h158.66v-158.75h-158.66zm115.14-35.191v-85.473h15.609v85.473zm-113.33 0v-85.473h27.548v85.473z"
+	      }), /*#__PURE__*/jsxRuntime.jsx(LandingSystem, {
+	        LSButtonPressed: lsButtonPressed
+	      }), /*#__PURE__*/jsxRuntime.jsx(AttitudeIndicatorFixedUpper, {
+	        pitch: pitch,
+	        roll: roll
+	      }), /*#__PURE__*/jsxRuntime.jsx(AttitudeIndicatorFixedCenter, {
+	        pitch: pitch,
+	        roll: roll,
+	        isOnGround: isOnGround,
+	        FDActive: FDActive,
+	        isAttExcessive: isAttExcessive
+	      }), /*#__PURE__*/jsxRuntime.jsx(VerticalSpeedIndicator, {
+	        radioAlt: radioAlt,
+	        verticalSpeed: verticalSpeed
+	      }), /*#__PURE__*/jsxRuntime.jsx(HeadingOfftape, {
+	        ILSCourse: ILSCourse,
+	        groundTrack: groundTrack,
+	        heading: heading,
+	        selectedHeading: selectedHeading
+	      }), /*#__PURE__*/jsxRuntime.jsx(AltitudeIndicatorOfftape, {
+	        altitude: altitude,
+	        radioAlt: radioAlt,
+	        MDA: mda,
+	        targetAlt: targetAlt,
+	        altIsManaged: isManaged,
+	        mode: pressureMode
+	      }), /*#__PURE__*/jsxRuntime.jsx(AirspeedIndicatorOfftape, {
+	        airspeed: clampedAirspeed,
+	        targetSpeed: targetSpeed,
+	        speedIsManaged: !isSelected
+	      }), /*#__PURE__*/jsxRuntime.jsx(MachNumber, {
+	        mach: mach
+	      }), /*#__PURE__*/jsxRuntime.jsx(FMA, {
+	        isAttExcessive: isAttExcessive
+	      })]
+	    })
+	  });
+	};
+
+	const isCaptainSide = displayIndex => displayIndex === 1;
+
+	const getSupplier = (displayIndex, knobValue) => {
+	  const adirs3ToCaptain = 0;
+	  const adirs3ToFO = 2;
+
+	  if (isCaptainSide(displayIndex)) {
+	    return knobValue === adirs3ToCaptain ? 3 : 1;
+	  }
+
+	  return knobValue === adirs3ToFO ? 3 : 2;
+	};
+
+	const smoothSpeeds = (deltaTime, vlsOrigin, vlsDestination) => {
+	  const seconds = deltaTime / 1000;
+	  return SmoothSin(vlsOrigin, vlsDestination, 0.5, seconds);
+	};
 
 	render( /*#__PURE__*/jsxRuntime.jsx(PFD, {}));
 
-}());
+	exports.PFD = PFD;
+
+	Object.defineProperty(exports, '__esModule', { value: true });
+
+	return exports;
+
+})({});
 
     </script>
     <style id="PFD_BUNDLED_STYLE">
@@ -13413,7 +13478,7 @@
 @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
+  src: url("/fonts/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -13678,4 +13743,4 @@ text.Red {
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/PFD/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/PFD/template.js" import-async="false"></script>

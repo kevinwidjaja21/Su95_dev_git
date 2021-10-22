@@ -9083,6 +9083,86 @@
 	};
 
 	/**
+	 * Allows interacting with the persistent storage
+	 */
+	class NXDataStore {
+	  static get listener() {
+	    if (this.mListener === undefined) {
+	      this.mListener = RegisterViewListener('JS_LISTENER_SIMVARS');
+	    }
+
+	    return this.mListener;
+	  }
+	  /**
+	   * Reads a value from persistent storage
+	   * @param key The property key
+	   * @param defaultVal The default value if the property is not set
+	   */
+
+
+	  static get(key, defaultVal) {
+	    const val = GetStoredData("A32NX_".concat(key)); // GetStoredData returns null on error, or empty string for keys that don't exist (why isn't that an error??)
+	    // We could use SearchStoredData, but that spams the console with every key (somebody left their debug print in)
+
+	    if (val === null || val.length === 0) {
+	      return defaultVal;
+	    }
+
+	    return val;
+	  }
+	  /**
+	   * Sets a value in persistent storage
+	   *
+	   * @param key The property key
+	   * @param val The value to assign to the property
+	   */
+
+
+	  static set(key, val) {
+	    SetStoredData("A32NX_".concat(key), val);
+	    this.listener.triggerToAllSubscribers('A32NX_NXDATASTORE_UPDATE', key, val);
+	  }
+
+	  static subscribe(key, callback) {
+	    return Coherent.on('A32NX_NXDATASTORE_UPDATE', (updatedKey, value) => {
+	      if (key === '*' || key === updatedKey) {
+	        callback(updatedKey, value);
+	      }
+	    }).clear;
+	  }
+
+	  static getAndSubscribe(key, callback, defaultVal) {
+	    callback(key, NXDataStore.get(key, defaultVal));
+	    return NXDataStore.subscribe(key, callback);
+	  }
+
+	}
+
+	_defineProperty(NXDataStore, "mListener", void 0);
+
+	/**
+	 * This hook allows to read and set a persistent storage property.
+	 * Overloads are provided to absolve callers with defaults from dealing with possibly undefined
+	 */
+
+	function usePersistentProperty(propertyName, defaultValue) {
+	  const [propertyValue, rawPropertySetter] = react.useState(() => NXDataStore.get(propertyName, defaultValue));
+	  react.useEffect(() => {
+	    const unsubscribe = NXDataStore.subscribe(propertyName, (key, value) => rawPropertySetter(value));
+	    return () => {
+	      unsubscribe();
+	    };
+	  }, []);
+
+	  const propertySetter = value => {
+	    NXDataStore.set(propertyName, value);
+	    rawPropertySetter(value);
+	  };
+
+	  return [propertyValue, propertySetter];
+	}
+
+	/**
 	 * Format the given frequency to be displayed.
 	 * @param frequency The given frequency number in Hz.
 	 * @returns The formated frequency string in 123.456
@@ -9241,7 +9321,8 @@
 
 
 	const StandbyFrequency = props => {
-	  // Handle outer knob turned.
+	  const spacing = usePersistentProperty('RMP_VHF_SPACING_25KHZ', '0')[0] === '0' ? 8.33 : 25; // Handle outer knob turned.
+
 	  const outerKnobUpdateCallback = react.useCallback(offset => {
 	    const frequency = Math.round(props.value / 1000);
 	    const integer = Math.floor(frequency / 1000);
@@ -9261,7 +9342,7 @@
 
 	    const integer = Math.floor(frequency / 1000); // @todo determine correct frequency spacing depending on mode.
 
-	    const decimal = offsetFrequencyChannel(8.33, frequency % 1000, offset); // @todo determine min/max depending on mode.
+	    const decimal = offsetFrequencyChannel(spacing, frequency % 1000, offset); // @todo determine min/max depending on mode.
 
 	    const maxDecimal = integer === 136 ? 975 : 1000;
 	    const newDecimal = Utils.Clamp(decimal, 0, maxDecimal);
@@ -9400,7 +9481,7 @@
 	  })]
 	}));
 
-}());
+})();
 
     </script>
     <style id="RMP_BUNDLED_STYLE">
@@ -9412,7 +9493,7 @@
 }
 
 @font-face {
-  src: url("/Fonts_SU95/AirbusRMP.ttf") format("truetype");
+  src: url("/Fonts/AirbusRMP.ttf") format("truetype");
 
   font-family: "AirbusRMP";
 
@@ -9453,4 +9534,4 @@ text {
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/RMP/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/RMP/template.js" import-async="false"></script>

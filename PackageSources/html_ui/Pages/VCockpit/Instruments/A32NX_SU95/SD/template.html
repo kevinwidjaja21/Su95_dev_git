@@ -10267,9 +10267,8 @@
 	      className: "Bus"
 	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	      x: width / 2,
-	      y: 10.5,
-	      className: "Large ".concat(number ? 'Right' : 'Middle', " ").concat(isNormal ? 'Green' : 'Amber'),
-	      dominantBaseline: "middle",
+	      y: 21,
+	      className: "QuiteLarge ".concat(number ? 'Right' : 'Middle', " ").concat(isNormal ? 'Green' : 'Amber'),
 	      children: name
 	    }), number ? /*#__PURE__*/jsxRuntime.jsx("text", {
 	      x: width / 2 + 3.75,
@@ -11624,6 +11623,87 @@
 	  children: /*#__PURE__*/jsxRuntime.jsx(HydPage, {})
 	}), getRenderTarget());
 
+	class Arinc429WordSsmParseError extends Error {
+	  constructor(ssm) {
+	    super();
+	    this.ssm = ssm;
+	  }
+
+	}
+
+	class Arinc429Word {
+	  constructor(word) {
+	    _defineProperty(this, "ssm", void 0);
+
+	    _defineProperty(this, "value", void 0);
+
+	    Arinc429Word.f64View[0] = word; // eslint-disable-next-line prefer-destructuring
+
+	    const ssm = Arinc429Word.u32View[0];
+
+	    if (ssm >= 0b00 && ssm <= 0b11) {
+	      this.ssm = ssm;
+	    } else {
+	      throw new Arinc429WordSsmParseError(ssm);
+	    } // eslint-disable-next-line prefer-destructuring
+
+
+	    this.value = Arinc429Word.f32View[1];
+	  }
+
+	  isFailureWarning() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.FailureWarning;
+	  }
+
+	  isNoComputedData() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.NoComputedData;
+	  }
+
+	  isFunctionalTest() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.FunctionalTest;
+	  }
+
+	  isNormalOperation() {
+	    return this.ssm === Arinc429Word.SignStatusMatrix.NormalOperation;
+	  }
+	  /**
+	   * Returns the value when normal operation, the supplied default value otherwise.
+	   */
+
+
+	  valueOr(defaultValue) {
+	    return this.isNormalOperation() ? this.value : defaultValue;
+	  }
+
+	}
+
+	_defineProperty(Arinc429Word, "SignStatusMatrix", Object.freeze({
+	  FailureWarning: 0b00,
+	  NoComputedData: 0b01,
+	  FunctionalTest: 0b10,
+	  NormalOperation: 0b11
+	}));
+
+	_defineProperty(Arinc429Word, "f64View", new Float64Array(1));
+
+	_defineProperty(Arinc429Word, "u32View", new Uint32Array(Arinc429Word.f64View.buffer));
+
+	_defineProperty(Arinc429Word, "f32View", new Float32Array(Arinc429Word.f64View.buffer));
+
+	const useArinc429Var = (name, maxStaleness = 0) => {
+	  const value = useSimVarValue(name, 'number', maxStaleness);
+
+	  try {
+	    return new Arinc429Word(value);
+	  } catch (e) {
+	    if (e instanceof Arinc429WordSsmParseError) {
+	      throw new Error("SimVar \"".concat(name, "\" has an ARINC 429 SSM value ").concat(e.ssm, ", which is outside of the valid range."));
+	    }
+
+	    throw e;
+	  }
+	};
+
 	function fuelForDisplay(fuelValue, unitsC, timeUnit = 1, fobMultiplier = 1) {
 	  const fuelWeight = unitsC === '1' ? fuelValue / timeUnit : fuelValue / timeUnit * 2.20462;
 	  const roundValue = unitsC === '1' ? 10 * fobMultiplier : 20 * fobMultiplier;
@@ -11657,19 +11737,12 @@
 	  return (
 	    /*#__PURE__*/
 	    // This is already in an svg so we should remove the containing one - TODO remove style once we are not in the Asobo ECAM
-	    jsxRuntime.jsxs("svg", {
-	      id: "sd-fuel-page",
-	      viewBox: "0 0 600 600",
-	      style: {
-	        marginTop: '-60px'
-	      },
-	      xmlns: "http://www.w3.org/2000/svg",
-	      children: [/*#__PURE__*/jsxRuntime.jsx("text", {
-	        className: "PageTitle",
+	    jsxRuntime.jsxs(EcamPage, {
+	      name: "sd-fuel-page",
+	      children: [/*#__PURE__*/jsxRuntime.jsx(PageTitle, {
 	        x: 14,
 	        y: 16,
-	        alignmentBaseline: "central",
-	        children: "FUEL"
+	        text: "FUEL"
 	      }), /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	        children: [/*#__PURE__*/jsxRuntime.jsx("text", {
 	          className: "FuelUsed",
@@ -11779,56 +11852,36 @@
 	        children: [/*#__PURE__*/jsxRuntime.jsx(CrossFeedValve, {
 	          x: 300,
 	          y: 150
-	        }), /*#__PURE__*/jsxRuntime.jsx("line", {
-	          className: "FlowShape",
-	          x1: "160",
-	          y1: "150",
-	          x2: "275",
-	          y2: "150"
-	        }), /*#__PURE__*/jsxRuntime.jsx("line", {
-	          className: "FlowShape",
-	          x1: "325",
-	          y1: "150",
-	          x2: "440",
-	          y2: "150"
 	        }), crossFeedPosition === 1 && /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	          children: [/*#__PURE__*/jsxRuntime.jsx("line", {
 	            className: "FlowShape",
 	            x1: "317",
 	            y1: "150",
-	            x2: "330",
+	            x2: "440",
 	            y2: "150"
 	          }), /*#__PURE__*/jsxRuntime.jsx("line", {
 	            className: "FlowShape",
-	            x1: "270",
+	            x1: "160",
 	            y1: "150",
 	            x2: "283",
 	            y2: "150"
 	          })]
-	        }), /*#__PURE__*/jsxRuntime.jsx("line", {
-	          className: "FlowShape",
-	          x1: "274",
-	          y1: "150",
-	          x2: "274",
-	          y2: "205"
-	        }), /*#__PURE__*/jsxRuntime.jsx("line", {
-	          className: "FlowShape",
-	          x1: "326",
-	          y1: "150",
-	          x2: "326",
-	          y2: "205"
 	        }), /*#__PURE__*/jsxRuntime.jsx(Pump, {
-	          x: 259,
-	          y: 205,
-	          pumpNumber: 1
+	          x: 267,
+	          y: 223,
+	          pumpNumber: 1,
+	          centreTank: true,
+	          tankQuantity: tankCenter
 	        }), /*#__PURE__*/jsxRuntime.jsx(Pump, {
-	          x: 311,
-	          y: 205,
-	          pumpNumber: 4
+	          x: 302,
+	          y: 223,
+	          pumpNumber: 4,
+	          centreTank: true,
+	          tankQuantity: tankCenter
 	        }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	          className: "TankQuantity",
-	          x: 335,
-	          y: 275,
+	          x: 330,
+	          y: 315,
 	          children: fuelInTanksForDisplay(tankCenter, unit, fuelWeightPerGallon)
 	        })]
 	      }), /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
@@ -11902,12 +11955,13 @@
 
 	const Apu = () => {
 	  // Use as a surrogate for fire valve being open or closed.
-	  const [apuN] = useSimVar('L:A32NX_APU_N', 'percent', 500);
+	  const apuN = useArinc429Var('L:A32NX_APU_N', 500);
 	  const [apuFirePB] = useSimVar('L:A32NX_FIRE_BUTTON_APU', 'boolean', 1000); // APU fire P/B out = Amber APU only
 	  // White APU and triangle only if APU off
 	  // If APU on and powered green line and triangle
 
-	  const color = apuFirePB ? 'Amber' : apuN <= 20 ? 'White' : 'Green';
+	  const apuNAtOrBelow20 = apuN.valueOr(0) <= 20;
+	  const color = apuFirePB ? 'Amber' : apuNAtOrBelow20 ? 'White' : 'Green';
 	  const fill = apuFirePB ? 1 : 0;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "APU",
@@ -11918,7 +11972,7 @@
 	      textAnchor: "end",
 	      alignmentBaseline: "central",
 	      children: "APU"
-	    }), apuFirePB && apuN <= 20 ? null : /*#__PURE__*/jsxRuntime.jsx(Triangle, {
+	    }), apuFirePB && apuNAtOrBelow20 ? null : /*#__PURE__*/jsxRuntime.jsx(Triangle, {
 	      x: 129,
 	      y: 150,
 	      colour: color,
@@ -11926,7 +11980,7 @@
 	      orientation: -90
 	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	      id: "apuFuelLine",
-	      className: "".concat(color, "Line ").concat(apuN >= 20 ? '' : 'Hide'),
+	      className: "".concat(color, "Line ").concat(apuNAtOrBelow20 ? 'Hide' : ''),
 	      d: "M147,150 l13,0"
 	    })]
 	  });
@@ -11956,13 +12010,13 @@
 	      children: ":"
 	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	      id: "FuelFlowValue",
-	      x: 200,
-	      y: 452,
+	      x: 201,
+	      y: 455,
 	      children: fuelForDisplay(leftFuelFlow + rightFuelFlow, unit, 60)
 	    }), /*#__PURE__*/jsxRuntime.jsxs("text", {
 	      id: "FuelFlowUnit",
 	      x: 215,
-	      y: 452,
+	      y: 455,
 	      children: [unit === '1' ? 'KG' : 'LBS', "/MIN"]
 	    })]
 	  });
@@ -11988,13 +12042,13 @@
 	      children: ":"
 	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	      id: "FobValue",
-	      x: 200,
-	      y: 481,
+	      x: 204,
+	      y: 485,
 	      children: fuelForDisplay(fob, unit, 1, 2)
 	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	      id: "FobUnit",
 	      x: 215,
-	      y: 483,
+	      y: 487,
 	      children: unit === '1' ? 'KG' : 'LBS'
 	    })]
 	  });
@@ -12013,13 +12067,7 @@
 	    d: "M 15,  255 l 124.2, -21.6"
 	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	    className: "ThickShape",
-	    d: "M 245, 215 l 12, 0"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    className: "ThickShape",
-	    d: "M 292, 215 l 16, 0"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    className: "ThickShape",
-	    d: "M 343, 215 l 14, 0"
+	    d: "M 245, 215 l 110, 0"
 	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	    className: "ThickShape",
 	    d: "M 245, 215 l -29.9, 5.2"
@@ -12168,13 +12216,23 @@
 	  x,
 	  y,
 	  onBus = 'DC_ESS',
-	  pumpNumber
+	  pumpNumber,
+	  centreTank,
+	  tankQuantity
 	}) => {
 	  const [active] = useSimVar("FUELSYSTEM PUMP ACTIVE:".concat(pumpNumber), 'bool', 500);
-	  const [pushButtonPressed] = pumpNumber === 1 || pumpNumber === 4 ? pumpNumber === 1 ? useSimVar('L:XMLVAR_Momentary_PUSH_OVHD_FUEL_PUMP1_Pressed', 'bool', 500) : useSimVar('L:XMLVAR_Momentary_PUSH_OVHD_FUEL_PUMP2_Pressed', 'bool', 500) : [null];
 	  const [busIsPowered] = useSimVar("L:A32NX_ELEC_".concat(onBus, "_BUS_IS_POWERED"), 'bool', 1000);
+	  const [centreTankGreen, setCentreTankGreen] = react.useState(false);
+	  const [pushButton] = useSimVar("FUELSYSTEM PUMP SWITCH:".concat(pumpNumber), 'bool', 500);
+	  const [simOnGround] = useSimVar('SIM ON GROUND', 'bool', 1000); // FIXME add centre tank logic once fuel system implemented
+
+	  react.useEffect(() => {
+	    if (centreTank) {
+	      setCentreTankGreen(pushButton && (tankQuantity === 0 || simOnGround));
+	    }
+	  }, [pushButton]);
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    className: (pumpNumber === 1 || pumpNumber === 4 ? pushButtonPressed && busIsPowered : active && busIsPowered) ? 'ThickShape PumpActive' : 'ThickShape PumpInactive',
+	    className: active && busIsPowered || centreTankGreen ? 'ThickShape PumpActive' : 'ThickShape PumpInactive',
 	    children: [/*#__PURE__*/jsxRuntime.jsx("rect", {
 	      x: x,
 	      y: y,
@@ -12195,6 +12253,31 @@
 	      x: x + 15,
 	      y: y + 20,
 	      children: "LO"
+	    }), (pumpNumber === 1 || pumpNumber === 4) && active && /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      className: "ThickShape PumpActive",
+	      children: [/*#__PURE__*/jsxRuntime.jsx("line", {
+	        x1: x + 15,
+	        y1: y + 30,
+	        x2: x + 15,
+	        y2: y + 60
+	      }), /*#__PURE__*/jsxRuntime.jsx("line", {
+	        x1: pumpNumber === 1 ? x + 16 : x + 14,
+	        y1: y + 60,
+	        x2: pumpNumber === 1 ? x - 8 : x + 40,
+	        y2: y + 60
+	      }), pumpNumber === 1 && /*#__PURE__*/jsxRuntime.jsx(Triangle, {
+	        x: x - 26,
+	        y: y + 60,
+	        colour: "Green",
+	        fill: 0,
+	        orientation: -90
+	      }), pumpNumber === 4 && /*#__PURE__*/jsxRuntime.jsx(Triangle, {
+	        x: x + 59,
+	        y: y + 60,
+	        colour: "Green",
+	        fill: 0,
+	        orientation: 90
+	      })]
 	    })]
 	  });
 	};
@@ -12431,7 +12514,7 @@
 	const DoorPage = () => {
 	  const [cabin] = useSimVar('INTERACTIVE POINT OPEN:0', 'percent', 1000);
 	  const [catering] = useSimVar('INTERACTIVE POINT OPEN:3', 'percent', 1000);
-	  const [cargo] = useSimVar('INTERACTIVE POINT OPEN:5', 'percent', 1000);
+	  const [cargoLocked] = useSimVar('L:A32NX_FWD_DOOR_CARGO_LOCKED', 'bool', 1000);
 	  const [oxygen] = useSimVar('L:PUSH_OVHD_OXYGEN_CREW', 'bool', 1000);
 	  const [slides] = useSimVar('L:A32NX_SLIDES_ARMED', 'bool', 1000);
 	  return /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
@@ -12479,7 +12562,7 @@
 	          d: "M300 181 l0 10 l16 0 l0 -10Z"
 	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	          id: "DoorFwdCargo",
-	          className: cargo > 20 ? 'WarningShape' : 'DoorShape',
+	          className: cargoLocked ? 'DoorShape' : 'WarningShape',
 	          d: "M336 221 l0 -20 l-18 0 l0 20Z"
 	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	          className: "DoorShape",
@@ -12531,7 +12614,7 @@
 	          d: "M346, 438 l77 0"
 	        }), /*#__PURE__*/jsxRuntime.jsx("path", {
 	          id: "cargo1dash",
-	          className: cargo > 20 ? 'WarningShape' : 'Hide',
+	          className: cargoLocked ? 'Hide' : 'WarningShape',
 	          strokeDasharray: "7,4",
 	          d: "M346, 210 l77 0"
 	        })]
@@ -12612,7 +12695,7 @@
 	          children: "CABIN"
 	        }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	          id: "cargo1",
-	          className: cargo > 20 ? 'Warning' : 'Hide',
+	          className: cargoLocked ? 'Hide' : 'Warning',
 	          x: "455",
 	          y: "211",
 	          textAnchor: "middle",
@@ -14768,7 +14851,7 @@
 
 	reactDom.render( /*#__PURE__*/jsxRuntime.jsx(SD, {}), renderTarget);
 
-}());
+})();
 
     </script>
     <style id="SD_BUNDLED_STYLE">
@@ -14776,7 +14859,7 @@
         @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -14791,11 +14874,38 @@
   visibility: visible !important;
   font-family: "Ecam", monospace !important;
 }
+
+text {
+  stroke-width: 0;
+}
 #pageTitle.PageTitle {
   font-size: 24px;
   text-decoration: underline;
   fill: #ffffff;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #main-eng .TextCenter {
   text-anchor: middle;
   alignment-baseline: central;
@@ -14920,6 +15030,29 @@
 #main-eng .StartValveDiagramline {
   fill: #00ff00;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #main-elec .Box {
   stroke: #EEEEEE;
   fill: none;
@@ -14955,6 +15088,10 @@
   font-size: 26px;
 }
 
+#main-elec text.QuiteLarge {
+  font-size: 24px;
+}
+
 #main-elec text.Large {
   font-size: 22px;
 }
@@ -14988,6 +15125,29 @@
 #main-elec text.Cyan {
   fill: #00ffff;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #hyd-page .PageTitle {
   font-size: 24px;
   text-decoration: underline;
@@ -15060,6 +15220,29 @@
 #hyd-page .Hide {
   display: none;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #sd-fuel-page .pickMe {
   fill: red !important;
   stroke: red !important;
@@ -15113,6 +15296,7 @@
 #sd-fuel-page .ThickShape {
   stroke: lightgray;
   stroke-width: 2.5;
+  fill: none;
 }
 
 #sd-fuel-page .White {
@@ -15246,6 +15430,29 @@
   alignment-baseline: middle;
   text-anchor: start;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #cond-page .st5 {
   fill: none;
   stroke: #00ff00;
@@ -15325,6 +15532,29 @@
 #cond-page #ValveAndTubes .Hide {
   display: none;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #door-page .Hide {
   display: none;
 }
@@ -15381,6 +15611,29 @@
   font-size: 20px;
   fill: #00ff00;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #main-wheel {
   /** Common **/
   /* Colors */
@@ -15586,6 +15839,29 @@
 .Spoilers.Standard {
   font-size: 18px;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #ecam-fctl .PageTitle {
   font-size: 24px;
   text-decoration: underline;
@@ -15670,6 +15946,29 @@
   font-size: 16px;
   fill: #ffffff;
 }
+@font-face {
+  font-family: "Ecam";
+
+  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+
+.sd-svg {
+  position: absolute;
+  width: 1280px;
+  height: 1280px;
+  background: radial-gradient(ellipse at center, #0d1423 0%, #0d1423 100%);
+  visibility: visible !important;
+  font-family: "Ecam", monospace !important;
+}
+
+text {
+  stroke-width: 0;
+}
+
 #crz-page text {
   fill: #ffffff;
 }
@@ -15785,4 +16084,4 @@ text.text-title {
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/SD/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/SD/template.js" import-async="false"></script>

@@ -8,7 +8,7 @@ Following software are required to build this project:
 
 Optional software that you don't need but I personally prefer to use it.
 - [VScode](https://code.visualstudio.com/download)
- 
+
  ## How to use
 By default, the repository doesn't include AEROPROYECTO SSJ 3D model and engine sounds. You will have to obtain the model and sound file by either through the flightsim.to the release package.
 - Remove the SSJ100 folder from the community folder
@@ -22,11 +22,15 @@ By default, the repository doesn't include AEROPROYECTO SSJ 3D model and engine 
 ```shell
 .\docker-env\run.cmd ./src/fbw/build.sh
 ```
+- Build systems.wasm by running following command on the project root in powershell. First run will take a few minutes.
+```shell
+.\docker-env\run.cmd ./build_system_wasm.sh
+```
 - Click on Sync.bat on the project root.
 - Now the plane should appears when you load the project.
 
 Make changes in PackageSources. To load changes, click on Sync.bat and resync on aircraft editor.
- 
+
  ## License
 
 Original source code assets present in this repository are licensed under the GNU GPLv3.

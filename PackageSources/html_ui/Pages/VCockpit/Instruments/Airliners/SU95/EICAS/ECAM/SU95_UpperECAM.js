@@ -1337,16 +1337,6 @@ var A320_Neo_UpperECAM;
                         )
                     },
                     {
-                        message: "CABIN READY",
-                        isActive: () => {
-                            return (
-                                (this.getCachedSimVar("L:A32NX_CABIN_READY", "Bool")) &&
-                                ((this.isInFlightPhase(2)) ||
-                                (this.isInFlightPhase(6, 7) && this.getCachedSimVar("GEAR CENTER POSITION", "Percent") > 80))
-                            );
-                        }
-                    },
-                    {
                         message: "PRED W/S OFF",
                         style: () => (
                             this.isInFlightPhase(3, 4, 5, 7, 8, 9) || this.predWsMemo.read()
@@ -1872,8 +1862,8 @@ var A320_Neo_UpperECAM;
 
         isInAttAlign(number) {
             const knobValue = this.getCachedSimVar(`L:A32NX_OVHD_ADIRS_IR_${number}_MODE_SELECTOR_KNOB`, "Enum");
-            const pitch = ADIRS.parseValue(this.getCachedSimVar(`L:A32NX_ADIRS_IR_${number}_PITCH`, "Degrees"));
-            return knobValue === 2 && Number.isNaN(pitch);
+            const pitch = new Arinc429Word(this.getCachedSimVar(`L:A32NX_ADIRS_IR_${number}_PITCH`, "Degrees"));
+            return knobValue === 2 && !pitch.isNormalOperation();
         }
     }
     A320_Neo_UpperECAM.Display = Display;
@@ -3198,7 +3188,7 @@ var A320_Neo_UpperECAM;
                 } else {
                     actionText = _item.action;
                 }
-                action.textContent = this.leftPad(actionText, ".", 19 - _item.name.length);
+                action.textContent = actionText.padStart(16 - _item.name.length, '.');
                 div.appendChild(action);
 
                 //Completed
@@ -3216,12 +3206,6 @@ var A320_Neo_UpperECAM;
             }
         }
 
-        leftPad(_text, _pad, _length) {
-            for (let i = 0; i < (_length - _text.length); i++) {
-                _text = _pad + _text;
-            }
-            return _text;
-        }
 
         /**
          * @param {MemoItem} _item
@@ -3234,8 +3218,7 @@ var A320_Neo_UpperECAM;
                         if (child.className == "Action") {
                             child.style.display = _completed ? "none" : "inline";
                             if (typeof _item.action === 'function') {
-                                const actionText = _item.action();
-                                child.textContent = this.leftPad(actionText, ".", 19 - _item.name.length);
+                                child.textContent = _item.action().padStart(16 - _item.name.length, '.');
                             }
                         }
                         if (child.className == "Completed") {
