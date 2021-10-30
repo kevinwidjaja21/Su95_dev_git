@@ -11,3 +11,6 @@ _PackageInt
 *.wasm
 target
 third-party
+Packages/SSJ100/layout.json
+/src/fbw/obj/
+fadec.o

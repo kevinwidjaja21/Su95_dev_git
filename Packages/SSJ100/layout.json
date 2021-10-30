@@ -657,8 +657,8 @@
     },
     {
       "path": "html_ui/Pages/SU95_Utils/NXSpeeds.js",
-      "size": 19957,
-      "date": 132791234219040713
+      "size": 19951,
+      "date": 132799379043970625
     },
     {
       "path": "html_ui/Pages/SU95_Utils/NXSystemMessages.js",
@@ -2001,6 +2001,11 @@
       "date": 132792477080000000
     },
     {
+      "path": "ModelBehaviorDefs/SU95/SU95_new.xml",
+      "size": 1398,
+      "date": 132800360606531057
+    },
+    {
       "path": "ModelBehaviorDefs/SU95/Exterior/A32NX_Exterior_Includes.xml",
       "size": 105,
       "date": 132792477080000000
@@ -2147,8 +2152,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/engines.cfg",
-      "size": 12325,
-      "date": 132791234104234421
+      "size": 12334,
+      "date": 132795485482642168
     },
     {
       "path": "SimObjects/Airplanes/SU95/final.FLT",
@@ -2182,8 +2187,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/systems.cfg",
-      "size": 47518,
-      "date": 132793804526884289
+      "size": 50323,
+      "date": 132800362534155862
     },
     {
       "path": "SimObjects/Airplanes/SU95/taxi.flt",
@@ -2203,52 +2208,52 @@
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.bin",
       "size": 20429192,
-      "date": 132792477240000000
+      "date": 132799838161866553
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.gltf",
-      "size": 2628346,
-      "date": 132792477240000000
+      "size": 2639242,
+      "date": 132799838162086534
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.bin",
       "size": 14434132,
-      "date": 132792477240000000
+      "date": 132799838165690841
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.gltf",
-      "size": 2598021,
-      "date": 132792477240000000
+      "size": 2608783,
+      "date": 132799838165900826
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.bin",
       "size": 5620984,
-      "date": 132792477240000000
+      "date": 132799838167720827
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.gltf",
-      "size": 181057,
-      "date": 132792477240000000
+      "size": 181526,
+      "date": 132799838167750864
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.bin",
       "size": 2226300,
-      "date": 132792477240000000
+      "date": 132799838168220712
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.gltf",
-      "size": 173267,
-      "date": 132792477240000000
+      "size": 173707,
+      "date": 132799838168240724
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.bin",
       "size": 719464,
-      "date": 132792477240000000
+      "date": 132799838168630737
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.gltf",
-      "size": 163685,
-      "date": 132792477240000000
+      "size": 164059,
+      "date": 132799838168640722
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/model.cfg",
@@ -2262,18 +2267,18 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/SU95_internal.xml",
-      "size": 264575,
-      "date": 132793336615642763
+      "size": 264145,
+      "date": 132800348542280595
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/fadec.wasm",
-      "size": 257202,
-      "date": 132792933494355596
+      "size": 1004256,
+      "date": 132795490876606762
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/fbw.wasm",
-      "size": 671018,
-      "date": 132792933352828627
+      "size": 930913,
+      "date": 132794187214471633
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/panel.cfg",
@@ -2287,8 +2292,53 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/systems.wasm",
-      "size": 631900,
-      "date": 132792935036341503
+      "size": 605532,
+      "date": 132794189233516876
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/ban1shut.wav",
+      "size": 211708,
+      "date": 126319907660000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/ban1strt.wav",
+      "size": 4953796,
+      "date": 132716915890517341
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/ban2shut.wav",
+      "size": 2103738,
+      "date": 130308939700000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/ban2strt.wav",
+      "size": 464646,
+      "date": 130308939700000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/ban2t.wav",
+      "size": 405406,
+      "date": 130307097560000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/engine11.wav",
+      "size": 447710,
+      "date": 127805812273583984
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/engine12.wav",
+      "size": 457204,
+      "date": 127805813526611328
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/engine13.wav",
+      "size": 538032,
+      "date": 127805813524345703
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/engine14.wav",
+      "size": 457526,
+      "date": 127805813843271484
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/FBW_A320_NEO_1.PC.PCK",
@@ -2301,264 +2351,99 @@
       "date": 132791234114763849
     },
     {
-      "path": "SimObjects/Airplanes/SU95/sound/ReverserA.wav",
-      "size": 4110916,
-      "date": 132285735404099948
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/ReverserAXExhaust.wav",
-      "size": 1594370,
-      "date": 131585420060000000
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/ReverserAXFront.wav",
-      "size": 2105800,
-      "date": 131881524338789516
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/ReverserB.wav",
-      "size": 3940608,
-      "date": 132285735807740560
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/ReverserBXExhaust.wav",
-      "size": 1594370,
-      "date": 131585420060000000
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/ReverserBXFront.wav",
-      "size": 2916116,
-      "date": 131881525529461529
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1A.wav",
-      "size": 1394976,
-      "date": 132492223189823676
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1AXCowling.wav",
-      "size": 660772,
-      "date": 132492314231739138
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1AXExhaust.wav",
-      "size": 599160,
-      "date": 132492314366279307
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1AXFront.wav",
-      "size": 407244,
-      "date": 132492252080343755
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1B.wav",
-      "size": 1217256,
-      "date": 132492223939658226
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1BXCowling.wav",
-      "size": 575200,
-      "date": 132492314493528977
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1BXExhaust.wav",
-      "size": 598020,
-      "date": 132492314651396754
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-1BXFront.wav",
-      "size": 537812,
-      "date": 132492244195485028
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-2A.wav",
-      "size": 2195684,
-      "date": 132492259209292632
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-2AXExhaust.wav",
-      "size": 403288,
-      "date": 132035092591321099
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-2AXFront.wav",
-      "size": 818948,
-      "date": 132010032800114512
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-2B.wav",
-      "size": 2285452,
-      "date": 132492259917767800
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-2BXExhaust.wav",
-      "size": 355558,
-      "date": 132035092781614019
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-2BXFront.wav",
-      "size": 776274,
-      "date": 132010033767379308
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-3A.wav",
-      "size": 2103896,
-      "date": 132492261282667349
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-3AXExhaust.wav",
-      "size": 631838,
-      "date": 132473191395522764
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-3AXFront.wav",
-      "size": 602516,
-      "date": 132473189764066029
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-3B.wav",
-      "size": 1929972,
-      "date": 132492261941854340
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-3BXExhaust.wav",
-      "size": 540130,
-      "date": 132473191552263567
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-3BXFront.wav",
-      "size": 674418,
-      "date": 132473189930889864
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-4A.wav",
-      "size": 2071890,
-      "date": 132492266390078037
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-4AXExhaust.wav",
-      "size": 553776,
-      "date": 132473199072514831
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-4AXFront.wav",
-      "size": 1044574,
-      "date": 132492255361843814
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-4B.wav",
-      "size": 1734106,
-      "date": 132492267992063499
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-4BXExhaust.wav",
-      "size": 464796,
-      "date": 132473199215302950
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-4BXFront.wav",
-      "size": 863588,
-      "date": 132492255484226500
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-5A.wav",
-      "size": 1752500,
-      "date": 132492270898239648
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-5AXExhaust.wav",
-      "size": 994200,
-      "date": 132439590130069341
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-5AXFront.wav",
-      "size": 724136,
-      "date": 132492256860556047
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-5B.wav",
-      "size": 1562040,
-      "date": 132492271647136707
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-5BXExhaust.wav",
-      "size": 903170,
-      "date": 132439590455485156
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-5BXFront.wav",
-      "size": 636606,
-      "date": 132492256960718160
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-PowerA.wav",
-      "size": 1983696,
-      "date": 132271092000000000
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-PowerB.wav",
-      "size": 2430204,
-      "date": 132271092000000000
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-ShutA.wav",
-      "size": 8332956,
-      "date": 132492242738550890
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-ShutAX.wav",
-      "size": 5233960,
-      "date": 132492252382336073
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-ShutB.wav",
-      "size": 8332956,
-      "date": 132492243733918756
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-ShutBX.wav",
-      "size": 5233960,
-      "date": 132492252529482526
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-StartcombA.wav",
-      "size": 3333872,
-      "date": 132492237659135887
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-StartcombB.wav",
-      "size": 3333872,
-      "date": 132492238807783804
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-StartcombX.wav",
-      "size": 1653148,
-      "date": 132492250498889463
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-StarterA.wav",
-      "size": 5023884,
-      "date": 132492233778185567
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-StarterB.wav",
-      "size": 5023884,
-      "date": 132492234017884488
-    },
-    {
-      "path": "SimObjects/Airplanes/SU95/sound/SAM-StarterX.wav",
-      "size": 2512084,
-      "date": 132492250354525570
-    },
-    {
       "path": "SimObjects/Airplanes/SU95/sound/sound.cfg",
-      "size": 19187,
-      "date": 132792941737331112
+      "size": 13385,
+      "date": 132684080240280382
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/sound.xml",
-      "size": 96591,
-      "date": 132791234114873862
+      "size": 96393,
+      "date": 132794711939418408
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/turbine11.wav",
+      "size": 439404,
+      "date": 129961119720000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/turbine12.wav",
+      "size": 430688,
+      "date": 129961119720000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/turbine13.wav",
+      "size": 352620,
+      "date": 127805816180224609
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/turbine14.wav",
+      "size": 352528,
+      "date": 127805816176435546
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xban1shut.wav",
+      "size": 217340,
+      "date": 126319907660000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xban1strt.wav",
+      "size": 4951412,
+      "date": 132716915684195833
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xban2shut.wav",
+      "size": 1494656,
+      "date": 127805738686250000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xban2strt.wav",
+      "size": 486146,
+      "date": 127805685201250000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xban2t.wav",
+      "size": 111424,
+      "date": 126319907680000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xengine11.wav",
+      "size": 352496,
+      "date": 127805820164433593
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xengine12.wav",
+      "size": 352628,
+      "date": 127805820158037109
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xengine13.wav",
+      "size": 355248,
+      "date": 127805820150917968
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xengine14.wav",
+      "size": 355016,
+      "date": 127805820144423828
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xturbine11.wav",
+      "size": 352844,
+      "date": 129936132060000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xturbine12.wav",
+      "size": 352844,
+      "date": 129936132060000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xturbine13.wav",
+      "size": 352844,
+      "date": 129936132060000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/sound/xturbine14.wav",
+      "size": 352844,
+      "date": 129936132060000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/soundai/Asobo_A320_NEO_AI.PC.PCK",
