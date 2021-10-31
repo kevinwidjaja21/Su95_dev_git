@@ -583,7 +583,7 @@
 	    p$4 = b$5 ? Symbol.for("react.suspense") : 60113,
 	    q$4 = b$5 ? Symbol.for("react.suspense_list") : 60120,
 	    r$4 = b$5 ? Symbol.for("react.memo") : 60115,
-	    t$4 = b$5 ? Symbol.for("react.lazy") : 60116,
+	    t$3 = b$5 ? Symbol.for("react.lazy") : 60116,
 	    v$4 = b$5 ? Symbol.for("react.block") : 60121,
 	    w$4 = b$5 ? Symbol.for("react.fundamental") : 60117,
 	    x$4 = b$5 ? Symbol.for("react.responder") : 60118,
@@ -608,7 +608,7 @@
 	            switch (a = a && a.$$typeof, a) {
 	              case k$4:
 	              case n$4:
-	              case t$4:
+	              case t$3:
 	              case r$4:
 	              case h$4:
 	                return a;
@@ -629,14 +629,14 @@
 	  return z$4(a) === m$3;
 	}
 
-	var AsyncMode$3 = l$4;
-	var ConcurrentMode$3 = m$3;
+	var AsyncMode$2 = l$4;
+	var ConcurrentMode$2 = m$3;
 	var ContextConsumer$3 = k$4;
 	var ContextProvider$3 = h$4;
 	var Element$4 = c$6;
 	var ForwardRef$3 = n$4;
 	var Fragment$3 = e$3;
-	var Lazy$3 = t$4;
+	var Lazy$3 = t$3;
 	var Memo$3 = r$4;
 	var Portal$3 = d$4;
 	var Profiler$3 = g$4;
@@ -670,7 +670,7 @@
 	};
 
 	var isLazy$3 = function (a) {
-	  return z$4(a) === t$4;
+	  return z$4(a) === t$3;
 	};
 
 	var isMemo$3 = function (a) {
@@ -694,13 +694,13 @@
 	};
 
 	var isValidElementType$3 = function (a) {
-	  return "string" === typeof a || "function" === typeof a || a === e$3 || a === m$3 || a === g$4 || a === f$4 || a === p$4 || a === q$4 || "object" === typeof a && null !== a && (a.$$typeof === t$4 || a.$$typeof === r$4 || a.$$typeof === h$4 || a.$$typeof === k$4 || a.$$typeof === n$4 || a.$$typeof === w$4 || a.$$typeof === x$4 || a.$$typeof === y$5 || a.$$typeof === v$4);
+	  return "string" === typeof a || "function" === typeof a || a === e$3 || a === m$3 || a === g$4 || a === f$4 || a === p$4 || a === q$4 || "object" === typeof a && null !== a && (a.$$typeof === t$3 || a.$$typeof === r$4 || a.$$typeof === h$4 || a.$$typeof === k$4 || a.$$typeof === n$4 || a.$$typeof === w$4 || a.$$typeof === x$4 || a.$$typeof === y$5 || a.$$typeof === v$4);
 	};
 
 	var typeOf$3 = z$4;
 	var reactIs_production_min$3 = {
-	  AsyncMode: AsyncMode$3,
-	  ConcurrentMode: ConcurrentMode$3,
+	  AsyncMode: AsyncMode$2,
+	  ConcurrentMode: ConcurrentMode$2,
 	  ContextConsumer: ContextConsumer$3,
 	  ContextProvider: ContextProvider$3,
 	  Element: Element$4,
@@ -1849,7 +1849,7 @@
 	    p$3 = b$4 ? Symbol.for("react.suspense") : 60113,
 	    q$3 = b$4 ? Symbol.for("react.suspense_list") : 60120,
 	    r$3 = b$4 ? Symbol.for("react.memo") : 60115,
-	    t$3 = b$4 ? Symbol.for("react.lazy") : 60116,
+	    t$2 = b$4 ? Symbol.for("react.lazy") : 60116,
 	    v$3 = b$4 ? Symbol.for("react.block") : 60121,
 	    w$3 = b$4 ? Symbol.for("react.fundamental") : 60117,
 	    x$3 = b$4 ? Symbol.for("react.responder") : 60118,
@@ -1874,7 +1874,7 @@
 	            switch (a = a && a.$$typeof, a) {
 	              case k$3:
 	              case n$3:
-	              case t$3:
+	              case t$2:
 	              case r$3:
 	              case h$3:
 	                return a;
@@ -1895,14 +1895,14 @@
 	  return z$3(a) === m$2;
 	}
 
-	var AsyncMode$2 = l$3;
-	var ConcurrentMode$2 = m$2;
+	var AsyncMode$1 = l$3;
+	var ConcurrentMode$1 = m$2;
 	var ContextConsumer$2 = k$3;
 	var ContextProvider$2 = h$3;
 	var Element$3 = c$5;
 	var ForwardRef$2 = n$3;
 	var Fragment$2 = e$2;
-	var Lazy$2 = t$3;
+	var Lazy$2 = t$2;
 	var Memo$2 = r$3;
 	var Portal$2 = d$3;
 	var Profiler$2 = g$3;
@@ -1936,7 +1936,7 @@
 	};
 
 	var isLazy$2 = function (a) {
-	  return z$3(a) === t$3;
+	  return z$3(a) === t$2;
 	};
 
 	var isMemo$2 = function (a) {
@@ -1960,13 +1960,13 @@
 	};
 
 	var isValidElementType$2 = function (a) {
-	  return "string" === typeof a || "function" === typeof a || a === e$2 || a === m$2 || a === g$3 || a === f$3 || a === p$3 || a === q$3 || "object" === typeof a && null !== a && (a.$$typeof === t$3 || a.$$typeof === r$3 || a.$$typeof === h$3 || a.$$typeof === k$3 || a.$$typeof === n$3 || a.$$typeof === w$3 || a.$$typeof === x$3 || a.$$typeof === y$4 || a.$$typeof === v$3);
+	  return "string" === typeof a || "function" === typeof a || a === e$2 || a === m$2 || a === g$3 || a === f$3 || a === p$3 || a === q$3 || "object" === typeof a && null !== a && (a.$$typeof === t$2 || a.$$typeof === r$3 || a.$$typeof === h$3 || a.$$typeof === k$3 || a.$$typeof === n$3 || a.$$typeof === w$3 || a.$$typeof === x$3 || a.$$typeof === y$4 || a.$$typeof === v$3);
 	};
 
 	var typeOf$2 = z$3;
 	var reactIs_production_min$2 = {
-	  AsyncMode: AsyncMode$2,
-	  ConcurrentMode: ConcurrentMode$2,
+	  AsyncMode: AsyncMode$1,
+	  ConcurrentMode: ConcurrentMode$1,
 	  ContextConsumer: ContextConsumer$2,
 	  ContextProvider: ContextProvider$2,
 	  Element: Element$3,
@@ -2043,7 +2043,7 @@
 	    p$2 = b$3 ? Symbol.for("react.suspense") : 60113,
 	    q$2 = b$3 ? Symbol.for("react.suspense_list") : 60120,
 	    r$2 = b$3 ? Symbol.for("react.memo") : 60115,
-	    t$2 = b$3 ? Symbol.for("react.lazy") : 60116,
+	    t$1 = b$3 ? Symbol.for("react.lazy") : 60116,
 	    v$2 = b$3 ? Symbol.for("react.block") : 60121,
 	    w$2 = b$3 ? Symbol.for("react.fundamental") : 60117,
 	    x$2 = b$3 ? Symbol.for("react.responder") : 60118,
@@ -2068,7 +2068,7 @@
 	            switch (a = a && a.$$typeof, a) {
 	              case k$2:
 	              case n$2:
-	              case t$2:
+	              case t$1:
 	              case r$2:
 	              case h$2:
 	                return a;
@@ -2089,14 +2089,14 @@
 	  return z$2(a) === m$1;
 	}
 
-	var AsyncMode$1 = l$2;
-	var ConcurrentMode$1 = m$1;
+	var AsyncMode = l$2;
+	var ConcurrentMode = m$1;
 	var ContextConsumer$1 = k$2;
 	var ContextProvider$1 = h$2;
 	var Element$2 = c$4;
 	var ForwardRef$1 = n$2;
 	var Fragment$1 = e$1;
-	var Lazy$1 = t$2;
+	var Lazy$1 = t$1;
 	var Memo$1 = r$2;
 	var Portal$1 = d$2;
 	var Profiler$1 = g$2;
@@ -2130,7 +2130,7 @@
 	};
 
 	var isLazy$1 = function (a) {
-	  return z$2(a) === t$2;
+	  return z$2(a) === t$1;
 	};
 
 	var isMemo$1 = function (a) {
@@ -2154,13 +2154,13 @@
 	};
 
 	var isValidElementType$1 = function (a) {
-	  return "string" === typeof a || "function" === typeof a || a === e$1 || a === m$1 || a === g$2 || a === f$2 || a === p$2 || a === q$2 || "object" === typeof a && null !== a && (a.$$typeof === t$2 || a.$$typeof === r$2 || a.$$typeof === h$2 || a.$$typeof === k$2 || a.$$typeof === n$2 || a.$$typeof === w$2 || a.$$typeof === x$2 || a.$$typeof === y$3 || a.$$typeof === v$2);
+	  return "string" === typeof a || "function" === typeof a || a === e$1 || a === m$1 || a === g$2 || a === f$2 || a === p$2 || a === q$2 || "object" === typeof a && null !== a && (a.$$typeof === t$1 || a.$$typeof === r$2 || a.$$typeof === h$2 || a.$$typeof === k$2 || a.$$typeof === n$2 || a.$$typeof === w$2 || a.$$typeof === x$2 || a.$$typeof === y$3 || a.$$typeof === v$2);
 	};
 
 	var typeOf$1 = z$2;
 	var reactIs_production_min$1 = {
-	  AsyncMode: AsyncMode$1,
-	  ConcurrentMode: ConcurrentMode$1,
+	  AsyncMode: AsyncMode,
+	  ConcurrentMode: ConcurrentMode,
 	  ContextConsumer: ContextConsumer$1,
 	  ContextProvider: ContextProvider$1,
 	  Element: Element$2,
@@ -3353,7 +3353,7 @@
 	  }, children);
 	}
 
-	/** @license React v16.13.1
+	/** @license React v17.0.2
 	 * react-is.production.min.js
 	 *
 	 * Copyright (c) Facebook, Inc. and its affiliates.
@@ -3362,138 +3362,160 @@
 	 * LICENSE file in the root directory of this source tree.
 	 */
 
-	var b$2 = "function" === typeof Symbol && Symbol.for,
-	    c$3 = b$2 ? Symbol.for("react.element") : 60103,
-	    d$1 = b$2 ? Symbol.for("react.portal") : 60106,
-	    e = b$2 ? Symbol.for("react.fragment") : 60107,
-	    f$1 = b$2 ? Symbol.for("react.strict_mode") : 60108,
-	    g$1 = b$2 ? Symbol.for("react.profiler") : 60114,
-	    h$1 = b$2 ? Symbol.for("react.provider") : 60109,
-	    k$1 = b$2 ? Symbol.for("react.context") : 60110,
-	    l$1 = b$2 ? Symbol.for("react.async_mode") : 60111,
-	    m = b$2 ? Symbol.for("react.concurrent_mode") : 60111,
-	    n$1 = b$2 ? Symbol.for("react.forward_ref") : 60112,
-	    p$1 = b$2 ? Symbol.for("react.suspense") : 60113,
-	    q$1 = b$2 ? Symbol.for("react.suspense_list") : 60120,
-	    r$1 = b$2 ? Symbol.for("react.memo") : 60115,
-	    t$1 = b$2 ? Symbol.for("react.lazy") : 60116,
-	    v$1 = b$2 ? Symbol.for("react.block") : 60121,
-	    w$1 = b$2 ? Symbol.for("react.fundamental") : 60117,
-	    x$1 = b$2 ? Symbol.for("react.responder") : 60118,
-	    y$2 = b$2 ? Symbol.for("react.scope") : 60119;
+	var b$2 = 60103,
+	    c$3 = 60106,
+	    d$1 = 60107,
+	    e = 60108,
+	    f$1 = 60114,
+	    g$1 = 60109,
+	    h$1 = 60110,
+	    k$1 = 60112,
+	    l$1 = 60113,
+	    m = 60120,
+	    n$1 = 60115,
+	    p$1 = 60116,
+	    q$1 = 60121,
+	    r$1 = 60122,
+	    u$1 = 60117,
+	    v$1 = 60129,
+	    w$1 = 60131;
 
-	function z$1(a) {
+	if ("function" === typeof Symbol && Symbol.for) {
+	  var x$1 = Symbol.for;
+	  b$2 = x$1("react.element");
+	  c$3 = x$1("react.portal");
+	  d$1 = x$1("react.fragment");
+	  e = x$1("react.strict_mode");
+	  f$1 = x$1("react.profiler");
+	  g$1 = x$1("react.provider");
+	  h$1 = x$1("react.context");
+	  k$1 = x$1("react.forward_ref");
+	  l$1 = x$1("react.suspense");
+	  m = x$1("react.suspense_list");
+	  n$1 = x$1("react.memo");
+	  p$1 = x$1("react.lazy");
+	  q$1 = x$1("react.block");
+	  r$1 = x$1("react.server.block");
+	  u$1 = x$1("react.fundamental");
+	  v$1 = x$1("react.debug_trace_mode");
+	  w$1 = x$1("react.legacy_hidden");
+	}
+
+	function y$2(a) {
 	  if ("object" === typeof a && null !== a) {
-	    var u = a.$$typeof;
+	    var t = a.$$typeof;
 
-	    switch (u) {
-	      case c$3:
+	    switch (t) {
+	      case b$2:
 	        switch (a = a.type, a) {
+	          case d$1:
+	          case f$1:
+	          case e:
 	          case l$1:
 	          case m:
-	          case e:
-	          case g$1:
-	          case f$1:
-	          case p$1:
 	            return a;
 
 	          default:
 	            switch (a = a && a.$$typeof, a) {
-	              case k$1:
-	              case n$1:
-	              case t$1:
-	              case r$1:
 	              case h$1:
+	              case k$1:
+	              case p$1:
+	              case n$1:
+	              case g$1:
 	                return a;
 
 	              default:
-	                return u;
+	                return t;
 	            }
 
 	        }
 
-	      case d$1:
-	        return u;
+	      case c$3:
+	        return t;
 	    }
 	  }
 	}
 
-	function A$1(a) {
-	  return z$1(a) === m;
-	}
+	var z$1 = g$1,
+	    A$1 = b$2,
+	    B$2 = k$1,
+	    C = d$1,
+	    D$2 = p$1,
+	    E$2 = n$1,
+	    F$2 = c$3,
+	    G$2 = f$1,
+	    H$2 = e,
+	    I$2 = l$1;
+	var ContextConsumer = h$1;
+	var ContextProvider = z$1;
+	var Element$1 = A$1;
+	var ForwardRef = B$2;
+	var Fragment = C;
+	var Lazy = D$2;
+	var Memo = E$2;
+	var Portal = F$2;
+	var Profiler = G$2;
+	var StrictMode = H$2;
+	var Suspense = I$2;
 
-	var AsyncMode = l$1;
-	var ConcurrentMode = m;
-	var ContextConsumer = k$1;
-	var ContextProvider = h$1;
-	var Element$1 = c$3;
-	var ForwardRef = n$1;
-	var Fragment = e;
-	var Lazy = t$1;
-	var Memo = r$1;
-	var Portal = d$1;
-	var Profiler = g$1;
-	var StrictMode = f$1;
-	var Suspense = p$1;
-
-	var isAsyncMode = function (a) {
-	  return A$1(a) || z$1(a) === l$1;
+	var isAsyncMode = function () {
+	  return !1;
 	};
 
-	var isConcurrentMode = A$1;
+	var isConcurrentMode = function () {
+	  return !1;
+	};
 
 	var isContextConsumer = function (a) {
-	  return z$1(a) === k$1;
+	  return y$2(a) === h$1;
 	};
 
 	var isContextProvider = function (a) {
-	  return z$1(a) === h$1;
+	  return y$2(a) === g$1;
 	};
 
 	var isElement = function (a) {
-	  return "object" === typeof a && null !== a && a.$$typeof === c$3;
+	  return "object" === typeof a && null !== a && a.$$typeof === b$2;
 	};
 
 	var isForwardRef = function (a) {
-	  return z$1(a) === n$1;
+	  return y$2(a) === k$1;
 	};
 
 	var isFragment = function (a) {
-	  return z$1(a) === e;
+	  return y$2(a) === d$1;
 	};
 
 	var isLazy = function (a) {
-	  return z$1(a) === t$1;
+	  return y$2(a) === p$1;
 	};
 
 	var isMemo = function (a) {
-	  return z$1(a) === r$1;
+	  return y$2(a) === n$1;
 	};
 
 	var isPortal = function (a) {
-	  return z$1(a) === d$1;
+	  return y$2(a) === c$3;
 	};
 
 	var isProfiler = function (a) {
-	  return z$1(a) === g$1;
+	  return y$2(a) === f$1;
 	};
 
 	var isStrictMode = function (a) {
-	  return z$1(a) === f$1;
+	  return y$2(a) === e;
 	};
 
 	var isSuspense = function (a) {
-	  return z$1(a) === p$1;
+	  return y$2(a) === l$1;
 	};
 
 	var isValidElementType = function (a) {
-	  return "string" === typeof a || "function" === typeof a || a === e || a === m || a === g$1 || a === f$1 || a === p$1 || a === q$1 || "object" === typeof a && null !== a && (a.$$typeof === t$1 || a.$$typeof === r$1 || a.$$typeof === h$1 || a.$$typeof === k$1 || a.$$typeof === n$1 || a.$$typeof === w$1 || a.$$typeof === x$1 || a.$$typeof === y$2 || a.$$typeof === v$1);
+	  return "string" === typeof a || "function" === typeof a || a === d$1 || a === f$1 || a === v$1 || a === e || a === l$1 || a === m || a === w$1 || "object" === typeof a && null !== a && (a.$$typeof === p$1 || a.$$typeof === n$1 || a.$$typeof === g$1 || a.$$typeof === h$1 || a.$$typeof === k$1 || a.$$typeof === u$1 || a.$$typeof === q$1 || a[0] === r$1) ? !0 : !1;
 	};
 
-	var typeOf = z$1;
+	var typeOf = y$2;
 	var reactIs_production_min = {
-	  AsyncMode: AsyncMode,
-	  ConcurrentMode: ConcurrentMode,
 	  ContextConsumer: ContextConsumer,
 	  ContextProvider: ContextProvider,
 	  Element: Element$1,
@@ -3647,14 +3669,14 @@
 	/*
 	  selectorFactory is a func that is responsible for returning the selector function used to
 	  compute new props from state, props, and dispatch. For example:
-	      export default connectAdvanced((dispatch, options) => (state, props) => ({
+	     export default connectAdvanced((dispatch, options) => (state, props) => ({
 	      thing: state.things[props.thingId],
 	      saveThing: fields => dispatch(actionCreators.saveThing(props.thingId, fields)),
 	    }))(YourComponent)
-	    Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
+	   Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
 	  outside of their selector as an optimization. Options passed to connectAdvanced are passed to
 	  the selectorFactory, along with displayName and WrappedComponent, as the second argument.
-	    Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
+	   Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
 	  props. Do not use connectAdvanced directly without memoizing results between calls to your
 	  selector, otherwise the Connect component will re-render on every state or props change.
 	*/
@@ -54782,24 +54804,38 @@
 		createStore: createStore
 	});
 
+	/** A function that accepts a potential "extra argument" value to be injected later,
+	 * and returns an instance of the thunk middleware that uses that value
+	 */
 	function createThunkMiddleware(extraArgument) {
-	  return function (_ref) {
+	  // Standard Redux middleware definition pattern:
+	  // See: https://redux.js.org/tutorials/fundamentals/part-4-store#writing-custom-middleware
+	  var middleware = function middleware(_ref) {
 	    var dispatch = _ref.dispatch,
 	        getState = _ref.getState;
 	    return function (next) {
 	      return function (action) {
+	        // The thunk middleware looks for any functions that were passed to `store.dispatch`.
+	        // If this "action" is really a function, call it and return the result.
 	        if (typeof action === 'function') {
+	          // Inject the store's `dispatch` and `getState` methods, as well as any "extra arg"
 	          return action(dispatch, getState, extraArgument);
-	        }
+	        } // Otherwise, pass the action down the middleware chain as usual
+
 
 	        return next(action);
 	      };
 	    };
 	  };
+
+	  return middleware;
 	}
 
-	var thunk = createThunkMiddleware();
+	var thunk = createThunkMiddleware(); // Attach the factory function so users can create a customized version
+	// with whatever "extra arg" they want to inject into their thunks
+
 	thunk.withExtraArgument = createThunkMiddleware;
+	var thunk$1 = thunk;
 
 	var require$$0 = /*@__PURE__*/getAugmentedNamespace(redux);
 
@@ -55035,7 +55071,7 @@
 	    [TOD_CALCULATOR_REDUCER]: todCalculatorReducer,
 	    [BUTTON_STATE_REDUCER]: buttonsReducer
 	  })(state, action);
-	}, reduxDevtoolsExtension.composeWithDevTools(applyMiddleware(thunk)));
+	}, reduxDevtoolsExtension.composeWithDevTools(applyMiddleware(thunk$1)));
 
 	const addActiveButton = button => ({
 	  type: ADD_ACTIVE_BUTTON,
@@ -60493,7 +60529,7 @@
 	/// <reference path="../../../typings/fs-base-ui/html_ui/JS/common.d.ts" />
 
 	/**
-	 * PopUpParams container for popups to package popup metadata
+	 * NotiticationParams container for popups to package popup metadata
 	 */
 
 	/**
@@ -60518,7 +60554,7 @@
 	    const time = new Date().getTime();
 	    this.popupListener = undefined;
 	    this.params = {
-	      __Type: 'PopUpParams',
+	      __Type: 'SNotificationParams',
 	      buttons: [new NotificationButton('TT:MENU.YES', "A32NX_POP_".concat(title, "_").concat(time, "_YES")), new NotificationButton('TT:MENU.NO', "A32NX_POP_".concat(title, "_").concat(time, "_NO"))],
 	      style: 'normal',
 	      displayGlobalPopup: true,
@@ -62415,7 +62451,7 @@
     </script>
     <style id="EFB_BUNDLED_STYLE">
         /* same deal as above */
-        /*! tailwindcss v2.2.17 | MIT License | https://tailwindcss.com *//*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+        /*! tailwindcss v2.2.19 | MIT License | https://tailwindcss.com *//*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
 /*
 Document
@@ -64660,7 +64696,7 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
   border: unset !important;
 }
-/*! tailwindcss v2.2.17 | MIT License | https://tailwindcss.com *//*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+/*! tailwindcss v2.2.19 | MIT License | https://tailwindcss.com *//*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
 /*
 Document
