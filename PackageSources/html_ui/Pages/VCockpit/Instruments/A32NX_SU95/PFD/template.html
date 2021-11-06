@@ -868,9 +868,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -1097,7 +1098,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -1208,7 +1210,8 @@
 
 	_defineProperty(Arinc429Word, "f32View", new Float32Array(Arinc429Word.f64View.buffer));
 
-	const useArinc429Var = (name, maxStaleness = 0) => {
+	const useArinc429Var = function (name) {
+	  let maxStaleness = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 	  const value = useSimVarValue(name, 'number', maxStaleness);
 
 	  try {
@@ -1268,15 +1271,16 @@
 
 	  return smallestAngle;
 	};
-	const HorizontalTape = ({
-	  displayRange,
-	  valueSpacing,
-	  distanceSpacing,
-	  graduationElementFunction,
-	  bugs,
-	  heading,
-	  yOffset = 0
-	}) => {
+	const HorizontalTape = _ref => {
+	  let {
+	    displayRange,
+	    valueSpacing,
+	    distanceSpacing,
+	    graduationElementFunction,
+	    bugs,
+	    heading,
+	    yOffset = 0
+	  } = _ref;
 	  const numTicks = Math.round(displayRange * 2 / valueSpacing);
 	  let leftmostHeading = Math.round((heading.value - displayRange) / valueSpacing) * valueSpacing;
 
@@ -1314,16 +1318,17 @@
 	    children: [graduationElements, bugElements]
 	  });
 	};
-	const VerticalTape = ({
-	  displayRange,
-	  valueSpacing,
-	  distanceSpacing,
-	  graduationElementFunction,
-	  bugs,
-	  tapeValue,
-	  lowerLimit = -Infinity,
-	  upperLimit = Infinity
-	}) => {
+	const VerticalTape = _ref2 => {
+	  let {
+	    displayRange,
+	    valueSpacing,
+	    distanceSpacing,
+	    graduationElementFunction,
+	    bugs,
+	    tapeValue,
+	    lowerLimit = -Infinity,
+	    upperLimit = Infinity
+	  } = _ref2;
 	  const numTicks = Math.round(displayRange * 2 / valueSpacing);
 	  const clampedValue = Math.max(Math.min(tapeValue, upperLimit), lowerLimit);
 	  let lowestValue = Math.max(Math.round((clampedValue - displayRange) / valueSpacing) * valueSpacing, lowerLimit);
@@ -1480,11 +1485,13 @@
 
 	  return SIMVAR_CACHE.get(name);
 	}
-	function setSimVar(name, value, type = SIMVAR_TYPES[name]) {
+	function setSimVar(name, value) {
+	  let type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : SIMVAR_TYPES[name];
 	  SIMVAR_CACHE.delete(name);
 	  return SimVar.SetSimVarValue(name, type, value);
 	}
-	const createDeltaTimeCalculator = (startTime = Date.now()) => {
+	const createDeltaTimeCalculator = function () {
+	  let startTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Date.now();
 	  let lastTime = startTime;
 	  return () => {
 	    const nowTime = Date.now();
@@ -1516,17 +1523,19 @@
 	  })]
 	});
 
-	const Horizon = ({
-	  pitch,
-	  roll,
-	  heading,
-	  isOnGround,
-	  radioAlt,
-	  decisionHeight,
-	  selectedHeading,
-	  FDActive,
-	  isAttExcessive
-	}) => {
+	const Horizon = _ref => {
+	  let {
+	    pitch,
+	    roll,
+	    heading,
+	    isOnGround,
+	    radioAlt,
+	    decisionHeight,
+	    selectedHeading,
+	    FDActive,
+	    isAttExcessive
+	  } = _ref;
+
 	  if (!pitch.isNormalOperation() || !roll.isNormalOperation()) {
 	    return null;
 	  }
@@ -1817,9 +1826,11 @@
 	  });
 	};
 
-	const FlightPathDirector = ({
-	  FDActive
-	}) => {
+	const FlightPathDirector = _ref2 => {
+	  let {
+	    FDActive
+	  } = _ref2;
+
 	  if (!FDActive || !getSimVar('L:A32NX_TRK_FPA_MODE_ACTIVE', 'bool')) {
 	    return null;
 	  }
@@ -1882,11 +1893,13 @@
 	  });
 	};
 
-	const RadioAltAndDH = ({
-	  radioAlt,
-	  decisionHeight,
-	  roll
-	}) => {
+	const RadioAltAndDH = _ref3 => {
+	  let {
+	    radioAlt,
+	    decisionHeight,
+	    roll
+	  } = _ref3;
+
 	  if (radioAlt <= 2500) {
 	    const verticalOffset = calculateVerticalOffsetFromRoll(roll.value);
 	    const size = radioAlt > 400 ? 'FontLarge' : 'FontLargest';
@@ -1924,10 +1937,11 @@
 	  return null;
 	};
 
-	const SideslipIndicator = ({
-	  isOnGround,
-	  roll
-	}) => {
+	const SideslipIndicator = _ref4 => {
+	  let {
+	    isOnGround,
+	    roll
+	  } = _ref4;
 	  const [SIIndexOffset, setSIIndexOffset] = react.useState(0);
 	  const [betaTargetActive, setBetaTargetActive] = react.useState(false);
 	  const [sideslipIndicatorFilter] = react.useState(() => new LagFilter(0.8));
@@ -1964,10 +1978,11 @@
 	  });
 	};
 
-	const RisingGround = ({
-	  radioAlt,
-	  pitch
-	}) => {
+	const RisingGround = _ref5 => {
+	  let {
+	    radioAlt,
+	    pitch
+	  } = _ref5;
 	  const targetPitch = -0.1 * radioAlt;
 	  const targetOffset = Math.max(Math.min(calculateHorizonOffsetFromPitch(-pitch.value - targetPitch) - 31.563, 0), -63.093);
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
@@ -1983,10 +1998,12 @@
 	  });
 	};
 
-	const AttitudeIndicatorFixedUpper = ({
-	  pitch,
-	  roll
-	}) => {
+	const AttitudeIndicatorFixedUpper = _ref => {
+	  let {
+	    pitch,
+	    roll
+	  } = _ref;
+
 	  if (!pitch.isNormalOperation() || !roll.isNormalOperation()) {
 	    return null;
 	  }
@@ -2043,13 +2060,15 @@
 	    })]
 	  });
 	};
-	const AttitudeIndicatorFixedCenter = ({
-	  pitch,
-	  roll,
-	  isOnGround,
-	  FDActive,
-	  isAttExcessive
-	}) => {
+	const AttitudeIndicatorFixedCenter = _ref2 => {
+	  let {
+	    pitch,
+	    roll,
+	    isOnGround,
+	    FDActive,
+	    isAttExcessive
+	  } = _ref2;
+
 	  if (!pitch.isNormalOperation() || !roll.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsx("text", {
 	      id: "AttFailText",
@@ -2101,9 +2120,10 @@
 	  });
 	};
 
-	const FDYawBar = ({
-	  FDActive
-	}) => {
+	const FDYawBar = _ref3 => {
+	  let {
+	    FDActive
+	  } = _ref3;
 	  const lateralMode = getSimVar('L:A32NX_FMA_LATERAL_MODE', 'number');
 
 	  if (!FDActive || !(lateralMode === 40 || lateralMode === 33 || lateralMode === 34)) {
@@ -2120,9 +2140,11 @@
 	  });
 	};
 
-	const FlightDirector = ({
-	  FDActive
-	}) => {
+	const FlightDirector = _ref4 => {
+	  let {
+	    FDActive
+	  } = _ref4;
+
 	  if (!FDActive || getSimVar('L:A32NX_TRK_FPA_MODE_ACTIVE', 'bool')) {
 	    return null;
 	  }
@@ -2169,9 +2191,10 @@
 	  });
 	};
 
-	const SidestickIndicator = ({
-	  isOnGround
-	}) => {
+	const SidestickIndicator = _ref5 => {
+	  let {
+	    isOnGround
+	  } = _ref5;
 	  const oneEngineRunning = getSimVar('GENERAL ENG COMBUSTION:1', 'bool') || getSimVar('GENERAL ENG COMBUSTION:2', 'bool');
 
 	  if (!isOnGround || !oneEngineRunning) {
@@ -2194,9 +2217,10 @@
 	  });
 	};
 
-	function LandingSystem({
-	  LSButtonPressed
-	}) {
+	function LandingSystem(_ref) {
+	  let {
+	    LSButtonPressed
+	  } = _ref;
 	  let showVDev = false;
 
 	  if (!LSButtonPressed) {
@@ -2217,9 +2241,11 @@
 	  });
 	}
 
-	const LandingSystemInfo = ({
-	  displayed
-	}) => {
+	const LandingSystemInfo = _ref2 => {
+	  let {
+	    displayed
+	  } = _ref2;
+
 	  if (!displayed || !getSimVar('NAV HAS LOCALIZER:3', 'Bool')) {
 	    return null;
 	  } // normally the ident and freq should be always displayed when an ILS freq is set, but currently it only show when we have a signal
@@ -2517,10 +2543,12 @@
 	  });
 	};
 
-	const VerticalSpeedIndicator = ({
-	  radioAlt,
-	  verticalSpeed
-	}) => {
+	const VerticalSpeedIndicator = _ref => {
+	  let {
+	    radioAlt,
+	    verticalSpeed
+	  } = _ref;
+
 	  if (!verticalSpeed.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -2646,10 +2674,11 @@
 	  });
 	};
 
-	const VSpeedNeedle = ({
-	  yOffset,
-	  isAmber
-	}) => {
+	const VSpeedNeedle = _ref2 => {
+	  let {
+	    yOffset,
+	    isAmber
+	  } = _ref2;
 	  const className = "HugeStroke ".concat(isAmber ? 'Amber' : 'Green');
 	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -2663,11 +2692,12 @@
 	  });
 	};
 
-	const VSpeedText = ({
-	  VSpeed,
-	  yOffset,
-	  isAmber
-	}) => {
+	const VSpeedText = _ref3 => {
+	  let {
+	    VSpeed,
+	    yOffset,
+	    isAmber
+	  } = _ref3;
 	  const absVSpeed = Math.abs(VSpeed);
 	  const sign = Math.sign(VSpeed);
 
@@ -2741,9 +2771,11 @@
 	  });
 	};
 
-	const HeadingTape = ({
-	  heading
-	}) => {
+	const HeadingTape = _ref => {
+	  let {
+	    heading
+	  } = _ref;
+
 	  if (!heading.isNormalOperation()) {
 	    return null;
 	  }
@@ -2764,12 +2796,14 @@
 	    })]
 	  });
 	};
-	const HeadingOfftape = ({
-	  selectedHeading,
-	  heading,
-	  ILSCourse,
-	  groundTrack
-	}) => {
+	const HeadingOfftape = _ref2 => {
+	  let {
+	    selectedHeading,
+	    heading,
+	    ILSCourse,
+	    groundTrack
+	  } = _ref2;
+
 	  if (!heading.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -2812,10 +2846,12 @@
 	  });
 	};
 
-	const SelectedHeading = ({
-	  selectedHeading,
-	  heading
-	}) => {
+	const SelectedHeading = _ref3 => {
+	  let {
+	    selectedHeading,
+	    heading
+	  } = _ref3;
+
 	  if (Number.isNaN(selectedHeading)) {
 	    return null;
 	  }
@@ -2852,10 +2888,11 @@
 	  });
 	};
 
-	const GroundTrackBug = ({
-	  heading,
-	  groundTrack
-	}) => {
+	const GroundTrackBug = _ref4 => {
+	  let {
+	    heading,
+	    groundTrack
+	  } = _ref4;
 	  const offset = getSmallestAngle(groundTrack.value, heading.value) * DistanceSpacing$2 / ValueSpacing$2;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "ActualTrackIndicator",
@@ -2870,10 +2907,12 @@
 	  });
 	};
 
-	const QFUIndicator = ({
-	  ILSCourse,
-	  heading
-	}) => {
+	const QFUIndicator = _ref5 => {
+	  let {
+	    ILSCourse,
+	    heading
+	  } = _ref5;
+
 	  if (Number.isNaN(ILSCourse) || !getSimVar('NAV HAS LOCALIZER:3', 'Bool')) {
 	    return null;
 	  }
@@ -3003,10 +3042,11 @@
 	  });
 	};
 
-	const DigitalAltitudeReadout = ({
-	  altitude,
-	  MDA
-	}) => {
+	const DigitalAltitudeReadout = _ref => {
+	  let {
+	    altitude,
+	    MDA
+	  } = _ref;
 	  const isNegative = altitude.value < 0;
 	  const color = MDA !== 0 && altitude.value < MDA ? 'Amber' : 'Green';
 	  const absAlt = Math.abs(Math.max(Math.min(altitude.value, 50000), -1500));
@@ -3119,16 +3159,17 @@
 	  });
 	};
 
-	const Drum = ({
-	  displayRange,
-	  valueSpacing,
-	  distanceSpacing,
-	  position,
-	  value,
-	  color,
-	  elementFunction,
-	  showZero = true
-	}) => {
+	const Drum = _ref2 => {
+	  let {
+	    displayRange,
+	    valueSpacing,
+	    distanceSpacing,
+	    position,
+	    value,
+	    color,
+	    elementFunction,
+	    showZero = true
+	  } = _ref2;
 	  const numTicks = Math.round(displayRange * 2 / valueSpacing);
 	  let highestPosition = Math.round((position + displayRange) / valueSpacing) * valueSpacing;
 
@@ -3192,10 +3233,12 @@
 	  });
 	};
 
-	const LandingElevationIndicator = ({
-	  altitude,
-	  FWCFlightPhase
-	}) => {
+	const LandingElevationIndicator = _ref => {
+	  let {
+	    altitude,
+	    FWCFlightPhase
+	  } = _ref;
+
 	  if (FWCFlightPhase !== 7 && FWCFlightPhase !== 8) {
 	    return null;
 	  }
@@ -3215,9 +3258,11 @@
 	  });
 	};
 
-	const RadioAltIndicator = ({
-	  radioAlt
-	}) => {
+	const RadioAltIndicator = _ref2 => {
+	  let {
+	    radioAlt
+	  } = _ref2;
+
 	  if (radioAlt > DisplayRange$1) {
 	    return null;
 	  }
@@ -3230,10 +3275,12 @@
 	  });
 	};
 
-	const AltitudeIndicator = ({
-	  altitude,
-	  FWCFlightPhase
-	}) => {
+	const AltitudeIndicator = _ref3 => {
+	  let {
+	    altitude,
+	    FWCFlightPhase
+	  } = _ref3;
+
 	  if (!altitude.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsx(AltTapeBackground, {});
 	  }
@@ -3255,14 +3302,16 @@
 	    })]
 	  });
 	};
-	const AltitudeIndicatorOfftape = ({
-	  altitude,
-	  MDA,
-	  targetAlt,
-	  altIsManaged,
-	  mode,
-	  radioAlt
-	}) => {
+	const AltitudeIndicatorOfftape = _ref4 => {
+	  let {
+	    altitude,
+	    MDA,
+	    targetAlt,
+	    altIsManaged,
+	    mode,
+	    radioAlt
+	  } = _ref4;
+
 	  if (!altitude.isNormalOperation()) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -3323,12 +3372,13 @@
 	  className: "TapeBackground"
 	});
 
-	const SelectedAltIndicator = ({
-	  currentAlt,
-	  targetAlt,
-	  altIsManaged,
-	  mode
-	}) => {
+	const SelectedAltIndicator = _ref5 => {
+	  let {
+	    currentAlt,
+	    targetAlt,
+	    altIsManaged,
+	    mode
+	  } = _ref5;
 	  const color = altIsManaged ? 'Magenta' : 'Cyan';
 	  const isSTD = mode === 'STD';
 	  let boxLength = 19.14;
@@ -3402,10 +3452,12 @@
 	  });
 	};
 
-	const LinearDeviationIndicator = ({
-	  linearDeviation,
-	  altitude
-	}) => {
+	const LinearDeviationIndicator = _ref6 => {
+	  let {
+	    linearDeviation,
+	    altitude
+	  } = _ref6;
+
 	  if (Number.isNaN(linearDeviation)) {
 	    return null;
 	  }
@@ -3437,10 +3489,11 @@
 	  });
 	};
 
-	const AltimeterIndicator = ({
-	  mode,
-	  altitude
-	}) => {
+	const AltimeterIndicator = _ref7 => {
+	  let {
+	    mode,
+	    altitude
+	  } = _ref7;
 	  const phase = getSimVar('L:A32NX_FMGC_FLIGHT_PHASE', 'enum');
 	  const transAlt = getSimVar(phase <= 3 ? 'L:AIRLINER_TRANS_ALT' : 'L:AIRLINER_APPR_TRANS_ALT', 'number');
 
@@ -3496,12 +3549,13 @@
 	  });
 	};
 
-	const MetricAltIndicator = ({
-	  altitude,
-	  MDA,
-	  targetAlt,
-	  altIsManaged
-	}) => {
+	const MetricAltIndicator = _ref8 => {
+	  let {
+	    altitude,
+	    MDA,
+	    targetAlt,
+	    altIsManaged
+	  } = _ref8;
 	  const currentMetricAlt = Math.round(altitude.value * 0.3048 / 10) * 10;
 	  const targetMetric = Math.round(targetAlt * 0.3048 / 10) * 10;
 	  const targetAltColor = altIsManaged ? 'Magenta' : 'Cyan';
@@ -3673,15 +3727,17 @@
 	  })]
 	});
 
-	const AirspeedIndicator = ({
-	  airspeed,
-	  airspeedAcc,
-	  FWCFlightPhase,
-	  altitude,
-	  VLs,
-	  VMax,
-	  showBars
-	}) => {
+	const AirspeedIndicator = _ref => {
+	  let {
+	    airspeed,
+	    airspeedAcc,
+	    FWCFlightPhase,
+	    altitude,
+	    VLs,
+	    VMax,
+	    showBars
+	  } = _ref;
+
 	  if (Number.isNaN(airspeed)) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -3785,10 +3841,12 @@
 	  });
 	};
 
-	const VAlphaLimBar = ({
-	  VAlphalim,
-	  airspeed
-	}) => {
+	const VAlphaLimBar = _ref2 => {
+	  let {
+	    VAlphalim,
+	    airspeed
+	  } = _ref2;
+
 	  if (VAlphalim - airspeed < -DisplayRange) {
 	    return null;
 	  }
@@ -3802,11 +3860,13 @@
 	  });
 	};
 
-	const VLsBar = ({
-	  VAlphaProt,
-	  VLs,
-	  airspeed
-	}) => {
+	const VLsBar = _ref3 => {
+	  let {
+	    VAlphaProt,
+	    VLs,
+	    airspeed
+	  } = _ref3;
+
 	  if (VLs - airspeed < -DisplayRange) {
 	    return null;
 	  }
@@ -3820,11 +3880,13 @@
 	  });
 	};
 
-	const AirspeedIndicatorOfftape = ({
-	  airspeed,
-	  targetSpeed,
-	  speedIsManaged
-	}) => {
+	const AirspeedIndicatorOfftape = _ref4 => {
+	  let {
+	    airspeed,
+	    targetSpeed,
+	    speedIsManaged
+	  } = _ref4;
+
 	  if (Number.isNaN(airspeed)) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -3865,11 +3927,12 @@
 	  });
 	};
 
-	const SpeedTarget = ({
-	  airspeed,
-	  targetSpeed,
-	  isManaged
-	}) => {
+	const SpeedTarget = _ref5 => {
+	  let {
+	    airspeed,
+	    targetSpeed,
+	    isManaged
+	  } = _ref5;
 	  const color = isManaged ? 'Magenta' : 'Cyan';
 	  const text = Math.round(targetSpeed).toString().padStart(3, '0');
 
@@ -3901,10 +3964,11 @@
 	  });
 	};
 
-	const SpeedTapeOutline = ({
-	  airspeed,
-	  isRed = false
-	}) => {
+	const SpeedTapeOutline = _ref6 => {
+	  let {
+	    airspeed,
+	    isRed = false
+	  } = _ref6;
 	  const length = Math.max(Math.min(airspeed, 72), 30) * 1.01754 + 12.2104;
 	  const className = isRed ? 'NormalStroke Red' : 'NormalStroke White';
 	  return /*#__PURE__*/jsxRuntime.jsx("path", {
@@ -3914,9 +3978,10 @@
 	  });
 	};
 
-	const MachNumber = ({
-	  mach
-	}) => {
+	const MachNumber = _ref7 => {
+	  let {
+	    mach
+	  } = _ref7;
 	  const machPermille = Math.round(mach.valueOr(0) * 1000);
 	  const [showMach, setShowMach] = react.useState(machPermille > 500);
 	  react.useEffect(() => {
@@ -3952,10 +4017,12 @@
 	  });
 	};
 
-	const V1Offtape = ({
-	  airspeed,
-	  v1
-	}) => {
+	const V1Offtape = _ref8 => {
+	  let {
+	    airspeed,
+	    v1
+	  } = _ref8;
+
 	  if (v1 - airspeed > DisplayRange) {
 	    return /*#__PURE__*/jsxRuntime.jsx("text", {
 	      id: "V1SpeedText",
@@ -3970,9 +4037,10 @@
 	}; // Needs filtering, not going to use until then
 
 
-	const SpeedTrendArrow = ({
-	  airspeedAcc
-	}) => {
+	const SpeedTrendArrow = _ref9 => {
+	  let {
+	    airspeedAcc
+	  } = _ref9;
 	  const targetSpeed = airspeedAcc * 10;
 	  const sign = Math.sign(airspeedAcc);
 	  const [ArrowShown, setArrowShown] = react.useState(false);
@@ -4011,9 +4079,10 @@
 	  return null;
 	};
 
-	const FMA = ({
-	  isAttExcessive
-	}) => {
+	const FMA = _ref => {
+	  let {
+	    isAttExcessive
+	  } = _ref;
 	  const activeLateralMode = getSimVar('L:A32NX_FMA_LATERAL_MODE', 'number');
 	  const sharedModeActive = activeLateralMode === 32 || activeLateralMode === 33 || activeLateralMode === 34;
 	  const engineMessage = getSimVar('L:A32NX_AUTOTHRUST_MODE_MESSAGE', 'enum');
@@ -4058,29 +4127,38 @@
 	  });
 	};
 
-	const Row1 = ({
-	  isAttExcessive
-	}) => /*#__PURE__*/jsxRuntime.jsxs("g", {
-	  children: [/*#__PURE__*/jsxRuntime.jsx(A1A2Cell, {}), !isAttExcessive && /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
-	    children: [/*#__PURE__*/jsxRuntime.jsx(B1Cell, {}), /*#__PURE__*/jsxRuntime.jsx(C1Cell, {}), /*#__PURE__*/jsxRuntime.jsx(D1D2Cell, {}), /*#__PURE__*/jsxRuntime.jsx(BC1Cell, {})]
-	  }), /*#__PURE__*/jsxRuntime.jsx(E1Cell, {})]
-	});
+	const Row1 = _ref2 => {
+	  let {
+	    isAttExcessive
+	  } = _ref2;
+	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
+	    children: [/*#__PURE__*/jsxRuntime.jsx(A1A2Cell, {}), !isAttExcessive && /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
+	      children: [/*#__PURE__*/jsxRuntime.jsx(B1Cell, {}), /*#__PURE__*/jsxRuntime.jsx(C1Cell, {}), /*#__PURE__*/jsxRuntime.jsx(D1D2Cell, {}), /*#__PURE__*/jsxRuntime.jsx(BC1Cell, {})]
+	    }), /*#__PURE__*/jsxRuntime.jsx(E1Cell, {})]
+	  });
+	};
 
-	const Row2 = ({
-	  isAttExcessive
-	}) => /*#__PURE__*/jsxRuntime.jsxs("g", {
-	  children: [!isAttExcessive && /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
-	    children: [/*#__PURE__*/jsxRuntime.jsx(B2Cell, {}), /*#__PURE__*/jsxRuntime.jsx(C2Cell, {})]
-	  }), /*#__PURE__*/jsxRuntime.jsx(E2Cell, {})]
-	});
+	const Row2 = _ref3 => {
+	  let {
+	    isAttExcessive
+	  } = _ref3;
+	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
+	    children: [!isAttExcessive && /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
+	      children: [/*#__PURE__*/jsxRuntime.jsx(B2Cell, {}), /*#__PURE__*/jsxRuntime.jsx(C2Cell, {})]
+	    }), /*#__PURE__*/jsxRuntime.jsx(E2Cell, {})]
+	  });
+	};
 
-	const Row3 = ({
-	  isAttExcessive
-	}) => /*#__PURE__*/jsxRuntime.jsxs("g", {
-	  children: [/*#__PURE__*/jsxRuntime.jsx(A3Cell, {}), !isAttExcessive && /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
-	    children: [/*#__PURE__*/jsxRuntime.jsx(AB3Cell, {}), /*#__PURE__*/jsxRuntime.jsx(D3Cell, {})]
-	  }), /*#__PURE__*/jsxRuntime.jsx(E3Cell, {})]
-	});
+	const Row3 = _ref4 => {
+	  let {
+	    isAttExcessive
+	  } = _ref4;
+	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
+	    children: [/*#__PURE__*/jsxRuntime.jsx(A3Cell, {}), !isAttExcessive && /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
+	      children: [/*#__PURE__*/jsxRuntime.jsx(AB3Cell, {}), /*#__PURE__*/jsxRuntime.jsx(D3Cell, {})]
+	    }), /*#__PURE__*/jsxRuntime.jsx(E3Cell, {})]
+	  });
+	};
 
 	const A1A2Cell = () => {
 	  const AThrMode = getSimVar('L:A32NX_AUTOTHRUST_MODE', 'enum');
@@ -5030,7 +5108,6 @@
 	  const [timer, setTimer] = react.useState(null);
 	  const [potentiometer] = useSimVar("LIGHT POTENTIOMETER:".concat(props.potentiometerIndex), 'percent over 100', 200);
 	  const [electricityState] = useSimVar(props.electricitySimvar, 'bool', 200);
-	  const [opacity] = useSimVar('L:A32NX_MFD_MASK_OPACITY', 'number', 200);
 	  useUpdate(deltaTime => {
 	    if (timer !== null) {
 	      if (timer > 0) {
@@ -5065,11 +5142,6 @@
 	  if (state === DisplayUnitState.Selftest) {
 	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntime.jsx("div", {
-	        className: "LcdOverlay",
-	        style: {
-	          opacity
-	        }
-	      }), /*#__PURE__*/jsxRuntime.jsx("div", {
 	        className: "BacklightBleed"
 	      }), /*#__PURE__*/jsxRuntime.jsxs("svg", {
 	        className: "SelfTest",
@@ -5101,11 +5173,6 @@
 
 	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("div", {
-	      className: "LcdOverlay",
-	      style: {
-	        opacity
-	      }
-	    }), /*#__PURE__*/jsxRuntime.jsx("div", {
 	      className: "BacklightBleed"
 	    }), /*#__PURE__*/jsxRuntime.jsx("div", {
 	      style: {
@@ -13352,19 +13419,6 @@
   text-anchor: middle;
   font-family: "Ecam", monospace;
 }
-/* LCD pixel effect for screens */
-
-.LcdOverlay {
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  position: absolute;
-  background-size: 2px;
-  transition: opacity 0.5s;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M0 0 V10 Z H10 Z' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E");
-}
-
 .BacklightBleed {
   content: "";
   width: 100%;
@@ -13478,7 +13532,7 @@
 @font-face {
   font-family: "Ecam";
 
-  src: url("/fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -13743,4 +13797,4 @@ text.Red {
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/PFD/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/PFD/template.js" import-async="false"></script>

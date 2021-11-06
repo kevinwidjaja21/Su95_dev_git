@@ -8703,9 +8703,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8932,7 +8933,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -9198,13 +9200,14 @@
 	  norm: 2.6
 	}];
 
-	const Triangle = ({
-	  x,
-	  y,
-	  colour,
-	  fill,
-	  orientation
-	}) => {
+	const Triangle = _ref => {
+	  let {
+	    x,
+	    y,
+	    colour,
+	    fill,
+	    orientation
+	  } = _ref;
 	  // x,y marks the top of the triangle
 	  // You can rotate this 0, 90, -90 degrees
 	  const polyPoints = "".concat(x + 9, ",").concat(y + 18, " ").concat(x, ",").concat(y, " ").concat(x - 9, ",").concat(y + 18);
@@ -9262,7 +9265,9 @@
 	  const [elecTriangleFill, setElecTriangleFill] = react.useState(0);
 	  const [elecTriangleColour, setElecTriangleColour] = react.useState('white');
 
-	  function setPressures(clearState = false) {
+	  function setPressures() {
+	    let clearState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 	    if (clearState) {
 	      setPressureChart({
 	        high: '',
@@ -9434,10 +9439,11 @@
 	  });
 	};
 
-	const RAT = ({
-	  x,
-	  y
-	}) => {
+	const RAT = _ref => {
+	  let {
+	    x,
+	    y
+	  } = _ref;
 	  const [RatStowed] = useSimVar('L:A32NX_HYD_RAT_STOW_POSITION', 'percent over 100', 500);
 	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("text", {
@@ -9462,16 +9468,17 @@
 	  });
 	};
 
-	const HydSys = ({
-	  title,
-	  pressure,
-	  hydLevel,
-	  x,
-	  y,
-	  fireValve,
-	  pumpPBStatus,
-	  yellowElectricPumpStatus
-	}) => {
+	const HydSys = _ref2 => {
+	  let {
+	    title,
+	    pressure,
+	    hydLevel,
+	    x,
+	    y,
+	    fireValve,
+	    pumpPBStatus,
+	    yellowElectricPumpStatus
+	  } = _ref2;
 	  const [hydLevelLow, setHydLevelLow] = react.useState(false);
 	  const lowPressure = 1450;
 	  const pressureNearest50 = Math.round(pressure / 50) * 50 >= 100 ? Math.round(pressure / 50) * 50 : 0;
@@ -9564,16 +9571,17 @@
 	  });
 	};
 
-	const HydEngPump = ({
-	  system,
-	  pumpOn,
-	  x,
-	  y,
-	  hydLevelLow,
-	  fireValve,
-	  pumpDetectLowPressure,
-	  pressure
-	}) => {
+	const HydEngPump = _ref3 => {
+	  let {
+	    system,
+	    pumpOn,
+	    x,
+	    y,
+	    hydLevelLow,
+	    fireValve,
+	    pumpDetectLowPressure,
+	    pressure
+	  } = _ref3;
 	  const lowPressure = 1450;
 
 	  if (system === 'BLUE') {
@@ -9649,13 +9657,15 @@
 	  });
 	};
 
-	const HydEngValve = ({
-	  system,
-	  x,
-	  y,
-	  fireValve,
-	  hydLevelLow
-	}) => {
+	const HydEngValve = _ref4 => {
+	  let {
+	    system,
+	    x,
+	    y,
+	    fireValve,
+	    hydLevelLow
+	  } = _ref4;
+
 	  if (system === 'BLUE') {
 	    return /*#__PURE__*/jsxRuntime.jsx("line", {
 	      className: !hydLevelLow ? 'GreenLine' : 'AmberLine',
@@ -9688,13 +9698,14 @@
 	  });
 	};
 
-	const HydReservoir = ({
-	  system,
-	  x,
-	  y,
-	  fluidLevel,
-	  setHydLevel
-	}) => {
+	const HydReservoir = _ref5 => {
+	  let {
+	    system,
+	    x,
+	    y,
+	    fluidLevel,
+	    setHydLevel
+	  } = _ref5;
 	  const fluidLevelInLitres = fluidLevel * 3.79;
 	  const values = levels.filter(item => item.system === system);
 	  const litersPerPixel = 96 / values[0].max;
@@ -9782,39 +9793,67 @@
 	  });
 	};
 
-	const PTU = ({
-	  x,
-	  y,
-	  ptuScenario
-	}) => {
+	const PTU = _ref6 => {
+	  let {
+	    x,
+	    y,
+	    ptuScenario
+	  } = _ref6;
 	  const semiCircleD = "M".concat(x - 16, ",").concat(y, " C").concat(x - 16, ",").concat(y + 24, " ").concat(x + 16, ",").concat(y + 24, " ").concat(x + 16, ",").concat(y);
-	  const result = ptuArray.find(({
-	    scenario
-	  }) => scenario === ptuScenario);
-	  const ptu1 = result.format.find(({
-	    id
-	  }) => id === 'ptu1');
-	  const ptu2 = result.format.find(({
-	    id
-	  }) => id === 'ptu2');
-	  const ptu3 = result.format.find(({
-	    id
-	  }) => id === 'ptu3');
-	  const ptu4 = result.format.find(({
-	    id
-	  }) => id === 'ptu4');
-	  const ptu5 = result.format.find(({
-	    id
-	  }) => id === 'ptu5');
-	  const triangle1 = result.format.find(({
-	    id
-	  }) => id === 'triangle1');
-	  const triangle2 = result.format.find(({
-	    id
-	  }) => id === 'triangle2');
-	  const triangle3 = result.format.find(({
-	    id
-	  }) => id === 'triangle3');
+	  const result = ptuArray.find(_ref7 => {
+	    let {
+	      scenario
+	    } = _ref7;
+	    return scenario === ptuScenario;
+	  });
+	  const ptu1 = result.format.find(_ref8 => {
+	    let {
+	      id
+	    } = _ref8;
+	    return id === 'ptu1';
+	  });
+	  const ptu2 = result.format.find(_ref9 => {
+	    let {
+	      id
+	    } = _ref9;
+	    return id === 'ptu2';
+	  });
+	  const ptu3 = result.format.find(_ref10 => {
+	    let {
+	      id
+	    } = _ref10;
+	    return id === 'ptu3';
+	  });
+	  const ptu4 = result.format.find(_ref11 => {
+	    let {
+	      id
+	    } = _ref11;
+	    return id === 'ptu4';
+	  });
+	  const ptu5 = result.format.find(_ref12 => {
+	    let {
+	      id
+	    } = _ref12;
+	    return id === 'ptu5';
+	  });
+	  const triangle1 = result.format.find(_ref13 => {
+	    let {
+	      id
+	    } = _ref13;
+	    return id === 'triangle1';
+	  });
+	  const triangle2 = result.format.find(_ref14 => {
+	    let {
+	      id
+	    } = _ref14;
+	    return id === 'triangle2';
+	  });
+	  const triangle3 = result.format.find(_ref15 => {
+	    let {
+	      id
+	    } = _ref15;
+	    return id === 'triangle3';
+	  });
 	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("line", {
 	      id: "ptu1",
@@ -9894,7 +9933,7 @@
         @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -9989,4 +10028,4 @@ text {
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/hyd-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/hyd-page/template.js"></script>

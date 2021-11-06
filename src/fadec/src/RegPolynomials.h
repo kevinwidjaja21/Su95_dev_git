@@ -136,7 +136,7 @@ class Polynomial {
   /// </summary>
   double correctedFuelFlow(double cn1, double mach, double alt) {
     double outCFF = 0;
-    double ssj_coeff = 0.84;
+    double ssj_coeff = 0.88;
 
     double c_Flow[21] = {-639.6602981, 0.00000e+00,  1.03705e+02,  -2.23264e+03, 5.70316e-03, -2.29404e+00, 1.08230e+02,
                          2.77667e-04,  -6.17180e+02, -7.20713e-02, 2.19013e-07,  2.49418e-02, -7.31662e-01, -1.00003e-05,

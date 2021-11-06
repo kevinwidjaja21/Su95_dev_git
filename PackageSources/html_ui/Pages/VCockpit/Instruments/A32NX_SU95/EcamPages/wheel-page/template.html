@@ -8758,9 +8758,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8987,7 +8988,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -9031,18 +9033,21 @@
 	  return value => contextValue.update(name, unit, value, proxy);
 	};
 
-	const PageTitle = ({
-	  x,
-	  y,
-	  text
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  id: "pageTitle",
-	  className: "PageTitle",
-	  x: x,
-	  y: y,
-	  alignmentBaseline: "central",
-	  children: text
-	});
+	const PageTitle = _ref => {
+	  let {
+	    x,
+	    y,
+	    text
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    id: "pageTitle",
+	    className: "PageTitle",
+	    x: x,
+	    y: y,
+	    alignmentBaseline: "central",
+	    children: text
+	  });
+	};
 
 	const HydraulicContext = /*#__PURE__*/react.createContext({
 	  G: {
@@ -9055,9 +9060,10 @@
 	    available: false
 	  }
 	});
-	const HydraulicsProvider = ({
-	  children
-	}) => {
+	const HydraulicsProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const [greenPress] = useSimVar('L:A32NX_HYD_GREEN_PRESSURE', 'number', 1000);
 	  const [yellowPress] = useSimVar('L:A32NX_HYD_YELLOW_PRESSURE', 'number', 1000);
 	  const [bluePress] = useSimVar('L:A32NX_HYD_BLUE_PRESSURE', 'number', 1000);
@@ -9087,22 +9093,26 @@
 	  return context;
 	}
 
-	const SvgGroup = ({
-	  x,
-	  y,
-	  children,
-	  className
-	}) => /*#__PURE__*/jsxRuntime.jsx("g", {
-	  transform: "translate(".concat(x, ",").concat(y, ")"),
-	  className: className,
-	  children: children
-	});
+	const SvgGroup = _ref => {
+	  let {
+	    x,
+	    y,
+	    children,
+	    className
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("g", {
+	    transform: "translate(".concat(x, ",").concat(y, ")"),
+	    className: className,
+	    children: children
+	  });
+	};
 
-	const HydraulicIndicator = ({
-	  x,
-	  y,
-	  type
-	}) => {
+	const HydraulicIndicator = _ref => {
+	  let {
+	    x,
+	    y,
+	    type
+	  } = _ref;
 	  const hydraulics = useHydraulics();
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9125,23 +9135,27 @@
 	  });
 	};
 
-	const EcamPage = ({
-	  name,
-	  children
-	}) => /*#__PURE__*/jsxRuntime.jsx("svg", {
-	  id: name,
-	  viewBox: "0 0 600 600",
-	  style: {
-	    marginTop: '-60px'
-	  },
-	  xmlns: "http://www.w3.org/2000/svg",
-	  children: children
-	});
+	const EcamPage = _ref => {
+	  let {
+	    name,
+	    children
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("svg", {
+	    id: name,
+	    viewBox: "0 0 600 600",
+	    style: {
+	      marginTop: '-60px'
+	    },
+	    xmlns: "http://www.w3.org/2000/svg",
+	    children: children
+	  });
+	};
 
-	const Spoilers = ({
-	  x,
-	  y
-	}) => {
+	const Spoilers = _ref => {
+	  let {
+	    x,
+	    y
+	  } = _ref;
 	  const [aileronLeftDeflectionState] = useSimVar('L:A32NX_3D_AILERON_LEFT_DEFLECTION', 'number', 50);
 	  const [aileronRightDeflectionState] = useSimVar('L:A32NX_3D_AILERON_RIGHT_DEFLECTION', 'number', 50);
 	  const [leftSpoilerState] = useSimVar('SPOILERS LEFT POSITION', 'percent over 100', 50);
@@ -9230,14 +9244,15 @@
 	  });
 	};
 
-	const Spoiler = ({
-	  x,
-	  y,
-	  number,
-	  side,
-	  actuatedBy,
-	  upWhenActuated
-	}) => {
+	const Spoiler = _ref2 => {
+	  let {
+	    x,
+	    y,
+	    number,
+	    side,
+	    actuatedBy,
+	    upWhenActuated
+	  } = _ref2;
 	  const hydraulics = useHydraulics();
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9355,10 +9370,11 @@
 	  });
 	};
 
-	const NoseWheelSteering = ({
-	  x,
-	  y
-	}) => {
+	const NoseWheelSteering = _ref => {
+	  let {
+	    x,
+	    y
+	  } = _ref;
 	  const [antiSkidActive] = useSimVar('ANTISKID BRAKES ACTIVE', 'Bool', maxStaleness);
 	  return !antiSkidActive ? /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9376,10 +9392,11 @@
 	  }) : null;
 	};
 
-	const AntiSkid = ({
-	  x,
-	  y
-	}) => {
+	const AntiSkid = _ref2 => {
+	  let {
+	    x,
+	    y
+	  } = _ref2;
 	  const [antiSkidActive] = useSimVar('ANTISKID BRAKES ACTIVE', 'Bool', maxStaleness);
 	  return !antiSkidActive ? /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9409,10 +9426,11 @@
 	  }) : null;
 	};
 
-	const LandingGearCtl = ({
-	  x,
-	  y
-	}) => {
+	const LandingGearCtl = _ref3 => {
+	  let {
+	    x,
+	    y
+	  } = _ref3;
 	  const [landingGearLeft] = useSimVar('GEAR LEFT POSITION', 'Percent Over 100', maxStaleness);
 	  const [landingGearCenter] = useSimVar('GEAR CENTER POSITION', 'Percent Over 100', maxStaleness);
 	  const [landingGearRight] = useSimVar('GEAR RIGHT POSITION', 'Percent Over 100', maxStaleness);
@@ -9426,10 +9444,11 @@
 	  }) : null;
 	};
 
-	const NormalBraking = ({
-	  x,
-	  y
-	}) => {
+	const NormalBraking = _ref4 => {
+	  let {
+	    x,
+	    y
+	  } = _ref4;
 	  const hydraulics = useHydraulics();
 	  return !hydraulics.G.available ? /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9447,10 +9466,11 @@
 	  }) : null;
 	};
 
-	const AlternateBraking = ({
-	  x,
-	  y
-	}) => {
+	const AlternateBraking = _ref5 => {
+	  let {
+	    x,
+	    y
+	  } = _ref5;
 	  const hydraulics = useHydraulics();
 	  return !hydraulics.G.available ? /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9471,29 +9491,33 @@
 	  }) : null;
 	};
 
-	const AccumulatorOnly = ({
-	  x,
-	  y
-	}) => /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
-	  x: x,
-	  y: y,
-	  className: "shape color-green",
-	  children: [/*#__PURE__*/jsxRuntime.jsx("polygon", {
-	    points: "0,0 8,0 4,-6"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    d: "m 4 0 v 9 h 12"
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    x: 84,
-	    y: 18,
-	    className: "big-text color-green",
-	    children: "ACCU ONLY"
-	  })]
-	});
+	const AccumulatorOnly = _ref6 => {
+	  let {
+	    x,
+	    y
+	  } = _ref6;
+	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
+	    x: x,
+	    y: y,
+	    className: "shape color-green",
+	    children: [/*#__PURE__*/jsxRuntime.jsx("polygon", {
+	      points: "0,0 8,0 4,-6"
+	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	      d: "m 4 0 v 9 h 12"
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	      x: 84,
+	      y: 18,
+	      className: "big-text color-green",
+	      children: "ACCU ONLY"
+	    })]
+	  });
+	};
 
-	const AutoBrake = ({
-	  x,
-	  y
-	}) => {
+	const AutoBrake = _ref7 => {
+	  let {
+	    x,
+	    y
+	  } = _ref7;
 	  const [eng1] = useSimVar('ENG COMBUSTION:1', 'Bool');
 	  const [eng2] = useSimVar('ENG COMBUSTION:2', 'Bool');
 	  const available = eng1 === 1 && eng2 === 1;
@@ -9521,31 +9545,39 @@
 	  }) : null;
 	};
 
-	const AutoBrakeLevel = ({
-	  text,
-	  available
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  className: "big-text color-".concat(available ? 'green' : 'amber'),
-	  children: text
-	});
+	const AutoBrakeLevel = _ref8 => {
+	  let {
+	    text,
+	    available
+	  } = _ref8;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    className: "big-text color-".concat(available ? 'green' : 'amber'),
+	    children: text
+	  });
+	};
 
-	const GearDoorJoint = ({
-	  x,
-	  y
-	}) => /*#__PURE__*/jsxRuntime.jsx("ellipse", {
-	  className: "gear-door-joint",
-	  cx: x,
-	  cy: y,
-	  rx: 2.6,
-	  ry: 2.6
-	});
+	const GearDoorJoint = _ref9 => {
+	  let {
+	    x,
+	    y
+	  } = _ref9;
+	  return /*#__PURE__*/jsxRuntime.jsx("ellipse", {
+	    className: "gear-door-joint",
+	    cx: x,
+	    cy: y,
+	    rx: 2.6,
+	    ry: 2.6
+	  });
+	};
 
-	const GearDoor = ({
-	  x,
-	  y,
-	  location,
-	  inTransit
-	}) => {
+	const GearDoor = _ref10 => {
+	  let {
+	    x,
+	    y,
+	    location,
+	    inTransit
+	  } = _ref10;
+
 	  if (location === 'center') {
 	    return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	      x: x,
@@ -9622,66 +9654,70 @@
 	  });
 	};
 
-	const LandingGearPositionIndicators = ({
-	  x,
-	  y,
-	  inTransit
-	}) => /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
-	  x: x,
-	  y: y,
-	  className: "gear-lgcius",
-	  children: [/*#__PURE__*/jsxRuntime.jsxs("g", {
-	    className: "shape gear-lgciu-1 color-".concat(!inTransit ? 'green' : 'red'),
-	    children: [/*#__PURE__*/jsxRuntime.jsx("polygon", {
-	      points: "0,0 22,0 22,29"
-	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 6 0 v 8"
-	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 11 0 v 14"
-	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 16.5 0 v 22"
+	const LandingGearPositionIndicators = _ref11 => {
+	  let {
+	    x,
+	    y,
+	    inTransit
+	  } = _ref11;
+	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
+	    x: x,
+	    y: y,
+	    className: "gear-lgcius",
+	    children: [/*#__PURE__*/jsxRuntime.jsxs("g", {
+	      className: "shape gear-lgciu-1 color-".concat(!inTransit ? 'green' : 'red'),
+	      children: [/*#__PURE__*/jsxRuntime.jsx("polygon", {
+	        points: "0,0 22,0 22,29"
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 6 0 v 8"
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 11 0 v 14"
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 16.5 0 v 22"
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      className: "shape gear-lgciu-2 color-".concat(!inTransit ? 'green' : 'red'),
+	      children: [/*#__PURE__*/jsxRuntime.jsx("polygon", {
+	        points: "30,0 52,0 30,29"
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 36 0 v 22"
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 41 0 v 14"
+	      }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 46 0 v 8"
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      className: "shape gear-failed-lgicu-1",
+	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 0 0 h 22"
+	      }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	        className: "gear-failed-lgciu-xx",
+	        x: 13,
+	        y: 16,
+	        fontSize: 17,
+	        children: "XX"
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      className: "shape gear-failed-lgicu-2",
+	      children: [/*#__PURE__*/jsxRuntime.jsx("path", {
+	        d: "m 30 0 h 22"
+	      }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	        className: "gear-failed-lgciu-xx",
+	        x: 39,
+	        y: 16,
+	        fontSize: 17,
+	        children: "XX"
+	      })]
 	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    className: "shape gear-lgciu-2 color-".concat(!inTransit ? 'green' : 'red'),
-	    children: [/*#__PURE__*/jsxRuntime.jsx("polygon", {
-	      points: "30,0 52,0 30,29"
-	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 36 0 v 22"
-	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 41 0 v 14"
-	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 46 0 v 8"
-	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    className: "shape gear-failed-lgicu-1",
-	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 0 0 h 22"
-	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	      className: "gear-failed-lgciu-xx",
-	      x: 13,
-	      y: 16,
-	      fontSize: 17,
-	      children: "XX"
-	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    className: "shape gear-failed-lgicu-2",
-	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
-	      d: "m 30 0 h 22"
-	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	      className: "gear-failed-lgciu-xx",
-	      x: 39,
-	      y: 16,
-	      fontSize: 17,
-	      children: "XX"
-	    })]
-	  })]
-	});
+	  });
+	};
 
-	const Gear = ({
-	  x,
-	  y,
-	  location
-	}) => {
+	const Gear = _ref12 => {
+	  let {
+	    x,
+	    y,
+	    location
+	  } = _ref12;
 	  const [landingGearPosition] = useSimVar("GEAR ".concat(location.toUpperCase(), " POSITION"), 'Percent Over 100', maxStaleness);
 	  const [status, setStatus] = react.useState({
 	    inTransit: false,
@@ -9714,13 +9750,14 @@
 	  });
 	};
 
-	const WheelArch = ({
-	  x,
-	  y,
-	  type,
-	  green,
-	  amber
-	}) => {
+	const WheelArch = _ref13 => {
+	  let {
+	    x,
+	    y,
+	    type,
+	    green,
+	    amber
+	  } = _ref13;
 	  const classes = classnames('wheel-set-brake-arch', {
 	    green: green && !amber
 	  }, {
@@ -9745,12 +9782,13 @@
 	  });
 	};
 
-	const Wheels = ({
-	  x,
-	  y,
-	  left,
-	  right
-	}) => {
+	const Wheels = _ref14 => {
+	  let {
+	    x,
+	    y,
+	    left,
+	    right
+	  } = _ref14;
 	  const brakeAmberThreshold = 300;
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9832,7 +9870,7 @@
 @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -10060,4 +10098,4 @@ text {
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/wheel-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/wheel-page/template.js"></script>

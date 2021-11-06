@@ -8731,9 +8731,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8960,7 +8961,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -8999,7 +9001,8 @@
 	 * @see useSimVar if you do not have an H event indicating this SimVar has changed
 	 */
 
-	const useInteractionSimVar = (name, unit, interactionEvents, maxStaleness = 500) => {
+	const useInteractionSimVar = function (name, unit, interactionEvents) {
+	  let maxStaleness = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 500;
 	  const contextValue = react.useContext(context);
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  useInteractionEvents(Array.isArray(interactionEvents) ? interactionEvents : [interactionEvents], () => contextValue.retrieve(name, unit, true) // force an update
@@ -9032,7 +9035,8 @@
 	 * @see useSimVar if you're reading and writing from the same SimVar
 	 */
 
-	const useSplitSimVar = (readName, readUnit, writeName, writeUnit, maxStaleness = 0) => {
+	const useSplitSimVar = function (readName, readUnit, writeName, writeUnit) {
+	  let maxStaleness = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
 
 	  const value = useSimVarValue(readName, readUnit, maxStaleness);
 	  const setter = useSimVarSetter(readName, writeUnit || readUnit, writeName);
@@ -9202,7 +9206,10 @@
 	   * @param timeout How long the user has to rotate before the rate is zeroed.
 	   * @param increment How long to increment the rate at each click.
 	   */
-	  constructor(timeout = 300, increment = 0.20) {
+	  constructor() {
+	    let timeout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 300;
+	    let increment = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.20;
+
 	    _defineProperty(this, "timeout", void 0);
 
 	    _defineProperty(this, "increment", void 0);
@@ -9493,7 +9500,7 @@
 }
 
 @font-face {
-  src: url("/Fonts/AirbusRMP.ttf") format("truetype");
+  src: url("/Fonts_SU95/AirbusRMP.ttf") format("truetype");
 
   font-family: "AirbusRMP";
 
@@ -9534,4 +9541,4 @@ text {
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/RMP/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/RMP/template.js" import-async="false"></script>

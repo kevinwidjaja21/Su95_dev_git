@@ -8702,7 +8702,6 @@
 
 	function DCDU() {
 	  const [state, setState] = react.useState('DEFAULT');
-	  const [opacity, setOpacity] = react.useState('0');
 	  useUpdate(_deltaTime => {
 	    if (state === 'OFF') {
 	      if (powerAvailable()) {
@@ -8711,8 +8710,6 @@
 	    } else if (!powerAvailable()) {
 	      setState('OFF');
 	    }
-
-	    setOpacity(getSimVar('L:A32NX_MFD_MASK_OPACITY', 'number'));
 	  });
 
 	  switch (state) {
@@ -8737,11 +8734,6 @@
 	      return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	        children: [/*#__PURE__*/jsxRuntime.jsx("div", {
 	          className: "BacklightBleed"
-	        }), /*#__PURE__*/jsxRuntime.jsx("div", {
-	          className: "LcdOverlayDcdu",
-	          style: {
-	            opacity
-	          }
 	        }), /*#__PURE__*/jsxRuntime.jsx(SelfTest, {})]
 	      });
 
@@ -8754,11 +8746,6 @@
 	      return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	        children: [/*#__PURE__*/jsxRuntime.jsx("div", {
 	          className: "BacklightBleed"
-	        }), /*#__PURE__*/jsxRuntime.jsx("div", {
-	          className: "LcdOverlayDcdu",
-	          style: {
-	            opacity
-	          }
 	        }), /*#__PURE__*/jsxRuntime.jsx(WaitingForData, {})]
 	      });
 
@@ -8766,11 +8753,6 @@
 	      return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	        children: [/*#__PURE__*/jsxRuntime.jsx("div", {
 	          className: "BacklightBleed"
-	        }), /*#__PURE__*/jsxRuntime.jsx("div", {
-	          className: "LcdOverlayDcdu",
-	          style: {
-	            opacity
-	          }
 	        }), /*#__PURE__*/jsxRuntime.jsx(Idle, {})]
 	      });
 
@@ -8804,45 +8786,6 @@
   font-weight: normal;
 
   font-style: normal;
-}
-
-/* pixels for screen */
-
-/* LCD pixel effect for screens */
-
-.LcdOverlay {
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  position: absolute;
-  background-size: 2px;
-  transition: opacity 0.5s;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M0 0 V10 Z H10 Z' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E");
-}
-
-.BacklightBleed {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 998;
-  opacity: 0.75;
-  background-color: rgba(0, 0, 255, 0.025);
-  box-shadow: inset 0px 0px 30px 10px rgba(0, 75, 255, 0.04);
-}
-
-.LcdOverlayDcdu {
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  position: absolute;
-  background-size: 2px;
-  transition: opacity 0.5s;
-  background-image: url("data:image/svg+xml,%3Csvg width='2' height='2' xmlns='http://www.w3.org/2000/svg'%3E%3Crect height='1' width='1' y='0' x='0' /%3E%3Crect height='1' width='1' y='1' x='1' /%3E%3C/svg%3E");
-  background-position: 1px 0;
-  background-color: rgba(80, 80, 80, 0.2);
 }
 
 .dcdu-lines {
@@ -8897,4 +8840,4 @@
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/DCDU/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/DCDU/template.js" import-async="false"></script>

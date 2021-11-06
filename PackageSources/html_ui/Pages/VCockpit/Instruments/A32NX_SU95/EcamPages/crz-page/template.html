@@ -8703,9 +8703,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8932,7 +8933,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -9083,7 +9085,9 @@
 	  };
 	};
 
-	function fuelForDisplay(fuelValue, unitsC, timeUnit = 1, fobMultiplier = 1) {
+	function fuelForDisplay(fuelValue, unitsC) {
+	  let timeUnit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+	  let fobMultiplier = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 	  const fuelWeight = unitsC === '1' ? fuelValue / timeUnit : fuelValue / timeUnit * 2.20462;
 	  const roundValue = unitsC === '1' ? 10 * fobMultiplier : 20 * fobMultiplier;
 	  return Math.round(fuelWeight / roundValue) * roundValue;
@@ -9443,15 +9447,16 @@
 	    })]
 	  });
 	};
-	const GaugeComponent = ({
-	  x,
-	  y,
-	  radius,
-	  startAngle,
-	  endAngle,
-	  verticalSpeed,
-	  className
-	}) => {
+	const GaugeComponent = _ref => {
+	  let {
+	    x,
+	    y,
+	    radius,
+	    startAngle,
+	    endAngle,
+	    verticalSpeed,
+	    className
+	  } = _ref;
 	  const startPos = polarToCartesian(x, y, radius, startAngle);
 	  const endPos = polarToCartesian(x, y, radius, endAngle);
 	  const largeArcFlag = startAngle - endAngle <= 180 ? '0' : '1';
@@ -9536,19 +9541,20 @@
 	  });
 	};
 	const GaugeComponentMemo = /*#__PURE__*/react.memo(GaugeComponent);
-	const GaugeMarkerComponent = ({
-	  value,
-	  x,
-	  y,
-	  min,
-	  max,
-	  radius,
-	  startAngle,
-	  endAngle,
-	  className,
-	  showValue,
-	  indicator
-	}) => {
+	const GaugeMarkerComponent = _ref2 => {
+	  let {
+	    value,
+	    x,
+	    y,
+	    min,
+	    max,
+	    radius,
+	    startAngle,
+	    endAngle,
+	    className,
+	    showValue,
+	    indicator
+	  } = _ref2;
 	  let textValue = value.toString();
 	  const dir = valueRadianAngleConverter(value, min, max, endAngle, startAngle);
 	  let start = {
@@ -9670,7 +9676,7 @@
         @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -9775,4 +9781,4 @@ text {
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/crz-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/crz-page/template.js"></script>

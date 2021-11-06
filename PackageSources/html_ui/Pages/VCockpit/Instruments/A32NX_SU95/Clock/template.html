@@ -8731,9 +8731,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8960,7 +8961,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -8999,7 +9001,8 @@
 	 * @see useSimVar if you do not have an H event indicating this SimVar has changed
 	 */
 
-	const useInteractionSimVar = (name, unit, interactionEvents, maxStaleness = 500) => {
+	const useInteractionSimVar = function (name, unit, interactionEvents) {
+	  let maxStaleness = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 500;
 	  const contextValue = react.useContext(context);
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  useInteractionEvents(Array.isArray(interactionEvents) ? interactionEvents : [interactionEvents], () => contextValue.retrieve(name, unit, true) // force an update
@@ -9193,7 +9196,7 @@
         @font-face {
   font-family: "AirbusChronometer";
 
-  src: url("/Fonts/AirbusChronometer.ttf") format("truetype");
+  src: url("/Fonts_SU95/AirbusChronometer.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -9246,4 +9249,4 @@ text {
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/Clock/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/Clock/template.js" import-async="false"></script>

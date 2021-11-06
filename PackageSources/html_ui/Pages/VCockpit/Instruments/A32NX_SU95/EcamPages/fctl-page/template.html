@@ -8703,9 +8703,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8932,7 +8933,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -8976,42 +8978,51 @@
 	  return value => contextValue.update(name, unit, value, proxy);
 	};
 
-	const PageTitle = ({
-	  x,
-	  y,
-	  text
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  id: "pageTitle",
-	  className: "PageTitle",
-	  x: x,
-	  y: y,
-	  alignmentBaseline: "central",
-	  children: text
-	});
+	const PageTitle = _ref => {
+	  let {
+	    x,
+	    y,
+	    text
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    id: "pageTitle",
+	    className: "PageTitle",
+	    x: x,
+	    y: y,
+	    alignmentBaseline: "central",
+	    children: text
+	  });
+	};
 
-	const EcamPage = ({
-	  name,
-	  children
-	}) => /*#__PURE__*/jsxRuntime.jsx("svg", {
-	  id: name,
-	  viewBox: "0 0 600 600",
-	  style: {
-	    marginTop: '-60px'
-	  },
-	  xmlns: "http://www.w3.org/2000/svg",
-	  children: children
-	});
+	const EcamPage = _ref => {
+	  let {
+	    name,
+	    children
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("svg", {
+	    id: name,
+	    viewBox: "0 0 600 600",
+	    style: {
+	      marginTop: '-60px'
+	    },
+	    xmlns: "http://www.w3.org/2000/svg",
+	    children: children
+	  });
+	};
 
-	const SvgGroup = ({
-	  x,
-	  y,
-	  children,
-	  className
-	}) => /*#__PURE__*/jsxRuntime.jsx("g", {
-	  transform: "translate(".concat(x, ",").concat(y, ")"),
-	  className: className,
-	  children: children
-	});
+	const SvgGroup = _ref => {
+	  let {
+	    x,
+	    y,
+	    children,
+	    className
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("g", {
+	    transform: "translate(".concat(x, ",").concat(y, ")"),
+	    className: className,
+	    children: children
+	  });
+	};
 
 	const HydraulicContext = /*#__PURE__*/react.createContext({
 	  G: {
@@ -9024,9 +9035,10 @@
 	    available: false
 	  }
 	});
-	const HydraulicsProvider = ({
-	  children
-	}) => {
+	const HydraulicsProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const [greenPress] = useSimVar('L:A32NX_HYD_GREEN_PRESSURE', 'number', 1000);
 	  const [yellowPress] = useSimVar('L:A32NX_HYD_YELLOW_PRESSURE', 'number', 1000);
 	  const [bluePress] = useSimVar('L:A32NX_HYD_BLUE_PRESSURE', 'number', 1000);
@@ -9056,11 +9068,12 @@
 	  return context;
 	}
 
-	const HydraulicIndicator = ({
-	  x,
-	  y,
-	  type
-	}) => {
+	const HydraulicIndicator = _ref => {
+	  let {
+	    x,
+	    y,
+	    type
+	  } = _ref;
 	  const hydraulics = useHydraulics();
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9083,10 +9096,11 @@
 	  });
 	};
 
-	const Spoilers = ({
-	  x,
-	  y
-	}) => {
+	const Spoilers = _ref => {
+	  let {
+	    x,
+	    y
+	  } = _ref;
 	  const [aileronLeftDeflectionState] = useSimVar('L:A32NX_3D_AILERON_LEFT_DEFLECTION', 'number', 50);
 	  const [aileronRightDeflectionState] = useSimVar('L:A32NX_3D_AILERON_RIGHT_DEFLECTION', 'number', 50);
 	  const [leftSpoilerState] = useSimVar('SPOILERS LEFT POSITION', 'percent over 100', 50);
@@ -9175,14 +9189,15 @@
 	  });
 	};
 
-	const Spoiler = ({
-	  x,
-	  y,
-	  number,
-	  side,
-	  actuatedBy,
-	  upWhenActuated
-	}) => {
+	const Spoiler = _ref2 => {
+	  let {
+	    x,
+	    y,
+	    number,
+	    side,
+	    actuatedBy,
+	    upWhenActuated
+	  } = _ref2;
 	  const hydraulics = useHydraulics();
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9286,50 +9301,54 @@
 	  })]
 	});
 
-	const Wings = ({
-	  x = 0,
-	  y = 0
-	}) => /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
-	  x: x,
-	  y: y,
-	  children: [/*#__PURE__*/jsxRuntime.jsx(Note, {
-	    x: 202,
-	    y: 93,
-	    children: "SPD BRK"
-	  }), /*#__PURE__*/jsxRuntime.jsx(HydraulicIndicator, {
-	    x: 171,
-	    y: 0,
-	    type: "G"
-	  }), /*#__PURE__*/jsxRuntime.jsx(HydraulicIndicator, {
-	    x: 193,
-	    y: 0,
-	    type: "B"
-	  }), /*#__PURE__*/jsxRuntime.jsx(HydraulicIndicator, {
-	    x: 215,
-	    y: 0,
-	    type: "Y"
-	  }), /*#__PURE__*/jsxRuntime.jsx(Spoilers, {
-	    x: 5,
-	    y: 70
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    className: "MainShape",
-	    d: "M0 47 l0 -5 l140 -23 l0 5"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    className: "MainShape",
-	    d: "M37 96 l0 5 l105 -12 l0 -5"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    className: "MainShape",
-	    d: "M404 47 l0 -5 l-140 -23 l0 5"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    className: "MainShape",
-	    d: "M367 96 l0 5 l-105 -12 l0 -5"
-	  })]
-	});
+	const Wings = _ref => {
+	  let {
+	    x = 0,
+	    y = 0
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
+	    x: x,
+	    y: y,
+	    children: [/*#__PURE__*/jsxRuntime.jsx(Note, {
+	      x: 202,
+	      y: 93,
+	      children: "SPD BRK"
+	    }), /*#__PURE__*/jsxRuntime.jsx(HydraulicIndicator, {
+	      x: 171,
+	      y: 0,
+	      type: "G"
+	    }), /*#__PURE__*/jsxRuntime.jsx(HydraulicIndicator, {
+	      x: 193,
+	      y: 0,
+	      type: "B"
+	    }), /*#__PURE__*/jsxRuntime.jsx(HydraulicIndicator, {
+	      x: 215,
+	      y: 0,
+	      type: "Y"
+	    }), /*#__PURE__*/jsxRuntime.jsx(Spoilers, {
+	      x: 5,
+	      y: 70
+	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	      className: "MainShape",
+	      d: "M0 47 l0 -5 l140 -23 l0 5"
+	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	      className: "MainShape",
+	      d: "M37 96 l0 5 l105 -12 l0 -5"
+	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	      className: "MainShape",
+	      d: "M404 47 l0 -5 l-140 -23 l0 5"
+	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	      className: "MainShape",
+	      d: "M367 96 l0 5 l-105 -12 l0 -5"
+	    })]
+	  });
+	};
 
-	const PitchTrim = ({
-	  x,
-	  y
-	}) => {
+	const PitchTrim = _ref2 => {
+	  let {
+	    x,
+	    y
+	  } = _ref2;
 	  const [rawPitchTrim] = useSimVar('ELEVATOR TRIM INDICATOR', 'Position 16k', 50);
 	  const adjustedPitchTrim = rawPitchTrim / 1213.6296;
 	  const [pitchIntegral, pitchFractional] = Math.abs(adjustedPitchTrim).toFixed(1).split('.');
@@ -9390,10 +9409,11 @@
 	  });
 	};
 
-	const Rudder = ({
-	  x,
-	  y
-	}) => {
+	const Rudder = _ref3 => {
+	  let {
+	    x,
+	    y
+	  } = _ref3;
 	  const [rudderDeflectionState] = useSimVar('RUDDER DEFLECTION PCT', 'percent over 100', 50);
 	  const rudderAngle = -rudderDeflectionState * 25; // Rudder limits
 
@@ -9483,30 +9503,34 @@
 	  });
 	};
 
-	const Stabilizer = ({
-	  x,
-	  y
-	}) => /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
-	  x: x,
-	  y: y,
-	  children: [/*#__PURE__*/jsxRuntime.jsx("path", {
-	    id: "stabLeft",
-	    className: "MainShape",
-	    d: "M0 0 l-55,4 l0,-18 l30,-15"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    id: "stabRight",
-	    className: "MainShape",
-	    d: "M64 0 l55,4 l0,-18 l-30,-15"
-	  })]
-	});
+	const Stabilizer = _ref4 => {
+	  let {
+	    x,
+	    y
+	  } = _ref4;
+	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
+	    x: x,
+	    y: y,
+	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
+	      id: "stabLeft",
+	      className: "MainShape",
+	      d: "M0 0 l-55,4 l0,-18 l30,-15"
+	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	      id: "stabRight",
+	      className: "MainShape",
+	      d: "M64 0 l55,4 l0,-18 l-30,-15"
+	    })]
+	  });
+	};
 
-	const Aileron = ({
-	  x,
-	  y,
-	  side,
-	  leftHydraulicSystem,
-	  rightHydraulicSystem
-	}) => {
+	const Aileron = _ref5 => {
+	  let {
+	    x,
+	    y,
+	    side,
+	    leftHydraulicSystem,
+	    rightHydraulicSystem
+	  } = _ref5;
 	  const textPositionX = side === 'left' ? -40 : 40;
 	  const [aileronDeflection] = useSimVar("L:A32NX_3D_AILERON_".concat(side.toUpperCase(), "_DEFLECTION"), 'number', 50);
 	  const aileronDeflectPctNormalized = aileronDeflection * 54;
@@ -9542,34 +9566,41 @@
 	  });
 	};
 
-	const Elac = ({
-	  x,
-	  y,
-	  number
-	}) => /*#__PURE__*/jsxRuntime.jsx(ElacSecShape, {
-	  x: x,
-	  y: y,
-	  number: number,
-	  type: "ELAC"
-	});
+	const Elac = _ref6 => {
+	  let {
+	    x,
+	    y,
+	    number
+	  } = _ref6;
+	  return /*#__PURE__*/jsxRuntime.jsx(ElacSecShape, {
+	    x: x,
+	    y: y,
+	    number: number,
+	    type: "ELAC"
+	  });
+	};
 
-	const Sec = ({
-	  x,
-	  y,
-	  number
-	}) => /*#__PURE__*/jsxRuntime.jsx(ElacSecShape, {
-	  x: x,
-	  y: y,
-	  number: number,
-	  type: "SEC"
-	});
+	const Sec = _ref7 => {
+	  let {
+	    x,
+	    y,
+	    number
+	  } = _ref7;
+	  return /*#__PURE__*/jsxRuntime.jsx(ElacSecShape, {
+	    x: x,
+	    y: y,
+	    number: number,
+	    type: "SEC"
+	  });
+	};
 
-	const ElacSecShape = ({
-	  x,
-	  y,
-	  number,
-	  type
-	}) => {
+	const ElacSecShape = _ref8 => {
+	  let {
+	    x,
+	    y,
+	    number,
+	    type
+	  } = _ref8;
 	  const [on] = useSimVar("L:A32NX_FBW_".concat(type, "_SWITCH:").concat(number), 'boolean', 1000);
 	  const [failed] = useSimVar("L:A32NX_FBW_".concat(type, "_FAILED:").concat(number), 'boolean', 1000);
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
@@ -9589,11 +9620,12 @@
 	  });
 	};
 
-	const AileronAxis = ({
-	  x,
-	  y,
-	  side
-	}) => {
+	const AileronAxis = _ref9 => {
+	  let {
+	    x,
+	    y,
+	    side
+	  } = _ref9;
 	  const d1 = "M0 0 l".concat(side === 'left' ? '-' : '', "8 0 l0 -20 l").concat(side === 'right' ? '-' : '', "8 0 l0 120 l").concat(side === 'left' ? '-' : '', "8 0 l0 -10 l").concat(side === 'right' ? '-' : '', "8 0");
 	  const d2 = "M0 36 l".concat(side === 'left' ? '-' : '', "7 0");
 	  const d3 = "M0 41 l".concat(side === 'left' ? '-' : '', "7 0");
@@ -9617,13 +9649,14 @@
 	  });
 	};
 
-	const Elevator = ({
-	  x,
-	  y,
-	  side,
-	  leftHydraulicSystem,
-	  rightHydraulicSystem
-	}) => {
+	const Elevator = _ref10 => {
+	  let {
+	    x,
+	    y,
+	    side,
+	    leftHydraulicSystem,
+	    rightHydraulicSystem
+	  } = _ref10;
 	  const textPositionX = side === 'left' ? -42 : 42;
 	  const textLetter = side === 'left' ? 'L' : 'R';
 	  const [elevatorDeflection] = useSimVar('ELEVATOR DEFLECTION PCT', 'percent over 100', 50);
@@ -9661,11 +9694,12 @@
 	  });
 	};
 
-	const ElevatorAxis = ({
-	  x,
-	  y,
-	  side
-	}) => {
+	const ElevatorAxis = _ref11 => {
+	  let {
+	    x,
+	    y,
+	    side
+	  } = _ref11;
 	  const d1 = "M0 0 l".concat(side === 'left' ? '-' : '', "8 0 l0 -10 l").concat(side === 'right' ? '-' : '', "8 0 l0 116 l").concat(side === 'left' ? '-' : '', "8 0 l0 -10 l").concat(side === 'right' ? '-' : '', "8 0");
 	  const d2 = "M0 62 l".concat(side === 'left' ? '-' : '', "7 0 l0 5 l").concat(side === 'right' ? '-' : '', "7 0");
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
@@ -9681,18 +9715,21 @@
 	  });
 	};
 
-	const Note = ({
-	  x,
-	  y,
-	  children
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  x: x,
-	  y: y,
-	  className: "Note",
-	  textAnchor: "middle",
-	  alignmentBaseline: "central",
-	  children: children
-	});
+	const Note = _ref12 => {
+	  let {
+	    x,
+	    y,
+	    children
+	  } = _ref12;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    x: x,
+	    y: y,
+	    className: "Note",
+	    textAnchor: "middle",
+	    alignmentBaseline: "central",
+	    children: children
+	  });
+	};
 
 	reactDom.render( /*#__PURE__*/jsxRuntime.jsx(SimVarProvider, {
 	  children: /*#__PURE__*/jsxRuntime.jsx(FctlPage, {})
@@ -9712,7 +9749,7 @@
         @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -9871,4 +9908,4 @@ text {
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/fctl-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/fctl-page/template.js"></script>

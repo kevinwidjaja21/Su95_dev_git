@@ -744,9 +744,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -973,7 +974,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -1012,7 +1014,8 @@
 	 * @see useSimVar if you do not have an H event indicating this SimVar has changed
 	 */
 
-	const useInteractionSimVar = (name, unit, interactionEvents, maxStaleness = 500) => {
+	const useInteractionSimVar = function (name, unit, interactionEvents) {
+	  let maxStaleness = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 500;
 	  const contextValue = react.useContext(context);
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  useInteractionEvents(Array.isArray(interactionEvents) ? interactionEvents : [interactionEvents], () => contextValue.retrieve(name, unit, true) // force an update
@@ -9060,13 +9063,13 @@
 	  DisplayUnitState[DisplayUnitState["Standby"] = 3] = "Standby";
 	})(DisplayUnitState || (DisplayUnitState = {}));
 
-	const ISISDisplayUnit = ({
-	  indicatedAirspeed,
-	  children
-	}) => {
+	const ISISDisplayUnit = _ref => {
+	  let {
+	    indicatedAirspeed,
+	    children
+	  } = _ref;
 	  const powerUpTime = 90;
 	  const [isColdAndDark] = useSimVar('L:A32NX_COLD_AND_DARK_SPAWN', 'Bool', 200);
-	  const [opacity] = useSimVar('L:A32NX_MFD_MASK_OPACITY', 'number', 200);
 	  const [state, setState] = react.useState(isColdAndDark ? DisplayUnitState.Off : DisplayUnitState.Standby);
 	  const [timer, setTimer] = react.useState(null);
 	  const [dcEssLive] = useSimVar('L:A32NX_ELEC_DC_ESS_BUS_IS_POWERED', 'bool');
@@ -9102,13 +9105,8 @@
 	  });
 
 	  if (state === DisplayUnitState.Selftest) {
-	    return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
-	      children: [/*#__PURE__*/jsxRuntime.jsx("div", {
-	        className: "LcdOverlayISIS",
-	        style: {
-	          opacity
-	        }
-	      }), /*#__PURE__*/jsxRuntime.jsxs("svg", {
+	    return /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
+	      children: /*#__PURE__*/jsxRuntime.jsxs("svg", {
 	        id: "SelfTest",
 	        className: "SelfTest",
 	        version: "1.1",
@@ -9188,7 +9186,7 @@
 	            children: [Math.max(0, Math.ceil(timer)), "s"]
 	          })]
 	        })]
-	      })]
+	      })
 	    });
 	  }
 
@@ -9196,13 +9194,8 @@
 	    return /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {});
 	  }
 
-	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
-	    children: [/*#__PURE__*/jsxRuntime.jsx("div", {
-	      className: "LcdOverlay",
-	      style: {
-	        opacity
-	      }
-	    }), children]
+	  return /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
+	    children: children
 	  });
 	};
 
@@ -9362,16 +9355,17 @@
 	  });
 	};
 
-	const Drum = ({
-	  displayRange,
-	  valueSpacing,
-	  distanceSpacing,
-	  positionOffset,
-	  value,
-	  color,
-	  elementFunction,
-	  showZero = true
-	}) => {
+	const Drum = _ref => {
+	  let {
+	    displayRange,
+	    valueSpacing,
+	    distanceSpacing,
+	    positionOffset,
+	    value,
+	    color,
+	    elementFunction,
+	    showZero = true
+	  } = _ref;
 	  const numTicks = Math.round(displayRange * 2 / valueSpacing); // How many numbers to draw (at most)
 	  // Where to draw topmost number
 
@@ -9408,11 +9402,12 @@
 	  });
 	};
 
-	const DigitalAltitudeIndicator = ({
-	  altitude,
-	  mda,
-	  bugs
-	}) => {
+	const DigitalAltitudeIndicator = _ref2 => {
+	  let {
+	    altitude,
+	    mda,
+	    bugs
+	  } = _ref2;
 	  const isNegative = altitude < 0;
 	  const color = mda !== 0 && altitude < mda ? 'Amber' : 'Green';
 	  const absAlt = Math.abs(Math.max(Math.min(altitude, 50000), -1500)); // 1990
@@ -9444,9 +9439,12 @@
 	  }
 
 	  const showThousandsZero = TenThousandsValue !== 0;
-	  const isAltitudeInBugRange = bugs.some(({
-	    value
-	  }) => Math.abs(value - altitude) < 100);
+	  const isAltitudeInBugRange = bugs.some(_ref3 => {
+	    let {
+	      value
+	    } = _ref3;
+	    return Math.abs(value - altitude) < 100;
+	  });
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
 	      d: "M 512 238 h -84 v 8 h -84 v 42 h 84 v 8 h 84",
@@ -9523,17 +9521,18 @@
 	  });
 	};
 
-	const VerticalTape = ({
-	  displayRange,
-	  valueSpacing,
-	  distanceSpacing,
-	  graduationElementFunction,
-	  bugs,
-	  bugElementFunction,
-	  tapeValue,
-	  lowerLimit = -Infinity,
-	  upperLimit = Infinity
-	}) => {
+	const VerticalTape = _ref => {
+	  let {
+	    displayRange,
+	    valueSpacing,
+	    distanceSpacing,
+	    graduationElementFunction,
+	    bugs,
+	    bugElementFunction,
+	    tapeValue,
+	    lowerLimit = -Infinity,
+	    upperLimit = Infinity
+	  } = _ref;
 	  const numTicks = Math.round(displayRange * 2 / valueSpacing);
 	  const clampedValue = Math.max(Math.min(tapeValue, upperLimit), lowerLimit);
 	  let lowestValue = Math.max(Math.round((clampedValue - displayRange) / valueSpacing) * valueSpacing, lowerLimit);
@@ -9567,10 +9566,11 @@
 	  });
 	};
 
-	const Tick$1 = /*#__PURE__*/react.memo(({
-	  altitude,
-	  offset
-	}) => {
+	const Tick$1 = /*#__PURE__*/react.memo(_ref => {
+	  let {
+	    altitude,
+	    offset
+	  } = _ref;
 	  const shouldShowText = altitude % 500 === 0;
 	  const tickLength = shouldShowText ? 5 : 20;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
@@ -9586,10 +9586,12 @@
 	    })]
 	  });
 	});
-	const BugElement$1 = /*#__PURE__*/react.memo(({
-	  bug,
-	  offset
-	}) => {
+	const BugElement$1 = /*#__PURE__*/react.memo(_ref2 => {
+	  let {
+	    bug,
+	    offset
+	  } = _ref2;
+
 	  if (bug.value % 500 === 0) {
 	    return /*#__PURE__*/jsxRuntime.jsx("g", {
 	      className: "StrokeCyan NoFill",
@@ -9609,11 +9611,12 @@
 	    })
 	  });
 	});
-	const AltitudeIndicator = ({
-	  altitude,
-	  mda,
-	  bugs
-	}) => {
+	const AltitudeIndicator = _ref3 => {
+	  let {
+	    altitude,
+	    mda,
+	    bugs
+	  } = _ref3;
 	  const [metricAltitude] = usePersistentProperty('ISIS_METRIC_ALTITUDE', '0');
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "AltitudeIndicator",
@@ -9649,9 +9652,10 @@
 	    })]
 	  });
 	};
-	const MetricAltitudeIndicator = ({
-	  altitude
-	}) => {
+	const MetricAltitudeIndicator = _ref4 => {
+	  let {
+	    altitude
+	  } = _ref4;
 	  const metricAltitude = Math.round(altitude * 0.3048 / 10) * 10;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "MetricAltitudeIndicator",
@@ -9677,51 +9681,54 @@
 	  });
 	};
 
-	const DeviationIndicator = ({
-	  deviation,
-	  available
-	}) => /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
-	  children: [/*#__PURE__*/jsxRuntime.jsx("rect", {
-	    x: 0,
-	    y: 0,
-	    width: 200,
-	    height: 20,
-	    fill: "black"
-	  }), /*#__PURE__*/jsxRuntime.jsx("circle", {
-	    className: "StrokeWhite NoFill",
-	    cx: 10,
-	    cy: 10,
-	    r: 7
-	  }), /*#__PURE__*/jsxRuntime.jsx("circle", {
-	    className: "StrokeWhite NoFill",
-	    cx: 55,
-	    cy: 10,
-	    r: 7
-	  }), /*#__PURE__*/jsxRuntime.jsx("line", {
-	    x1: 100,
-	    x2: 100,
-	    y1: 2,
-	    y2: 18,
-	    strokeWidth: 4,
-	    stroke: "white"
-	  }), /*#__PURE__*/jsxRuntime.jsx("circle", {
-	    className: "StrokeWhite NoFill",
-	    cx: 145,
-	    cy: 10,
-	    r: 7
-	  }), /*#__PURE__*/jsxRuntime.jsx("circle", {
-	    className: "StrokeWhite NoFill",
-	    cx: 190,
-	    cy: 10,
-	    r: 7
-	  }), available && /*#__PURE__*/jsxRuntime.jsx("g", {
-	    transform: "translate(".concat((deviation * 50).toFixed(5), " 0)"),
-	    children: /*#__PURE__*/jsxRuntime.jsx("path", {
-	      className: "FillMagenta",
-	      d: "M80,10 L100,2 L120,10 L100,18z"
-	    })
-	  })]
-	});
+	const DeviationIndicator = _ref => {
+	  let {
+	    deviation,
+	    available
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
+	    children: [/*#__PURE__*/jsxRuntime.jsx("rect", {
+	      x: 0,
+	      y: 0,
+	      width: 200,
+	      height: 20,
+	      fill: "black"
+	    }), /*#__PURE__*/jsxRuntime.jsx("circle", {
+	      className: "StrokeWhite NoFill",
+	      cx: 10,
+	      cy: 10,
+	      r: 7
+	    }), /*#__PURE__*/jsxRuntime.jsx("circle", {
+	      className: "StrokeWhite NoFill",
+	      cx: 55,
+	      cy: 10,
+	      r: 7
+	    }), /*#__PURE__*/jsxRuntime.jsx("line", {
+	      x1: 100,
+	      x2: 100,
+	      y1: 2,
+	      y2: 18,
+	      strokeWidth: 4,
+	      stroke: "white"
+	    }), /*#__PURE__*/jsxRuntime.jsx("circle", {
+	      className: "StrokeWhite NoFill",
+	      cx: 145,
+	      cy: 10,
+	      r: 7
+	    }), /*#__PURE__*/jsxRuntime.jsx("circle", {
+	      className: "StrokeWhite NoFill",
+	      cx: 190,
+	      cy: 10,
+	      r: 7
+	    }), available && /*#__PURE__*/jsxRuntime.jsx("g", {
+	      transform: "translate(".concat((deviation * 50).toFixed(5), " 0)"),
+	      children: /*#__PURE__*/jsxRuntime.jsx("path", {
+	        className: "FillMagenta",
+	        d: "M80,10 L100,2 L120,10 L100,18z"
+	      })
+	    })]
+	  });
+	};
 
 	const LandingSystem = () => {
 	  const [gsDeviation] = useSimVar('NAV GLIDE SLOPE ERROR:3', 'degrees');
@@ -9827,9 +9834,10 @@
 	    className: "StrokeRed NoFill"
 	  })]
 	}));
-	const PitchScale = /*#__PURE__*/react.memo(({
-	  pitchDegPixels
-	}) => {
+	const PitchScale = /*#__PURE__*/react.memo(_ref => {
+	  let {
+	    pitchDegPixels
+	  } = _ref;
 	  const markers = [];
 	  const center = 270;
 
@@ -9905,10 +9913,11 @@
 	  });
 	});
 
-	const RollScaleTick = ({
-	  radius,
-	  angle
-	}) => {
+	const RollScaleTick = _ref => {
+	  let {
+	    radius,
+	    angle
+	  } = _ref;
 	  const tickLength = 20;
 	  const sine = Math.sin(angle * Math.PI / 180);
 	  const cosine = Math.cos(angle * Math.PI / 180);
@@ -10013,9 +10022,10 @@
 	  }), /*#__PURE__*/jsxRuntime.jsx(SideslipIndicator, {})]
 	});
 
-	const Att10sFlag = ({
-	  children
-	}) => {
+	const Att10sFlag = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const timeToReset = 10;
 	  const attRstPressTime = react.useRef(null);
 	  const [timer, setTimer] = react.useState(null);
@@ -10120,10 +10130,12 @@
 	  });
 	};
 
-	const Tick = /*#__PURE__*/react.memo(({
-	  offset,
-	  airspeed
-	}) => {
+	const Tick = /*#__PURE__*/react.memo(_ref => {
+	  let {
+	    offset,
+	    airspeed
+	  } = _ref;
+
 	  if (airspeed > 250 && airspeed % 10 === 5) {
 	    return null;
 	  }
@@ -10156,45 +10168,51 @@
 	    d: "M 108 270 l 34 -20 v 40 l -34 -20"
 	  })]
 	}));
-	const BugElement = /*#__PURE__*/react.memo(({
-	  offset
-	}) => /*#__PURE__*/jsxRuntime.jsx("g", {
-	  className: "StrokeCyan",
-	  transform: "translate(0 ".concat(offset, ")"),
-	  children: /*#__PURE__*/jsxRuntime.jsx("path", {
-	    strokeWidth: 7,
-	    d: "M78,158 h30"
-	  })
-	}));
-	const AirspeedIndicator = ({
-	  indicatedAirspeed,
-	  bugs
-	}) => /*#__PURE__*/jsxRuntime.jsxs("g", {
-	  id: "AirspeedIndicator",
-	  children: [/*#__PURE__*/jsxRuntime.jsx("svg", {
-	    x: 0,
-	    y: 112,
-	    width: 108,
-	    height: 296,
-	    viewBox: "0 0 108 296",
-	    children: /*#__PURE__*/jsxRuntime.jsx(VerticalTape, {
-	      displayRange: 42,
-	      valueSpacing: 5,
-	      distanceSpacing: 16,
-	      graduationElementFunction: (elementValue, offset) => /*#__PURE__*/jsxRuntime.jsx(Tick, {
-	        offset: offset,
-	        airspeed: elementValue
-	      }),
-	      bugs: bugs,
-	      bugElementFunction: (bug, offset) => /*#__PURE__*/jsxRuntime.jsx(BugElement, {
-	        offset: offset
-	      }),
-	      tapeValue: indicatedAirspeed,
-	      lowerLimit: 30,
-	      upperLimit: 660
+	const BugElement = /*#__PURE__*/react.memo(_ref2 => {
+	  let {
+	    offset
+	  } = _ref2;
+	  return /*#__PURE__*/jsxRuntime.jsx("g", {
+	    className: "StrokeCyan",
+	    transform: "translate(0 ".concat(offset, ")"),
+	    children: /*#__PURE__*/jsxRuntime.jsx("path", {
+	      strokeWidth: 7,
+	      d: "M78,158 h30"
 	    })
-	  }), /*#__PURE__*/jsxRuntime.jsx(SpeedtapeArrow, {})]
+	  });
 	});
+	const AirspeedIndicator = _ref3 => {
+	  let {
+	    indicatedAirspeed,
+	    bugs
+	  } = _ref3;
+	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
+	    id: "AirspeedIndicator",
+	    children: [/*#__PURE__*/jsxRuntime.jsx("svg", {
+	      x: 0,
+	      y: 112,
+	      width: 108,
+	      height: 296,
+	      viewBox: "0 0 108 296",
+	      children: /*#__PURE__*/jsxRuntime.jsx(VerticalTape, {
+	        displayRange: 42,
+	        valueSpacing: 5,
+	        distanceSpacing: 16,
+	        graduationElementFunction: (elementValue, offset) => /*#__PURE__*/jsxRuntime.jsx(Tick, {
+	          offset: offset,
+	          airspeed: elementValue
+	        }),
+	        bugs: bugs,
+	        bugElementFunction: (bug, offset) => /*#__PURE__*/jsxRuntime.jsx(BugElement, {
+	          offset: offset
+	        }),
+	        tapeValue: indicatedAirspeed,
+	        lowerLimit: 30,
+	        upperLimit: 660
+	      })
+	    }), /*#__PURE__*/jsxRuntime.jsx(SpeedtapeArrow, {})]
+	  });
+	};
 
 	const AirplaneSymbol = /*#__PURE__*/react.memo(() => /*#__PURE__*/jsxRuntime.jsxs("g", {
 	  children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -10230,10 +10248,11 @@
 	    isActive
 	  }, bugPropertiesByType[type]);
 
-	  const setter = ({
-	    value,
-	    isActive
-	  }) => {
+	  const setter = _ref => {
+	    let {
+	      value,
+	      isActive
+	    } = _ref;
 	    setValue(value);
 	    setIsActive(isActive);
 	  };
@@ -10265,168 +10284,179 @@
 	  }
 	};
 
-	const ArtificialHorizonDisplay = ({
-	  indicatedAirspeed,
-	  bugs
-	}) => {
+	const ArtificialHorizonDisplay = _ref => {
+	  let {
+	    indicatedAirspeed,
+	    bugs
+	  } = _ref;
 	  const [alt] = useSimVar('INDICATED ALTITUDE:2', 'feet');
 	  const [mda] = useSimVar('L:AIRLINER_MINIMUM_DESCENT_ALTITUDE', 'feet');
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "ArtificialHorizonDisplay",
 	    children: [/*#__PURE__*/jsxRuntime.jsx(ArtificialHorizon, {}), /*#__PURE__*/jsxRuntime.jsx(AirspeedIndicator, {
 	      indicatedAirspeed: indicatedAirspeed,
-	      bugs: bugs.filter(({
-	        isActive,
-	        type
-	      }) => isActive && type === BugType.SPD)
+	      bugs: bugs.filter(_ref2 => {
+	        let {
+	          isActive,
+	          type
+	        } = _ref2;
+	        return isActive && type === BugType.SPD;
+	      })
 	    }), /*#__PURE__*/jsxRuntime.jsx(AltitudeIndicator, {
 	      altitude: Math.floor(alt),
 	      mda: mda,
-	      bugs: bugs.filter(({
-	        isActive,
-	        type
-	      }) => isActive && type === BugType.ALT)
+	      bugs: bugs.filter(_ref3 => {
+	        let {
+	          isActive,
+	          type
+	        } = _ref3;
+	        return isActive && type === BugType.ALT;
+	      })
 	    }), /*#__PURE__*/jsxRuntime.jsx(AirplaneSymbol, {}), /*#__PURE__*/jsxRuntime.jsx(LandingSystem, {}), /*#__PURE__*/jsxRuntime.jsx(PressureIndicator, {}), /*#__PURE__*/jsxRuntime.jsx(MachIndicator, {})]
 	  });
 	};
 
-	const BugSetupDisplay = ({
-	  selectedIndex,
-	  bugs
-	}) => /*#__PURE__*/jsxRuntime.jsxs("g", {
-	  id: "BugDisplay",
-	  className: "TextWhite NoFill FontLarge",
-	  children: [/*#__PURE__*/jsxRuntime.jsx("text", {
-	    x: 40,
-	    y: 55,
-	    className: "TextCyan",
-	    children: "EXIT\u2191"
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    x: 256,
-	    y: 53,
-	    textAnchor: "middle",
-	    className: "TextWhite",
-	    children: "BUGS"
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    x: 150,
-	    y: 100,
-	    textAnchor: "middle",
-	    className: "TextWhite",
-	    children: "SPD"
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    x: 325,
-	    y: 100,
-	    textAnchor: "middle",
-	    className: "TextWhite",
-	    children: "ALT"
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    fontSize: 16,
-	    x: 196,
-	    y: 126,
-	    className: "TextWhite",
-	    children: "(+)"
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    fontSize: 16,
-	    x: 106,
-	    y: 180,
-	    className: "TextWhite",
-	    children: "(-)"
-	  }), /*#__PURE__*/jsxRuntime.jsx("path", {
-	    fill: "none",
-	    stroke: "white",
-	    d: "M150 136 v225 h176 v-225z"
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    children: [!bugs[5].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
-	      x: 30,
-	      y: 150,
+	const BugSetupDisplay = _ref => {
+	  let {
+	    selectedIndex,
+	    bugs
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
+	    id: "BugDisplay",
+	    className: "TextWhite NoFill FontLarge",
+	    children: [/*#__PURE__*/jsxRuntime.jsx("text", {
+	      x: 40,
+	      y: 55,
+	      className: "TextCyan",
+	      children: "EXIT\u2191"
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	      x: 256,
+	      y: 53,
+	      textAnchor: "middle",
 	      className: "TextWhite",
-	      children: "OFF"
-	    }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	      children: "BUGS"
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	      x: 150,
-	      y: 150,
-	      value: bugs[5].value,
-	      isSelected: selectedIndex === 5,
-	      numDigits: 3
-	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    children: [!bugs[4].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
-	      x: 30,
-	      y: 225,
+	      y: 100,
+	      textAnchor: "middle",
 	      className: "TextWhite",
-	      children: "OFF"
-	    }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
-	      x: 150,
-	      y: 225,
-	      value: bugs[4].value,
-	      isSelected: selectedIndex === 4,
-	      numDigits: 3
-	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    children: [!bugs[3].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
-	      x: 30,
-	      y: 300,
-	      className: "TextWhite",
-	      children: "OFF"
-	    }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
-	      x: 150,
-	      y: 300,
-	      value: bugs[3].value,
-	      isSelected: selectedIndex === 3,
-	      numDigits: 3
-	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    children: [!bugs[2].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
-	      x: 30,
-	      y: 375,
-	      className: "TextWhite",
-	      children: "OFF"
-	    }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
-	      x: 150,
-	      y: 375,
-	      value: bugs[2].value,
-	      isSelected: selectedIndex === 2,
-	      numDigits: 3
-	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    children: [!bugs[0].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
-	      x: 400,
-	      y: 225,
-	      className: "TextWhite",
-	      children: "OFF"
-	    }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	      children: "SPD"
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
 	      x: 325,
-	      y: 225,
-	      value: bugs[0].value,
-	      isSelected: selectedIndex === 0,
-	      numDigits: 5
-	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsxs("g", {
-	    children: [!bugs[1].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
-	      x: 400,
-	      y: 300,
+	      y: 100,
+	      textAnchor: "middle",
 	      className: "TextWhite",
-	      children: "OFF"
-	    }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
-	      x: 325,
-	      y: 300,
-	      value: bugs[1].value,
-	      isSelected: selectedIndex === 1,
-	      numDigits: 5
+	      children: "ALT"
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	      fontSize: 16,
+	      x: 196,
+	      y: 126,
+	      className: "TextWhite",
+	      children: "(+)"
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	      fontSize: 16,
+	      x: 106,
+	      y: 180,
+	      className: "TextWhite",
+	      children: "(-)"
+	    }), /*#__PURE__*/jsxRuntime.jsx("path", {
+	      fill: "none",
+	      stroke: "white",
+	      d: "M150 136 v225 h176 v-225z"
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      children: [!bugs[5].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
+	        x: 30,
+	        y: 150,
+	        className: "TextWhite",
+	        children: "OFF"
+	      }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	        x: 150,
+	        y: 150,
+	        value: bugs[5].value,
+	        isSelected: selectedIndex === 5,
+	        numDigits: 3
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      children: [!bugs[4].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
+	        x: 30,
+	        y: 225,
+	        className: "TextWhite",
+	        children: "OFF"
+	      }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	        x: 150,
+	        y: 225,
+	        value: bugs[4].value,
+	        isSelected: selectedIndex === 4,
+	        numDigits: 3
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      children: [!bugs[3].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
+	        x: 30,
+	        y: 300,
+	        className: "TextWhite",
+	        children: "OFF"
+	      }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	        x: 150,
+	        y: 300,
+	        value: bugs[3].value,
+	        isSelected: selectedIndex === 3,
+	        numDigits: 3
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      children: [!bugs[2].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
+	        x: 30,
+	        y: 375,
+	        className: "TextWhite",
+	        children: "OFF"
+	      }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	        x: 150,
+	        y: 375,
+	        value: bugs[2].value,
+	        isSelected: selectedIndex === 2,
+	        numDigits: 3
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      children: [!bugs[0].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
+	        x: 400,
+	        y: 225,
+	        className: "TextWhite",
+	        children: "OFF"
+	      }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	        x: 325,
+	        y: 225,
+	        value: bugs[0].value,
+	        isSelected: selectedIndex === 0,
+	        numDigits: 5
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsxs("g", {
+	      children: [!bugs[1].isActive && /*#__PURE__*/jsxRuntime.jsx("text", {
+	        x: 400,
+	        y: 300,
+	        className: "TextWhite",
+	        children: "OFF"
+	      }), /*#__PURE__*/jsxRuntime.jsx(BugBox, {
+	        x: 325,
+	        y: 300,
+	        value: bugs[1].value,
+	        isSelected: selectedIndex === 1,
+	        numDigits: 5
+	      })]
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	      x: 150,
+	      y: 450,
+	      className: "TextCyan",
+	      children: "SET/SELECT\u2192"
 	    })]
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    x: 150,
-	    y: 450,
-	    className: "TextCyan",
-	    children: "SET/SELECT\u2192"
-	  })]
-	});
-	const BugBox = ({
-	  x,
-	  y,
-	  value,
-	  numDigits,
-	  isSelected = false
-	}) => {
+	  });
+	};
+	const BugBox = _ref2 => {
+	  let {
+	    x,
+	    y,
+	    value,
+	    numDigits,
+	    isSelected = false
+	  } = _ref2;
 	  const width = numDigits * 25;
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    id: "BugBox",
@@ -26480,10 +26510,11 @@
 	var css_248z$2 = "/* required styles */\n\n.leaflet-pane,\n.leaflet-tile,\n.leaflet-marker-icon,\n.leaflet-marker-shadow,\n.leaflet-tile-container,\n.leaflet-pane > svg,\n.leaflet-pane > canvas,\n.leaflet-zoom-box,\n.leaflet-image-layer,\n.leaflet-layer {\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.leaflet-container {\n  overflow: hidden;\n}\n\n.leaflet-tile,\n.leaflet-marker-icon,\n.leaflet-marker-shadow {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  user-select: none;\n  -webkit-user-drag: none;\n}\n\n/* Prevents IE11 from highlighting tiles in blue */\n\n.leaflet-tile::selection {\n  background: transparent;\n}\n\n/* Safari renders non-retina tile on retina better with this, but Chrome is worse */\n\n.leaflet-safari .leaflet-tile {\n  image-rendering: -webkit-optimize-contrast;\n}\n\n/* hack that prevents hw layers \"stretching\" when loading new tiles */\n\n.leaflet-safari .leaflet-tile-container {\n  width: 1600px;\n  height: 1600px;\n  -webkit-transform-origin: 0 0;\n}\n\n.leaflet-marker-icon,\n.leaflet-marker-shadow {\n  display: block;\n}\n\n/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */\n\n/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */\n\n.leaflet-container .leaflet-overlay-pane svg,\n.leaflet-container .leaflet-marker-pane img,\n.leaflet-container .leaflet-shadow-pane img,\n.leaflet-container .leaflet-tile-pane img,\n.leaflet-container img.leaflet-image-layer,\n.leaflet-container .leaflet-tile {\n  max-width: none !important;\n  max-height: none !important;\n}\n\n.leaflet-container.leaflet-touch-zoom {\n  -ms-touch-action: pan-x pan-y;\n  touch-action: pan-x pan-y;\n}\n\n.leaflet-container.leaflet-touch-drag {\n  -ms-touch-action: pinch-zoom;\n  /* Fallback for FF which doesn't support pinch-zoom */\n  touch-action: none;\n  touch-action: pinch-zoom;\n}\n\n.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {\n  -ms-touch-action: none;\n  touch-action: none;\n}\n\n.leaflet-container {\n  -webkit-tap-highlight-color: transparent;\n}\n\n.leaflet-container a {\n  -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);\n}\n\n.leaflet-tile {\n  filter: inherit;\n  visibility: hidden;\n}\n\n.leaflet-tile-loaded {\n  visibility: inherit;\n}\n\n.leaflet-zoom-box {\n  width: 0;\n  height: 0;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  z-index: 800;\n}\n\n/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */\n\n.leaflet-overlay-pane svg {\n  -moz-user-select: none;\n}\n\n.leaflet-pane {\n  z-index: 400;\n}\n\n.leaflet-tile-pane {\n  z-index: 200;\n}\n\n.leaflet-overlay-pane {\n  z-index: 400;\n}\n\n.leaflet-shadow-pane {\n  z-index: 500;\n}\n\n.leaflet-marker-pane {\n  z-index: 600;\n}\n\n.leaflet-tooltip-pane {\n  z-index: 650;\n}\n\n.leaflet-popup-pane {\n  z-index: 700;\n}\n\n.leaflet-map-pane canvas {\n  z-index: 100;\n}\n\n.leaflet-map-pane svg {\n  z-index: 200;\n}\n\n.leaflet-vml-shape {\n  width: 1px;\n  height: 1px;\n}\n\n.lvml {\n  behavior: url(#default#VML);\n  display: inline-block;\n  position: absolute;\n}\n\n/* control positioning */\n\n.leaflet-control {\n  position: relative;\n  z-index: 800;\n  pointer-events: visiblePainted;\n  /* IE 9-10 doesn't have auto */\n  pointer-events: auto;\n}\n\n.leaflet-top,\n.leaflet-bottom {\n  position: absolute;\n  z-index: 1000;\n  pointer-events: none;\n}\n\n.leaflet-top {\n  top: 0;\n}\n\n.leaflet-right {\n  right: 0;\n}\n\n.leaflet-bottom {\n  bottom: 0;\n}\n\n.leaflet-left {\n  left: 0;\n}\n\n.leaflet-control {\n  float: left;\n  clear: both;\n}\n\n.leaflet-right .leaflet-control {\n  float: right;\n}\n\n.leaflet-top .leaflet-control {\n  margin-top: 10px;\n}\n\n.leaflet-bottom .leaflet-control {\n  margin-bottom: 10px;\n}\n\n.leaflet-left .leaflet-control {\n  margin-left: 10px;\n}\n\n.leaflet-right .leaflet-control {\n  margin-right: 10px;\n}\n\n/* zoom and fade animations */\n\n.leaflet-fade-anim .leaflet-tile {\n  will-change: opacity;\n}\n\n.leaflet-fade-anim .leaflet-popup {\n  opacity: 0;\n  -webkit-transition: opacity 0.2s linear;\n  -moz-transition: opacity 0.2s linear;\n  transition: opacity 0.2s linear;\n}\n\n.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {\n  opacity: 1;\n}\n\n.leaflet-zoom-animated {\n  -webkit-transform-origin: 0 0;\n  -ms-transform-origin: 0 0;\n  transform-origin: 0 0;\n}\n\n.leaflet-zoom-anim .leaflet-zoom-animated {\n  will-change: transform;\n}\n\n.leaflet-zoom-anim .leaflet-zoom-animated {\n  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n}\n\n.leaflet-zoom-anim .leaflet-tile,\n.leaflet-pan-anim .leaflet-tile {\n  -webkit-transition: none;\n  -moz-transition: none;\n  transition: none;\n}\n\n.leaflet-zoom-anim .leaflet-zoom-hide {\n  visibility: hidden;\n}\n\n/* cursors */\n\n.leaflet-interactive {\n  cursor: pointer;\n}\n\n.leaflet-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.leaflet-crosshair,\n.leaflet-crosshair .leaflet-interactive {\n  cursor: crosshair;\n}\n\n.leaflet-popup-pane,\n.leaflet-control {\n  cursor: auto;\n}\n\n.leaflet-dragging .leaflet-grab,\n.leaflet-dragging .leaflet-grab .leaflet-interactive,\n.leaflet-dragging .leaflet-marker-draggable {\n  cursor: move;\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n/* marker & overlays interactivity */\n\n.leaflet-marker-icon,\n.leaflet-marker-shadow,\n.leaflet-image-layer,\n.leaflet-pane > svg path,\n.leaflet-tile-container {\n  pointer-events: none;\n}\n\n.leaflet-marker-icon.leaflet-interactive,\n.leaflet-image-layer.leaflet-interactive,\n.leaflet-pane > svg path.leaflet-interactive,\nsvg.leaflet-image-layer.leaflet-interactive path {\n  pointer-events: visiblePainted;\n  /* IE 9-10 doesn't have auto */\n  pointer-events: auto;\n}\n\n/* visual tweaks */\n\n.leaflet-container {\n  background: #ddd;\n  outline: 0;\n}\n\n.leaflet-container a {\n  color: #0078A8;\n}\n\n.leaflet-container a.leaflet-active {\n  outline: 2px solid orange;\n}\n\n.leaflet-zoom-box {\n  border: 2px dotted #38f;\n  background: rgba(255, 255, 255, 0.5);\n}\n\n/* general typography */\n\n.leaflet-container {\n  font: 12px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n}\n\n/* general toolbar styles */\n\n.leaflet-bar {\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);\n  border-radius: 4px;\n}\n\n.leaflet-bar a,\n.leaflet-bar a:hover {\n  background-color: #fff;\n  border-bottom: 1px solid #ccc;\n  width: 26px;\n  height: 26px;\n  line-height: 26px;\n  display: block;\n  text-align: center;\n  text-decoration: none;\n  color: black;\n}\n\n.leaflet-bar a,\n.leaflet-control-layers-toggle {\n  background-position: 50% 50%;\n  background-repeat: no-repeat;\n  display: block;\n}\n\n.leaflet-bar a:hover {\n  background-color: #f4f4f4;\n}\n\n.leaflet-bar a:first-child {\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px;\n}\n\n.leaflet-bar a:last-child {\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px;\n  border-bottom: none;\n}\n\n.leaflet-bar a.leaflet-disabled {\n  cursor: default;\n  background-color: #f4f4f4;\n  color: #bbb;\n}\n\n.leaflet-touch .leaflet-bar a {\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n}\n\n.leaflet-touch .leaflet-bar a:first-child {\n  border-top-left-radius: 2px;\n  border-top-right-radius: 2px;\n}\n\n.leaflet-touch .leaflet-bar a:last-child {\n  border-bottom-left-radius: 2px;\n  border-bottom-right-radius: 2px;\n}\n\n/* zoom control */\n\n.leaflet-control-zoom-in,\n.leaflet-control-zoom-out {\n  font: bold 18px 'Lucida Console', Monaco, monospace;\n  text-indent: 1px;\n}\n\n.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out {\n  font-size: 22px;\n}\n\n/* layers control */\n\n.leaflet-control-layers {\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);\n  background: #fff;\n  border-radius: 5px;\n}\n\n.leaflet-control-layers-toggle {\n  background-image: url(images/layers.png);\n  width: 36px;\n  height: 36px;\n}\n\n.leaflet-retina .leaflet-control-layers-toggle {\n  background-image: url(images/layers-2x.png);\n  background-size: 26px 26px;\n}\n\n.leaflet-touch .leaflet-control-layers-toggle {\n  width: 44px;\n  height: 44px;\n}\n\n.leaflet-control-layers .leaflet-control-layers-list,\n.leaflet-control-layers-expanded .leaflet-control-layers-toggle {\n  display: none;\n}\n\n.leaflet-control-layers-expanded .leaflet-control-layers-list {\n  display: block;\n  position: relative;\n}\n\n.leaflet-control-layers-expanded {\n  padding: 6px 10px 6px 6px;\n  color: #333;\n  background: #fff;\n}\n\n.leaflet-control-layers-scrollbar {\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: 5px;\n}\n\n.leaflet-control-layers-selector {\n  margin-top: 2px;\n  position: relative;\n  top: 1px;\n}\n\n.leaflet-control-layers label {\n  display: block;\n}\n\n.leaflet-control-layers-separator {\n  height: 0;\n  border-top: 1px solid #ddd;\n  margin: 5px -10px 5px -6px;\n}\n\n/* Default icon URLs */\n\n.leaflet-default-icon-path {\n  background-image: url(images/marker-icon.png);\n}\n\n/* attribution and scale controls */\n\n.leaflet-container .leaflet-control-attribution {\n  background: #fff;\n  background: rgba(255, 255, 255, 0.7);\n  margin: 0;\n}\n\n.leaflet-control-attribution,\n.leaflet-control-scale-line {\n  padding: 0 5px;\n  color: #333;\n}\n\n.leaflet-control-attribution a {\n  text-decoration: none;\n}\n\n.leaflet-control-attribution a:hover {\n  text-decoration: underline;\n}\n\n.leaflet-container .leaflet-control-attribution,\n.leaflet-container .leaflet-control-scale {\n  font-size: 11px;\n}\n\n.leaflet-left .leaflet-control-scale {\n  margin-left: 5px;\n}\n\n.leaflet-bottom .leaflet-control-scale {\n  margin-bottom: 5px;\n}\n\n.leaflet-control-scale-line {\n  border: 2px solid #777;\n  border-top: none;\n  line-height: 1.1;\n  padding: 2px 5px 1px;\n  font-size: 11px;\n  white-space: nowrap;\n  overflow: hidden;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  background: #fff;\n  background: rgba(255, 255, 255, 0.5);\n}\n\n.leaflet-control-scale-line:not(:first-child) {\n  border-top: 2px solid #777;\n  border-bottom: none;\n  margin-top: -2px;\n}\n\n.leaflet-control-scale-line:not(:first-child):not(:last-child) {\n  border-bottom: 2px solid #777;\n}\n\n.leaflet-touch .leaflet-control-attribution,\n.leaflet-touch .leaflet-control-layers,\n.leaflet-touch .leaflet-bar {\n  box-shadow: none;\n}\n\n.leaflet-touch .leaflet-control-layers,\n.leaflet-touch .leaflet-bar {\n  border: 2px solid rgba(0, 0, 0, 0.2);\n  background-clip: padding-box;\n}\n\n/* popup */\n\n.leaflet-popup {\n  position: absolute;\n  text-align: center;\n  margin-bottom: 20px;\n}\n\n.leaflet-popup-content-wrapper {\n  padding: 1px;\n  text-align: left;\n  border-radius: 12px;\n}\n\n.leaflet-popup-content {\n  margin: 13px 19px;\n  line-height: 1.4;\n}\n\n.leaflet-popup-content p {\n  margin: 18px 0;\n}\n\n.leaflet-popup-tip-container {\n  width: 40px;\n  height: 20px;\n  position: absolute;\n  left: 50%;\n  margin-left: -20px;\n  overflow: hidden;\n  pointer-events: none;\n}\n\n.leaflet-popup-tip {\n  width: 17px;\n  height: 17px;\n  padding: 1px;\n  margin: -10px auto 0;\n  -webkit-transform: rotate(45deg);\n  -moz-transform: rotate(45deg);\n  -ms-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n\n.leaflet-popup-content-wrapper,\n.leaflet-popup-tip {\n  background: white;\n  color: #333;\n  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);\n}\n\n.leaflet-container a.leaflet-popup-close-button {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px 4px 0 0;\n  border: none;\n  text-align: center;\n  width: 18px;\n  height: 14px;\n  font: 16px/14px Tahoma, Verdana, sans-serif;\n  color: #c3c3c3;\n  text-decoration: none;\n  font-weight: bold;\n  background: transparent;\n}\n\n.leaflet-container a.leaflet-popup-close-button:hover {\n  color: #999;\n}\n\n.leaflet-popup-scrolled {\n  overflow: auto;\n  border-bottom: 1px solid #ddd;\n  border-top: 1px solid #ddd;\n}\n\n.leaflet-oldie .leaflet-popup-content-wrapper {\n  -ms-zoom: 1;\n}\n\n.leaflet-oldie .leaflet-popup-tip {\n  width: 24px;\n  margin: 0 auto;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)\";\n  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);\n}\n\n.leaflet-oldie .leaflet-popup-tip-container {\n  margin-top: -1px;\n}\n\n.leaflet-oldie .leaflet-control-zoom,\n.leaflet-oldie .leaflet-control-layers,\n.leaflet-oldie .leaflet-popup-content-wrapper,\n.leaflet-oldie .leaflet-popup-tip {\n  border: 1px solid #999;\n}\n\n/* div icon */\n\n.leaflet-div-icon {\n  background: #fff;\n  border: 1px solid #666;\n}\n\n/* Tooltip */\n\n/* Base styles for the element that has a tooltip */\n\n.leaflet-tooltip {\n  position: absolute;\n  padding: 6px;\n  background-color: #fff;\n  border: 1px solid #fff;\n  border-radius: 3px;\n  color: #222;\n  white-space: nowrap;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  pointer-events: none;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);\n}\n\n.leaflet-tooltip.leaflet-clickable {\n  cursor: pointer;\n  pointer-events: auto;\n}\n\n.leaflet-tooltip-top:before,\n.leaflet-tooltip-bottom:before,\n.leaflet-tooltip-left:before,\n.leaflet-tooltip-right:before {\n  position: absolute;\n  pointer-events: none;\n  border: 6px solid transparent;\n  background: transparent;\n  content: \"\";\n}\n\n/* Directions */\n\n.leaflet-tooltip-bottom {\n  margin-top: 6px;\n}\n\n.leaflet-tooltip-top {\n  margin-top: -6px;\n}\n\n.leaflet-tooltip-bottom:before,\n.leaflet-tooltip-top:before {\n  left: 50%;\n  margin-left: -6px;\n}\n\n.leaflet-tooltip-top:before {\n  bottom: 0;\n  margin-bottom: -12px;\n  border-top-color: #fff;\n}\n\n.leaflet-tooltip-bottom:before {\n  top: 0;\n  margin-top: -12px;\n  margin-left: -6px;\n  border-bottom-color: #fff;\n}\n\n.leaflet-tooltip-left {\n  margin-left: -6px;\n}\n\n.leaflet-tooltip-right {\n  margin-left: 6px;\n}\n\n.leaflet-tooltip-left:before,\n.leaflet-tooltip-right:before {\n  top: 50%;\n  margin-top: -6px;\n}\n\n.leaflet-tooltip-left:before {\n  right: 0;\n  margin-right: -12px;\n  border-left-color: #fff;\n}\n\n.leaflet-tooltip-right:before {\n  left: 0;\n  margin-left: -12px;\n  border-right-color: #fff;\n}\n\n#live-map {\n  height: 100%;\n  width: 100%;\n  font-family: \"Nunito Sans\", sans-serif !important;\n}\n\n#live-map #control-panel {\n  pointer-events: all !important;\n  bottom: 1.75rem;\n  right: 1rem;\n}\n\n#live-map #control-panel .button-group button {\n  border-bottom: 1px solid #ccc;\n}\n\n#live-map #control-panel .button-group button:last-of-type {\n  border-bottom: 0;\n}\n\n#live-map #menu-panel {\n  pointer-events: all !important;\n  margin: 1rem;\n  width: 20rem;\n  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);\n}\n\n#live-map #menu-panel input::placeholder {\n  opacity: 1;\n}\n\n#live-map #menu-panel .divider {\n  margin-left: 2.5rem;\n  border-top: 1px solid #b5b5b5;\n}\n\n#live-map #menu-panel .detail-area .tileset-select input[type=radio] {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n#live-map #menu-panel .detail-area .tileset-select input[type=radio] + img {\n  cursor: pointer;\n  outline: 1.5px solid #d1d5db;\n}\n\n#live-map #menu-panel .detail-area .tileset-select input[type=radio]:checked + img {\n  outline: 1.5px solid #00C2CB;\n}\n\n#live-map #menu-panel .detail-area .active-flights {\n  margin: 0;\n  font-size: small;\n  text-align: end;\n  line-height: 150%;\n}\n\n#live-map #menu-panel .detail-area .active-flights span {\n  font-size: x-large;\n}\n\n#live-map .aircraft-popup {\n  margin-bottom: 35px;\n}\n\n#live-map .aircraft-popup .leaflet-popup-content-wrapper,\n    #live-map .aircraft-popup .leaflet-popup-tip {\n  background-color: rgba(255, 255, 255, 0.6);\n}\n\n#live-map .airport-tooltip {\n  background-color: rgba(255, 255, 255, 0.6);\n  border: none;\n  margin-top: -20px;\n}\n\n#live-map .airport-tooltip:before {\n  border-top-color: rgba(255, 255, 255, 0.6);\n}\n\n#live-map .leaflet-control {\n  cursor: pointer;\n}\n\n#live-map #polyline-measure-control, #live-map .polyline-measure-clearControl, #live-map #unitControlId {\n  display: none;\n}\n\n#live-map .leaflet-top.leaflet-left > .leaflet-bar {\n  border: 0;\n}\n\n#live-map .polyline-measure-tooltip {\n  line-height: 120%;\n  padding: 0.5rem;\n  background-color: rgba(255, 255, 255, 0.6);\n  border-radius: 3px;\n  margin: 0;\n  width: auto !important;\n  height: auto !important;\n  white-space: nowrap;\n  text-align: right;\n  z-index: 9999 !important;\n}\n\n#live-map .polyline-measure-tooltip-end {\n  background-color: #b7f4f5;\n}\n\n#live-map .polyline-measure-tooltip-total {\n  color: #006;\n  font-weight: bold;\n}\n\n#live-map .polyline-measure-tooltip-difference {\n  color: #006600;\n  font-style: italic;\n}\n";
 	styleInject(css_248z$2);
 
-	const AutoBrightness = ({
-	  bugsActive,
-	  children
-	}) => {
+	const AutoBrightness = _ref => {
+	  let {
+	    bugsActive,
+	    children
+	  } = _ref;
 	  const minBrightness = 0.15;
 	  const maxBrightness = 0.99;
 	  const dayBrightness = 0.85;
@@ -26661,7 +26692,7 @@
         @font-face {
   font-family: "Ecam";
 
-  src: url("/fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -26675,43 +26706,6 @@
   stroke-width: 3px;
   background: #040405;
   font-family: "Ecam", monospace !important;
-}
-
-/* pixels for screen */
-
-/* LCD pixel effect for screens */
-
-.LcdOverlay {
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  position: absolute;
-  background-size: 2px;
-  transition: opacity 0.5s;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M0 0 V10 Z H10 Z' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E");
-}
-
-.BacklightBleed {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 998;
-  opacity: 0.75;
-  background-color: rgba(0, 0, 255, 0.025);
-  box-shadow: inset 0px 0px 30px 10px rgba(0, 75, 255, 0.04);
-}
-
-.LcdOverlayISIS {
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  position: absolute;
-  background-size: 2px;
-  transition: opacity 0.5s;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M0 0 V10 Z H10 Z' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E");
 }
 
 .sky {
@@ -26856,4 +26850,4 @@
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/ISIS/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/ISIS/template.js" import-async="false"></script>

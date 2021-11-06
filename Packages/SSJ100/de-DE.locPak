@@ -1,0 +1,31 @@
+{
+  "LocalisationPackage": {
+    "Language": "de-DE",
+    "Strings": {
+      "AIRCRAFT.DESCRIPTION": "Der Sukhoi Superjet 100 (jetzt nur noch "Superjet 100") ist ein von Sukhoi Civil Aircraft entwickeltes Regionalflugzeug.<\/br><\/br>Es ersetzt die Tupolev Tu-134 und die Yakovlev Yak-42 und konkurriert mit der Embraer E190 und dem Bombardier CRJ1000.<\/br><\/br>Es ist das erste russische Verkehrsflugzeug, das nach dem Zerfall der Sowjetunion entwickelt wurde. Für den Antrieb des Flugzeugs wird das SaM 146 von PowerJet (Joint Venture zwischen Safran und der russischen NPO Saturn) verwendet.<\/br><\/br>Obwohl es einige internationale Aufträge erhält, hat der SSJ100 aufgrund von Ersatzteilproblemen Schwierigkeiten, außerhalb Russlands an Popularität zu gewinnen.",
+      "AIRCRAFT.UI_MANUFACTURER": "Aeroproyecto",
+      "AIRCRAFT.UI_MODEL": "SSJ100",
+      "AIRCRAFT.UI_VARIATION": "Sukhoi",
+	  "TT:ATCCOM.ATC_NAME_SUKHOI.0.text":"Sukhoi",
+      "TT:ATCCOM.AC_MODEL_SU95.0.text":"SU95",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_TRK_TUNING_LEFT": "Ausgewählten Kurs nach links anpassen (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_TRK_TUNING_RIGHT": "Ausgewählten Kurs nach rechts anpassen (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_LEFT": "Ausgewählten Steuerkurs nach links anpassen (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_RIGHT": "Ausgewählten Steuerkurs nach rechts anpassen (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_L_PFD_DECREASE": "PFD-Helligkeit links verringern",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_L_PFD_INCREASE": "PFD-Helligkeit links erhöhen",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_R_PFD_DECREASE": "PFD-Helligkeit rechts verringern",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_R_PFD_INCREASE": "PFD-Helligkeit rechts erhöhen",
+      "COCKPIT.TOOLTIPS.APU_AVAILABLE": "APU verfügbar",
+      "COCKPIT.TOOLTIPS.LIGHTS_NOSMOKE_AUTO": "\"Rauchen verboten\"-Leuchte auf automatisch stellen",
+      "SU95.LOADING.TIPS.SU95_001": "Die Überziehgeschwindigkeit des SSJ100 liegt bei 97 Knoten bei 30000 kg und 118 kg bei 45000 kg.",
+      "SU95.LOADING.TIPS.SU95_002": "Das Motorgeräusch wird nach dem Anlassen des Motors abklingen.",
+      "SU95.LOADING.TIPS.SU95_003": "Der SSJ100 ist das dritte russische Verkehrsflugzeug mit Fly-by-Wire-Flugsystem.",
+      "SU95.LOADING.TIPS.SU95_004": "Der SSJ100 konkurriert mit dem Embrar E190 und dem Bombardier CRJ1000.",
+      "SU95.LOADING.TIPS.SU95_005": "Der Sukhoi Superjet 100 oder SSJ100 hob am 19. Mai 2008 zum ersten Mal vom Himmel ab.",
+      "SU95.LOADING.TIPS.SU95_006": "Neuere Versionen des SSJ100 sind mit einer Flügelspitzenvorrichtung namens Saberlet ausgestattet.",
+      "SU95.LOADING.TIPS.SU95_007": "Aeroflot ist der größte Betreiber von SSJ100.",
+      "SU95.LOADING.TIPS.SU95_008": "2 new versions of SSJ100 are planned. A 75-seat shrink and a 130-seat strech."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "LocalisationPackage": {
+    "Language": "pt-BR",
+    "Strings": {
+      "AIRCRAFT.DESCRIPTION": "Sukhoi Superjet 100 (agora somente "Superjet 100" ) é um jato regional projetado pela Sukhoi Civil Aircraft.<\/br>>> Substitui Tupolev Tu-134 e Yakovlev Yak-42, assim como compete com Embraer E190 e Bombardier CRJ1000.<\/br>> É a primeira companhia aérea russa projetada após a queda da União Soviética. Ele usa o PowerJet (Joint Venture entre a Safran e a NPO Saturn da Rússia) SaM 146 para alimentar a aeronave.<\/br><</br> Enquanto recebe algumas ordens internacionais, o SSJ100 tem dificuldade em ganhar popularidade fora da Rússia devido a problemas com peças de reposição.",
+      "AIRCRAFT.UI_MANUFACTURER": "Aeroproyecto",
+      "AIRCRAFT.UI_MODEL": "SSJ100",
+      "AIRCRAFT.UI_VARIATION": "Sukhoi",
+      "TT:ATCCOM.ATC_NAME_SUKHOI.0.text":"Sukhoi",
+      "TT:ATCCOM.AC_MODEL_SU95.0.text":"SU95",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_LEFT": "Ajustar a proa selecionada para a esquerda (%((A:AUTOPILOT HEADING LOCK DIR,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_RIGHT": "Ajustar a proa selecionada para a direita (%((A:AUTOPILOT HEADING LOCK DIR,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_TRK_TUNING_RIGHT": "Ajustar a trilha selecionada para a direita (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_TRK_TUNING_LEFT": "Ajustar a trilha selecionada para a esquerda (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_L_PFD_DECREASE": "Reduzir brilho do PFD esquerdo",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_L_PFD_INCREASE": "Aumentar brilho do PFD esquerdo",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_R_PFD_DECREASE": "Reduzir brilho do PFD direito",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_R_PFD_INCREASE": "Aumentar brilho do PFD direito",
+      "COCKPIT.TOOLTIPS.LIGHTS_NOSMOKE_AUTO": "Colocar a luz de aviso \"não fumar\" em AUTO",
+      "COCKPIT.TOOLTIPS.APU_AVAILABLE": "APU disponível",
+      "SU95.LOADING.TIPS.SU95_001": "Stall speed of SSJ100 is at 97 knot at 30000 kg and 118 kg at 45000 kg.",
+      "SU95.LOADING.TIPS.SU95_002": "The engine sound will spool down just as it finished starting up.",
+      "SU95.LOADING.TIPS.SU95_003": "SSJ100 is the third Russian airliners with fly-by-wire flight system.",
+      "SU95.LOADING.TIPS.SU95_004": "SSJ100 competes with Embrar E190 and Bombardier CRJ1000.",
+      "SU95.LOADING.TIPS.SU95_005": "Sukhoi Superjet 100 or SSJ100 first took to the sky in 19 May 2008.",
+      "SU95.LOADING.TIPS.SU95_006": "Newer version of SSJ100 are equipped with a wingtip device called Saberlet.",
+      "SU95.LOADING.TIPS.SU95_007": "Aeroflot is the largest operator of SSJ100.",
+      "SU95.LOADING.TIPS.SU95_008": "2 new versions of SSJ100 are planned. A 75-seat shrink and a 130-seat strech."
+    }
+  }
+}

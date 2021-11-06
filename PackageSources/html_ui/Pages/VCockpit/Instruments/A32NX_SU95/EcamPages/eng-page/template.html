@@ -8703,9 +8703,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8932,7 +8933,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -8982,28 +8984,33 @@
 	  }), getRenderTarget());
 	};
 
-	function gaugeRotationFor(value, scaleMin = 0, scaleMax) {
+	function gaugeRotationFor(value) {
+	  let scaleMin = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+	  let scaleMax = arguments.length > 2 ? arguments[2] : undefined;
 	  return -90 + (Math.min(scaleMax, Number(value)) - scaleMin) / (scaleMax - scaleMin) * 180;
 	}
 
-	const Needle = /*#__PURE__*/react.memo(({
-	  x,
-	  y,
-	  length,
-	  value,
-	  scaleMin = 0,
-	  scaleMax,
-	  className,
-	  dashOffset,
-	  strokeWidth
-	}) => /*#__PURE__*/jsxRuntime.jsx("path", {
-	  className: className,
-	  strokeWidth: strokeWidth !== null && strokeWidth !== void 0 ? strokeWidth : 2,
-	  d: "M ".concat(x, " ").concat(y, " v -").concat(length),
-	  transform: "rotate(".concat(gaugeRotationFor(value, scaleMin, scaleMax), " ").concat(x, " ").concat(y, ")"),
-	  strokeDashoffset: dashOffset,
-	  strokeDasharray: length
-	}));
+	const Needle = /*#__PURE__*/react.memo(_ref => {
+	  let {
+	    x,
+	    y,
+	    length,
+	    value,
+	    scaleMin = 0,
+	    scaleMax,
+	    className,
+	    dashOffset,
+	    strokeWidth
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("path", {
+	    className: className,
+	    strokeWidth: strokeWidth !== null && strokeWidth !== void 0 ? strokeWidth : 2,
+	    d: "M ".concat(x, " ").concat(y, " v -").concat(length),
+	    transform: "rotate(".concat(gaugeRotationFor(value, scaleMin, scaleMax), " ").concat(x, " ").concat(y, ")"),
+	    strokeDashoffset: dashOffset,
+	    strokeDasharray: length
+	  });
+	});
 
 	function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
 	  const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
@@ -9020,20 +9027,23 @@
 	  return ['M', start.x, start.y, 'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y].join(' ');
 	}
 
-	const Arc = /*#__PURE__*/react.memo(({
-	  x,
-	  y,
-	  radius,
-	  toValue,
-	  scaleMin = 0,
-	  scaleMax,
-	  className,
-	  strokeWidth
-	}) => /*#__PURE__*/jsxRuntime.jsx("path", {
-	  className: className,
-	  strokeWidth: strokeWidth !== null && strokeWidth !== void 0 ? strokeWidth : 2.5,
-	  d: describeArc(x, y, radius, -90, gaugeRotationFor(toValue, scaleMin, scaleMax))
-	}));
+	const Arc = /*#__PURE__*/react.memo(_ref2 => {
+	  let {
+	    x,
+	    y,
+	    radius,
+	    toValue,
+	    scaleMin = 0,
+	    scaleMax,
+	    className,
+	    strokeWidth
+	  } = _ref2;
+	  return /*#__PURE__*/jsxRuntime.jsx("path", {
+	    className: className,
+	    strokeWidth: strokeWidth !== null && strokeWidth !== void 0 ? strokeWidth : 2.5,
+	    d: describeArc(x, y, radius, -90, gaugeRotationFor(toValue, scaleMin, scaleMax))
+	  });
+	});
 
 	/**
 	 * Allows interacting with the persistent storage
@@ -9115,42 +9125,51 @@
 	  return [propertyValue, propertySetter];
 	}
 
-	const PageTitle = ({
-	  x,
-	  y,
-	  text
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  id: "pageTitle",
-	  className: "PageTitle",
-	  x: x,
-	  y: y,
-	  alignmentBaseline: "central",
-	  children: text
-	});
+	const PageTitle = _ref => {
+	  let {
+	    x,
+	    y,
+	    text
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    id: "pageTitle",
+	    className: "PageTitle",
+	    x: x,
+	    y: y,
+	    alignmentBaseline: "central",
+	    children: text
+	  });
+	};
 
-	const EcamPage = ({
-	  name,
-	  children
-	}) => /*#__PURE__*/jsxRuntime.jsx("svg", {
-	  id: name,
-	  viewBox: "0 0 600 600",
-	  style: {
-	    marginTop: '-60px'
-	  },
-	  xmlns: "http://www.w3.org/2000/svg",
-	  children: children
-	});
+	const EcamPage = _ref => {
+	  let {
+	    name,
+	    children
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("svg", {
+	    id: name,
+	    viewBox: "0 0 600 600",
+	    style: {
+	      marginTop: '-60px'
+	    },
+	    xmlns: "http://www.w3.org/2000/svg",
+	    children: children
+	  });
+	};
 
-	const SvgGroup = ({
-	  x,
-	  y,
-	  children,
-	  className
-	}) => /*#__PURE__*/jsxRuntime.jsx("g", {
-	  transform: "translate(".concat(x, ",").concat(y, ")"),
-	  className: className,
-	  children: children
-	});
+	const SvgGroup = _ref => {
+	  let {
+	    x,
+	    y,
+	    children,
+	    className
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("g", {
+	    transform: "translate(".concat(x, ",").concat(y, ")"),
+	    className: className,
+	    children: children
+	  });
+	};
 
 	/* eslint-disable no-nested-ternary */
 	setIsEcamPage('eng_page');
@@ -9300,11 +9319,12 @@
 	  return 100;
 	}
 
-	const PressureGauge = ({
-	  x,
-	  y,
-	  engineNumber
-	}) => {
+	const PressureGauge = _ref => {
+	  let {
+	    x,
+	    y,
+	    engineNumber
+	  } = _ref;
 	  const [engineOilPressure] = useSimVar("ENG OIL PRESSURE:".concat(engineNumber), 'psi', 200);
 	  const displayedEngineOilPressure = Math.round(engineOilPressure / 2) * 2; // Engine oil pressure has a step of 2
 
@@ -9398,11 +9418,12 @@
 	  });
 	};
 
-	const QuantityGauge = ({
-	  x,
-	  y,
-	  engineNumber
-	}) => {
+	const QuantityGauge = _ref2 => {
+	  let {
+	    x,
+	    y,
+	    engineNumber
+	  } = _ref2;
 	  const [engineOilQuantity] = useSimVar("ENG OIL QUANTITY:".concat(engineNumber), 'percent', 100);
 	  const OIL_QTY_MAX = 24.25;
 	  const OIL_QTY_LOW_ADVISORY = 1.35;
@@ -9492,11 +9513,12 @@
 	  });
 	};
 
-	const ValveGroup = ({
-	  x,
-	  y,
-	  engineNumber
-	}) => {
+	const ValveGroup = _ref3 => {
+	  let {
+	    x,
+	    y,
+	    engineNumber
+	  } = _ref3;
 	  const [isValveOpen, setIsValveOpen] = react.useState(false);
 	  const [n2Percent] = useSimVar("ENG N2 RPM:".concat(engineNumber), 'percent', 50);
 	  const [isEngineStarting] = useSimVar("GENERAL ENG STARTER:".concat(engineNumber), 'bool', 300);
@@ -9574,11 +9596,12 @@
 	  });
 	};
 
-	const EngineColumn = ({
-	  x,
-	  y,
-	  engineNumber
-	}) => {
+	const EngineColumn = _ref4 => {
+	  let {
+	    x,
+	    y,
+	    engineNumber
+	  } = _ref4;
 	  // Fuel used has a step of 10 when in Kilograms and 20 when in imperial pounds
 	  const [weightUnit] = usePersistentProperty('CONFIG_USING_METRIC_UNIT', '1');
 	  const [fuelUsed] = useSimVar("L:A32NX_FUEL_USED:".concat(engineNumber), 'number', 500);
@@ -9704,7 +9727,7 @@
 @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -9851,4 +9874,4 @@ text {
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/eng-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/eng-page/template.js"></script>

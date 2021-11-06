@@ -1,0 +1,31 @@
+{
+  "LocalisationPackage": {
+    "Language": "zh-CN",
+    "Strings": {
+      "AIRCRAFT.DESCRIPTION": "苏霍伊超级喷气机100（现在只有 "超级喷气机100"）是苏霍伊民用飞机公司设计的支线飞机。</br></br>它取代了图波列夫图-134和雅科夫列夫雅克-42，同时也与巴西航空工业公司E190和庞巴迪CRJ1000竞争。它使用PowerJet（赛峰集团和俄罗斯NPO Saturn的合资公司）的SaM 146作为飞机的动力。</br></br>虽然它收到了一些国际订单，但由于备件问题，SSJ100在俄罗斯以外的地区难以获得青睐。",
+      "AIRCRAFT.UI_MANUFACTURER": "Aeroproyecto",
+      "AIRCRAFT.UI_MODEL": "SSJ100",
+      "AIRCRAFT.UI_VARIATION": "Sukhoi",
+      "TT:ATCCOM.ATC_NAME_SUKHOI.0.text":"Sukhoi",
+      "TT:ATCCOM.AC_MODEL_SU95.0.text":"SU95",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_LEFT": "向左调整所选航向(%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_HDG_TUNING_RIGHT": "向右调整所选航向(%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_TRK_TUNING_LEFT": "Adjust selected track to the left (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_TRK_TUNING_RIGHT": "Adjust selected track to the right (%((A:AUTOPILOT HEADING LOCK DIR:1,degrees))%!d!°)",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_L_PFD_DECREASE": "Decrease left PFD brightness",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_L_PFD_INCREASE": "Increase left PFD brightness",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_R_PFD_DECREASE": "Decrease right PFD brightness",
+      "COCKPIT.TOOLTIPS.LIGHTING_KNOB_R_PFD_INCREASE": "Increase right PFD brightness",
+      "COCKPIT.TOOLTIPS.LIGHTS_NOSMOKE_AUTO": "Set \"no smoke\" prompt light to AUTO",
+      "COCKPIT.TOOLTIPS.APU_AVAILABLE": "APU available",
+      "SU95.LOADING.TIPS.SU95_001": "Stall speed of SSJ100 is at 97 knot at 30000 kg and 118 kg at 45000 kg.",
+      "SU95.LOADING.TIPS.SU95_002": "The engine sound will spool down just as it finished starting up.",
+      "SU95.LOADING.TIPS.SU95_003": "SSJ100 is the third Russian airliners with fly-by-wire flight system.",
+      "SU95.LOADING.TIPS.SU95_004": "SSJ100 competes with Embrar E190 and Bombardier CRJ1000.",
+      "SU95.LOADING.TIPS.SU95_005": "Sukhoi Superjet 100 or SSJ100 first took to the sky in 19 May 2008.",
+      "SU95.LOADING.TIPS.SU95_006": "Newer version of SSJ100 are equipped with a wingtip device called Saberlet.",
+      "SU95.LOADING.TIPS.SU95_007": "Aeroflot is the largest operator of SSJ100.",
+      "SU95.LOADING.TIPS.SU95_008": "2 new versions of SSJ100 are planned. A 75-seat shrink and a 130-seat strech."
+    }
+  }
+}

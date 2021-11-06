@@ -8703,9 +8703,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -8932,7 +8933,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -9043,7 +9045,8 @@
 
 	_defineProperty(Arinc429Word, "f32View", new Float32Array(Arinc429Word.f64View.buffer));
 
-	const useArinc429Var = (name, maxStaleness = 0) => {
+	const useArinc429Var = function (name) {
+	  let maxStaleness = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 	  const value = useSimVarValue(name, 'number', maxStaleness);
 
 	  try {
@@ -9137,7 +9140,9 @@
 	  return [propertyValue, propertySetter];
 	}
 
-	function fuelForDisplay(fuelValue, unitsC, timeUnit = 1, fobMultiplier = 1) {
+	function fuelForDisplay(fuelValue, unitsC) {
+	  let timeUnit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+	  let fobMultiplier = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 	  const fuelWeight = unitsC === '1' ? fuelValue / timeUnit : fuelValue / timeUnit * 2.20462;
 	  const roundValue = unitsC === '1' ? 10 * fobMultiplier : 20 * fobMultiplier;
 	  return Math.round(fuelWeight / roundValue) * roundValue;
@@ -9149,13 +9154,14 @@
 	  return Math.round(fuelWeight / roundValue) * roundValue;
 	}
 
-	const Triangle = ({
-	  x,
-	  y,
-	  colour,
-	  fill,
-	  orientation
-	}) => {
+	const Triangle = _ref => {
+	  let {
+	    x,
+	    y,
+	    colour,
+	    fill,
+	    orientation
+	  } = _ref;
 	  // x,y marks the top of the triangle
 	  // You can rotate this 0, 90, -90 degrees
 	  const polyPoints = "".concat(x + 9, ",").concat(y + 18, " ").concat(x, ",").concat(y, " ").concat(x - 9, ",").concat(y + 18);
@@ -9173,31 +9179,37 @@
 	  });
 	};
 
-	const PageTitle = ({
-	  x,
-	  y,
-	  text
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  id: "pageTitle",
-	  className: "PageTitle",
-	  x: x,
-	  y: y,
-	  alignmentBaseline: "central",
-	  children: text
-	});
+	const PageTitle = _ref => {
+	  let {
+	    x,
+	    y,
+	    text
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    id: "pageTitle",
+	    className: "PageTitle",
+	    x: x,
+	    y: y,
+	    alignmentBaseline: "central",
+	    children: text
+	  });
+	};
 
-	const EcamPage = ({
-	  name,
-	  children
-	}) => /*#__PURE__*/jsxRuntime.jsx("svg", {
-	  id: name,
-	  viewBox: "0 0 600 600",
-	  style: {
-	    marginTop: '-60px'
-	  },
-	  xmlns: "http://www.w3.org/2000/svg",
-	  children: children
-	});
+	const EcamPage = _ref => {
+	  let {
+	    name,
+	    children
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("svg", {
+	    id: name,
+	    viewBox: "0 0 600 600",
+	    style: {
+	      marginTop: '-60px'
+	    },
+	    xmlns: "http://www.w3.org/2000/svg",
+	    children: children
+	  });
+	};
 
 	/* eslint-disable no-nested-ternary */
 	setIsEcamPage('fuel_page');
@@ -9469,9 +9481,10 @@
 	  });
 	};
 
-	const FuelFlow = ({
-	  unit
-	}) => {
+	const FuelFlow = _ref => {
+	  let {
+	    unit
+	  } = _ref;
 	  const [leftFuelFlow] = useSimVar('L:A32NX_ENGINE_FF:1', 'number', 1000); // KG/HR
 
 	  const [rightFuelFlow] = useSimVar('L:A32NX_ENGINE_FF:2', 'number', 1000);
@@ -9505,9 +9518,10 @@
 	  });
 	};
 
-	const FOB = ({
-	  unit
-	}) => {
+	const FOB = _ref2 => {
+	  let {
+	    unit
+	  } = _ref2;
 	  const [fob] = useSimVar('FUEL TOTAL QUANTITY WEIGHT', 'kg', 1000);
 	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("path", {
@@ -9572,12 +9586,13 @@
 	  })]
 	});
 
-	const EngineStatus = ({
-	  x,
-	  y,
-	  engineNumber,
-	  fuelUsed
-	}) => {
+	const EngineStatus = _ref3 => {
+	  let {
+	    x,
+	    y,
+	    engineNumber,
+	    fuelUsed
+	  } = _ref3;
 	  const [EngN2] = useSimVar("TURB ENG N2:".concat(engineNumber), 'Percent', 1000);
 	  return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("text", {
@@ -9594,11 +9609,13 @@
 	  });
 	};
 
-	const EngineLpValveLine = ({
-	  x,
-	  y,
-	  position = 0
-	}) => {
+	const EngineLpValveLine = _ref4 => {
+	  let {
+	    x,
+	    y,
+	    position = 0
+	  } = _ref4;
+
 	  if (position === 0) {
 	    return /*#__PURE__*/jsxRuntime.jsx("line", {
 	      x1: x - 15,
@@ -9625,11 +9642,12 @@
 	  });
 	};
 
-	const EngineLpValve = ({
-	  x,
-	  y,
-	  engineNumber
-	}) => {
+	const EngineLpValve = _ref5 => {
+	  let {
+	    x,
+	    y,
+	    engineNumber
+	  } = _ref5;
 	  const [position] = useSimVar("FUELSYSTEM VALVE OPEN:".concat(engineNumber), 'percent', 500);
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    className: "ThickShape ".concat(position < 100 ? 'ValveAmber' : 'ValveGreen'),
@@ -9645,11 +9663,13 @@
 	  });
 	};
 
-	const CrossFeedValveLine = ({
-	  x,
-	  y,
-	  position
-	}) => {
+	const CrossFeedValveLine = _ref6 => {
+	  let {
+	    x,
+	    y,
+	    position
+	  } = _ref6;
+
 	  if (position === 0) {
 	    return /*#__PURE__*/jsxRuntime.jsx("line", {
 	      x1: x,
@@ -9676,10 +9696,11 @@
 	  });
 	};
 
-	const CrossFeedValve = ({
-	  x,
-	  y
-	}) => {
+	const CrossFeedValve = _ref7 => {
+	  let {
+	    x,
+	    y
+	  } = _ref7;
 	  const [position] = useSimVar('FUELSYSTEM VALVE OPEN:3', 'percent', 500);
 	  return /*#__PURE__*/jsxRuntime.jsxs("g", {
 	    className: "ThickShape ".concat(position > 0 && position < 100 ? 'ValveAmber' : 'ValveGreen'),
@@ -9695,14 +9716,15 @@
 	  });
 	};
 
-	const Pump = ({
-	  x,
-	  y,
-	  onBus = 'DC_ESS',
-	  pumpNumber,
-	  centreTank,
-	  tankQuantity
-	}) => {
+	const Pump = _ref8 => {
+	  let {
+	    x,
+	    y,
+	    onBus = 'DC_ESS',
+	    pumpNumber,
+	    centreTank,
+	    tankQuantity
+	  } = _ref8;
 	  const [active] = useSimVar("FUELSYSTEM PUMP ACTIVE:".concat(pumpNumber), 'bool', 500);
 	  const [busIsPowered] = useSimVar("L:A32NX_ELEC_".concat(onBus, "_BUS_IS_POWERED"), 'bool', 1000);
 	  const [centreTankGreen, setCentreTankGreen] = react.useState(false);
@@ -9783,7 +9805,7 @@
         @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -9998,4 +10020,4 @@ text {
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/fuel-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/fuel-page/template.js"></script>

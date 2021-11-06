@@ -48,5 +48,6 @@
   "markdown.preview.fontSize": 10,
   "terminal.integrated.fontSize": 10,
   "workbench.colorTheme": "Default Light+",
-  "terminal.integrated.defaultProfile.windows": "Git Bash"
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "editor.wordWrap": "on"
 }

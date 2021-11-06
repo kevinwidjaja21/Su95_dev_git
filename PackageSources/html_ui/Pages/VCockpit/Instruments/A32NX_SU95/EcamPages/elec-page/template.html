@@ -8626,18 +8626,21 @@
 	  }
 	});
 
-	const PageTitle = ({
-	  x,
-	  y,
-	  text
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  id: "pageTitle",
-	  className: "PageTitle",
-	  x: x,
-	  y: y,
-	  alignmentBaseline: "central",
-	  children: text
-	});
+	const PageTitle = _ref => {
+	  let {
+	    x,
+	    y,
+	    text
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    id: "pageTitle",
+	    className: "PageTitle",
+	    x: x,
+	    y: y,
+	    alignmentBaseline: "central",
+	    children: text
+	  });
+	};
 
 	// We currently assume that these two elements will be found.
 	// Might be worth implementing checking in the future.
@@ -8771,9 +8774,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -9000,7 +9004,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -9044,29 +9049,35 @@
 	  return value => contextValue.update(name, unit, value, proxy);
 	};
 
-	const EcamPage = ({
-	  name,
-	  children
-	}) => /*#__PURE__*/jsxRuntime.jsx("svg", {
-	  id: name,
-	  viewBox: "0 0 600 600",
-	  style: {
-	    marginTop: '-60px'
-	  },
-	  xmlns: "http://www.w3.org/2000/svg",
-	  children: children
-	});
+	const EcamPage = _ref => {
+	  let {
+	    name,
+	    children
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("svg", {
+	    id: name,
+	    viewBox: "0 0 600 600",
+	    style: {
+	      marginTop: '-60px'
+	    },
+	    xmlns: "http://www.w3.org/2000/svg",
+	    children: children
+	  });
+	};
 
-	const SvgGroup = ({
-	  x,
-	  y,
-	  children,
-	  className
-	}) => /*#__PURE__*/jsxRuntime.jsx("g", {
-	  transform: "translate(".concat(x, ",").concat(y, ")"),
-	  className: className,
-	  children: children
-	});
+	const SvgGroup = _ref => {
+	  let {
+	    x,
+	    y,
+	    children,
+	    className
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("g", {
+	    transform: "translate(".concat(x, ",").concat(y, ")"),
+	    className: className,
+	    children: children
+	  });
+	};
 
 	setIsEcamPage('elec_page');
 	const maxStaleness = 300;
@@ -9346,11 +9357,12 @@
 	  });
 	};
 
-	const Battery = ({
-	  x,
-	  y,
-	  number
-	}) => {
+	const Battery = _ref => {
+	  let {
+	    x,
+	    y,
+	    number
+	  } = _ref;
 	  const [isAuto] = useSimVar("L:A32NX_OVHD_ELEC_BAT_".concat(number, "_PB_IS_AUTO"), 'Bool', maxStaleness);
 	  const [potential] = useSimVar("L:A32NX_ELEC_BAT_".concat(number, "_POTENTIAL"), 'Volts', maxStaleness);
 	  const [potentialWithinNormalRange] = useSimVar("L:A32NX_ELEC_BAT_".concat(number, "_POTENTIAL_NORMAL"), 'Bool', maxStaleness);
@@ -9409,11 +9421,12 @@
 	  });
 	};
 
-	const BatteryToBatBusWire = ({
-	  x,
-	  y,
-	  number
-	}) => {
+	const BatteryToBatBusWire = _ref2 => {
+	  let {
+	    x,
+	    y,
+	    number
+	  } = _ref2;
 	  const [contactorClosed] = useSimVar("L:A32NX_ELEC_CONTACTOR_6PB".concat(number, "_IS_CLOSED"), 'Bool', maxStaleness);
 	  const [current] = useSimVar("L:A32NX_ELEC_BAT_".concat(number, "_CURRENT"), 'Ampere', maxStaleness);
 	  const [showArrowWhenContactorClosed] = useSimVar("L:A32NX_ELEC_CONTACTOR_6PB".concat(number, "_SHOW_ARROW_WHEN_CLOSED"), 'Bool', maxStaleness);
@@ -9459,43 +9472,50 @@
 	  });
 	};
 
-	const ElectricalProperty = ({
-	  x,
-	  y,
-	  value,
-	  unit,
-	  isWithinNormalRange
-	}) => /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
-	  x: x,
-	  y: y,
-	  children: [/*#__PURE__*/jsxRuntime.jsx("text", {
-	    className: "Right ".concat(isWithinNormalRange ? 'Green' : 'Amber'),
-	    children: Math.round(value)
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    x: 3.75,
-	    className: "Cyan",
-	    children: unit
-	  })]
-	});
+	const ElectricalProperty = _ref3 => {
+	  let {
+	    x,
+	    y,
+	    value,
+	    unit,
+	    isWithinNormalRange
+	  } = _ref3;
+	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
+	    x: x,
+	    y: y,
+	    children: [/*#__PURE__*/jsxRuntime.jsx("text", {
+	      className: "Right ".concat(isWithinNormalRange ? 'Green' : 'Amber'),
+	      children: Math.round(value)
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	      x: 3.75,
+	      className: "Cyan",
+	      children: unit
+	    })]
+	  });
+	};
 
-	const Box = ({
-	  width,
-	  height
-	}) => /*#__PURE__*/jsxRuntime.jsx("rect", {
-	  className: "Box",
-	  width: width,
-	  height: height
-	});
+	const Box = _ref4 => {
+	  let {
+	    width,
+	    height
+	  } = _ref4;
+	  return /*#__PURE__*/jsxRuntime.jsx("rect", {
+	    className: "Box",
+	    width: width,
+	    height: height
+	  });
+	};
 
-	const Bus = ({
-	  x,
-	  y,
-	  width,
-	  name,
-	  number,
-	  isNormal,
-	  isShed
-	}) => {
+	const Bus = _ref5 => {
+	  let {
+	    x,
+	    y,
+	    width,
+	    name,
+	    number,
+	    isNormal,
+	    isShed
+	  } = _ref5;
 	  const busHeight = 26.25;
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9524,11 +9544,12 @@
 	  });
 	};
 
-	const BatteryBus = ({
-	  x,
-	  y,
-	  width
-	}) => {
+	const BatteryBus = _ref6 => {
+	  let {
+	    x,
+	    y,
+	    width
+	  } = _ref6;
 	  const [isPowered] = useSimVar('L:A32NX_ELEC_DC_BAT_BUS_IS_POWERED', 'Bool', maxStaleness);
 	  const [bat1IsAuto] = useSimVar('L:A32NX_OVHD_ELEC_BAT_1_PB_IS_AUTO', 'Bool', maxStaleness);
 	  const [bat2IsAuto] = useSimVar('L:A32NX_OVHD_ELEC_BAT_2_PB_IS_AUTO', 'Bool', maxStaleness);
@@ -9544,11 +9565,12 @@
 	  });
 	};
 
-	const EngineGenerator = ({
-	  x,
-	  y,
-	  number
-	}) => {
+	const EngineGenerator = _ref7 => {
+	  let {
+	    x,
+	    y,
+	    number
+	  } = _ref7;
 	  const [isOn] = useSimVar("GENERAL ENG MASTER ALTERNATOR:".concat(number), 'Bool', maxStaleness);
 	  const [load] = useSimVar("L:A32NX_ELEC_ENG_GEN_".concat(number, "_LOAD"), 'Percent', maxStaleness);
 	  const [loadWithinNormalRange] = useSimVar("L:A32NX_ELEC_ENG_GEN_".concat(number, "_LOAD_NORMAL"), 'Bool', maxStaleness);
@@ -9603,10 +9625,11 @@
 	  });
 	};
 
-	const ApuGenerator = ({
-	  x,
-	  y
-	}) => {
+	const ApuGenerator = _ref8 => {
+	  let {
+	    x,
+	    y
+	  } = _ref8;
 	  const [masterSwPbOn] = useSimVar('L:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON', 'Bool', maxStaleness);
 	  const [genSwitchOn] = useSimVar('APU GENERATOR SWITCH:1', 'Bool', maxStaleness);
 	  const [load] = useSimVar('L:A32NX_ELEC_APU_GEN_1_LOAD', 'Percent', maxStaleness);
@@ -9662,10 +9685,11 @@
 	  });
 	};
 
-	const ExternalPower = ({
-	  x,
-	  y
-	}) => {
+	const ExternalPower = _ref9 => {
+	  let {
+	    x,
+	    y
+	  } = _ref9;
 	  const [potential] = useSimVar('L:A32NX_ELEC_EXT_PWR_POTENTIAL', 'Volts', maxStaleness);
 	  const [potentialWithinNormalRange] = useSimVar('L:A32NX_ELEC_EXT_PWR_POTENTIAL_NORMAL', 'Bool', maxStaleness);
 	  const [frequency] = useSimVar('L:A32NX_ELEC_EXT_PWR_FREQUENCY', 'Hertz', maxStaleness);
@@ -9681,10 +9705,11 @@
 	  });
 	};
 
-	const StaticInverter = ({
-	  x,
-	  y
-	}) => {
+	const StaticInverter = _ref10 => {
+	  let {
+	    x,
+	    y
+	  } = _ref10;
 	  const [potential] = useSimVar('L:A32NX_ELEC_STAT_INV_POTENTIAL', 'Volts', maxStaleness);
 	  const [potentialWithinNormalRange] = useSimVar('L:A32NX_ELEC_STAT_INV_POTENTIAL_NORMAL', 'Bool', maxStaleness);
 	  const [frequency] = useSimVar('L:A32NX_ELEC_STAT_INV_FREQUENCY', 'Hertz', maxStaleness);
@@ -9700,15 +9725,16 @@
 	  });
 	};
 
-	const PotentialFrequencyBox = ({
-	  x,
-	  y,
-	  text,
-	  potential,
-	  potentialWithinNormalRange,
-	  frequency,
-	  frequencyWithinNormalRange
-	}) => {
+	const PotentialFrequencyBox = _ref11 => {
+	  let {
+	    x,
+	    y,
+	    text,
+	    potential,
+	    potentialWithinNormalRange,
+	    frequency,
+	    frequencyWithinNormalRange
+	  } = _ref11;
 	  const allParametersWithinNormalRange = potentialWithinNormalRange && frequencyWithinNormalRange;
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9737,12 +9763,13 @@
 	  });
 	};
 
-	const TransformerRectifier = ({
-	  x,
-	  y,
-	  number,
-	  titleOnly
-	}) => {
+	const TransformerRectifier = _ref12 => {
+	  let {
+	    x,
+	    y,
+	    number,
+	    titleOnly
+	  } = _ref12;
 	  const [potential] = useSimVar("L:A32NX_ELEC_TR_".concat(number, "_POTENTIAL"), 'Volts', maxStaleness);
 	  const [potentialWithinNormalRange] = useSimVar("L:A32NX_ELEC_TR_".concat(number, "_POTENTIAL_NORMAL"), 'Bool', maxStaleness);
 	  const [current] = useSimVar("L:A32NX_ELEC_TR_".concat(number, "_CURRENT"), 'Ampere', maxStaleness);
@@ -9785,11 +9812,12 @@
 	  });
 	};
 
-	const EmergencyGenerator = ({
-	  x,
-	  y,
-	  titleOnly
-	}) => {
+	const EmergencyGenerator = _ref13 => {
+	  let {
+	    x,
+	    y,
+	    titleOnly
+	  } = _ref13;
 	  const [potential] = useSimVar('L:A32NX_ELEC_EMER_GEN_POTENTIAL', 'Volts', maxStaleness);
 	  const [potentialWithinNormalRange] = useSimVar('L:A32NX_ELEC_EMER_GEN_POTENTIAL_NORMAL', 'Bool', maxStaleness);
 	  const [frequency] = useSimVar('L:A32NX_ELEC_EMER_GEN_FREQUENCY', 'Hertz', maxStaleness);
@@ -9830,27 +9858,31 @@
 	  });
 	};
 
-	const GalleyShed = ({
-	  x,
-	  y
-	}) => /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
-	  x: x,
-	  y: y,
-	  children: [/*#__PURE__*/jsxRuntime.jsx("text", {
-	    className: "Middle",
-	    children: "GALLEY"
-	  }), /*#__PURE__*/jsxRuntime.jsx("text", {
-	    className: "Middle",
-	    y: 18.75,
-	    children: "SHED"
-	  })]
-	});
+	const GalleyShed = _ref14 => {
+	  let {
+	    x,
+	    y
+	  } = _ref14;
+	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
+	    x: x,
+	    y: y,
+	    children: [/*#__PURE__*/jsxRuntime.jsx("text", {
+	      className: "Middle",
+	      children: "GALLEY"
+	    }), /*#__PURE__*/jsxRuntime.jsx("text", {
+	      className: "Middle",
+	      y: 18.75,
+	      children: "SHED"
+	    })]
+	  });
+	};
 
-	const IntegratedDriveGeneratorTitle = ({
-	  x,
-	  y,
-	  number
-	}) => {
+	const IntegratedDriveGeneratorTitle = _ref15 => {
+	  let {
+	    x,
+	    y,
+	    number
+	  } = _ref15;
 	  const [connected] = useSimVar("L:A32NX_ELEC_ENG_GEN_".concat(number, "_IDG_IS_CONNECTED"), 'Bool', maxStaleness);
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9866,11 +9898,12 @@
 	  });
 	};
 
-	const IntegratedDriveGeneratorTemperature = ({
-	  x,
-	  y,
-	  number
-	}) => {
+	const IntegratedDriveGeneratorTemperature = _ref16 => {
+	  let {
+	    x,
+	    y,
+	    number
+	  } = _ref16;
 	  const [temperature] = useSimVar("L:A32NX_ELEC_ENG_GEN_".concat(number, "_IDG_OIL_OUTLET_TEMPERATURE"), 'Celsius', maxStaleness);
 	  return /*#__PURE__*/jsxRuntime.jsxs(SvgGroup, {
 	    x: x,
@@ -9886,23 +9919,27 @@
 	  });
 	};
 
-	const IntegratedDriveGeneratorDisconnected = ({
-	  x,
-	  y
-	}) => /*#__PURE__*/jsxRuntime.jsx("text", {
-	  className: "Amber",
-	  x: x,
-	  y: y,
-	  children: "DISC"
-	});
+	const IntegratedDriveGeneratorDisconnected = _ref17 => {
+	  let {
+	    x,
+	    y
+	  } = _ref17;
+	  return /*#__PURE__*/jsxRuntime.jsx("text", {
+	    className: "Amber",
+	    x: x,
+	    y: y,
+	    children: "DISC"
+	  });
+	};
 
-	const Arrow = ({
-	  x,
-	  y,
-	  direction,
-	  green,
-	  amber
-	}) => {
+	const Arrow = _ref18 => {
+	  let {
+	    x,
+	    y,
+	    direction,
+	    green,
+	    amber
+	  } = _ref18;
 	  const classes = classnames({
 	    Green: green
 	  }, {
@@ -9939,10 +9976,11 @@
 
 	const arrowSize = 13.737375;
 
-	const Wire = ({
-	  d,
-	  amber
-	}) => {
+	const Wire = _ref19 => {
+	  let {
+	    d,
+	    amber
+	  } = _ref19;
 	  const classes = classnames({
 	    Green: !amber
 	  }, {
@@ -9977,7 +10015,7 @@
 @font-face {
   font-family: "Ecam";
 
-  src: url("/Fonts/ECAMFontRegular.ttf") format("truetype");
+  src: url("/Fonts_SU95/ECAMFontRegular.ttf") format("truetype");
 
   font-weight: normal;
 
@@ -10072,4 +10110,4 @@ text {
     </style>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EcamPages/elec-page/template.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EcamPages/elec-page/template.js"></script>

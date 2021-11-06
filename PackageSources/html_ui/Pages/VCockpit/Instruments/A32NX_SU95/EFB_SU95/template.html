@@ -909,7 +909,9 @@
 	    throw new Error(prefix);
 	  }
 
-	  throw new Error(prefix + ": " + (message || ''));
+	  var provided = typeof message === 'function' ? message() : message;
+	  var value = provided ? prefix + ": " + provided : prefix;
+	  throw new Error(value);
 	}
 
 	function parsePath(path) {
@@ -3112,9 +3114,10 @@
 	  activate: () => Promise.resolve(),
 	  deactivate: () => Promise.resolve()
 	});
-	const FailuresOrchestratorProvider = ({
-	  children
-	}) => {
+	const FailuresOrchestratorProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const [orchestrator] = react.useState(createOrchestrator);
 	  const [allFailures] = react.useState(() => orchestrator.getAllFailures());
 	  const [activeFailures, setActiveFailures] = react.useState(() => new Set());
@@ -4152,7 +4155,7 @@
 	  selectorFactory, which has the signature:
 
 	    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
-	  
+
 	  connect passes its args to connectAdvanced as options, which will in turn pass them to
 	  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
 
@@ -12290,9 +12293,10 @@
 	 * For improved performance, this component will only trigger renders when the
 	 * "update" custom event is emitted through an instrument.
 	 */
-	const SimVarProvider = ({
-	  children
-	}) => {
+	const SimVarProvider = _ref => {
+	  let {
+	    children
+	  } = _ref;
 	  const listeners = react.useRef({});
 	  const [cache, setCache] = react.useState({});
 	  useUpdate(deltaTime => {
@@ -12519,7 +12523,8 @@
 	 */
 
 
-	const useSimVar = (name, unit, maxStaleness = 0) => {
+	const useSimVar = function (name, unit) {
+	  let maxStaleness = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  const value = useSimVarValue(name, unit, maxStaleness);
 	  const setter = useSimVarSetter(name, unit);
@@ -12550,7 +12555,8 @@
 	 * @see useSimVar if you're reading and writing from the same SimVar
 	 */
 
-	const useSplitSimVar = (readName, readUnit, writeName, writeUnit, maxStaleness = 0) => {
+	const useSplitSimVar = function (readName, readUnit, writeName, writeUnit) {
+	  let maxStaleness = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
 
 	  const value = useSimVarValue(readName, readUnit, maxStaleness);
 	  const setter = useSimVarSetter(readName, writeUnit || readUnit, writeName);
@@ -33650,7 +33656,8 @@
 	   */
 
 
-	  _private.round = function (value, toNext = 500) {
+	  _private.round = function (value) {
+	    let toNext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
 	    return Math.round(value / toNext) * toNext;
 	  }; // ---------------------------------------------------------------------------
 
@@ -53161,27 +53168,29 @@
 	  children: props.children
 	});
 
-	const ProgressBar = ({
-	  bgcolor = '#6a1b9a',
-	  completed,
-	  displayBar = false,
-	  completedBarEnd,
-	  completedBarBegin = 0,
-	  completedBarBeginValue,
-	  completionValue,
-	  baseBgColor = '#e0e0de',
-	  height = '20px',
-	  width = '100%',
-	  margin,
-	  padding,
-	  borderRadius = '50px',
-	  labelAlignment = 'right',
-	  labelColor = '#fff',
-	  labelSize = '15px',
-	  isLabelVisible = true,
-	  vertical,
-	  greenBarsWhenInRange
-	}) => {
+	const ProgressBar = _ref => {
+	  let {
+	    bgcolor = '#6a1b9a',
+	    completed,
+	    displayBar = false,
+	    completedBarEnd,
+	    completedBarBegin = 0,
+	    completedBarBeginValue,
+	    completionValue,
+	    baseBgColor = '#e0e0de',
+	    height = '20px',
+	    width = '100%',
+	    margin,
+	    padding,
+	    borderRadius = '50px',
+	    labelAlignment = 'right',
+	    labelColor = '#fff',
+	    labelSize = '15px',
+	    isLabelVisible = true,
+	    vertical,
+	    greenBarsWhenInRange
+	  } = _ref;
+
 	  const getAlignment = alignmentOption => {
 	    if (alignmentOption === 'left') {
 	      return 'flex-start';
@@ -53554,12 +53563,12 @@
 	var img$2 = "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8'%3f%3e%3csvg width='548.96' height='236.38' data-name='Layer 1' version='1.1' viewBox='0 0 548.96 236.38' xmlns='http://www.w3.org/2000/svg' xmlns:cc='http://creativecommons.org/ns%23' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns%23'%3e %3cmetadata%3e %3crdf:RDF%3e %3ccc:Work rdf:about=''%3e %3cdc:format%3eimage/svg%2bxml%3c/dc:format%3e %3cdc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/%3e %3cdc:title%3e320neo_outline_fuel%3c/dc:title%3e %3c/cc:Work%3e %3c/rdf:RDF%3e %3c/metadata%3e %3cdefs%3e %3cstyle%3e.cls-1%2c .cls-2%2c .cls-3%2c .cls-4%2c .cls-5%2c .cls-6 %7b fill: none%3b stroke: white%3b stroke-miterlimit: 10%3b %7d .cls-2 %7b stroke-width: 0.75px%3b %7d .cls-3 %7b stroke-width: 0.25px%3b %7d .cls-4 %7b stroke-width: 0.9px%3b %7d .cls-5 %7b stroke-width: 2px%3b %7d .cls-6 %7b stroke-width: 1.89px%3b %7d%3c/style%3e %3c/defs%3e %3ctitle%3e320neo_outline_fuel%3c/title%3e %3cg transform='rotate(90 284.89 264.04)'%3e %3cpath class='cls-1' d='m143.48 243.89v-66.78l50.87-167.77 14.87-8.87h-5.48l-30.52 8.87-119.48 230.12a33 33 0 0 1-6 2.7 33.59 33.59 0 0 1-12 1.73z'/%3e %3cpath class='cls-2' d='m143.48 202.42a30.08 30.08 0 0 0 13.67-2.87 49.63 49.63 0 0 0-6.26-1.57 48.85 48.85 0 0 0-7.41-0.78'/%3e %3cpath class='cls-2' d='m152.67 145.16a48.85 48.85 0 0 1 7.41 0.78 49.72 49.72 0 0 1 6.26 1.56 29.73 29.73 0 0 1-13.67 2.84h-1.09'/%3e %3cpath class='cls-2' d='m169.21 90.23a49.4 49.4 0 0 1 13.67 2.35 29.7 29.7 0 0 1-5.95 2.08 30.06 30.06 0 0 1-7.72 0.79h-1.08'/%3e %3cpath class='cls-1' d='m71.11 206.01q-8.66 0.69-17.63 1.17-4.25 0.22-8.41 0.39a6.43 6.43 0 0 1-9.4-0.59h-2.15l-2.74-0.39-0.78-1.41c-0.47-5.4-0.77-11.28-0.78-17.57s0.26-12.21 0.72-17.63a21 21 0 0 1 2-0.66 26.34 26.34 0 0 1 4.11-0.79 50 50 0 0 1 7.43-0.28'/%3e %3cpath class='cls-1' d='m41.35 169.93a22.5 22.5 0 0 1 11.35-3.36v3.36z'/%3e %3cpath class='cls-1' d='m52.7 168.22c4.92 0.24 10.16 0.65 15.65 1.29 4.66 0.55 9.1 1.22 13.3 2v10h2.21'/%3e %3cpath class='cls-1' d='m30.78 206.59-3.71-1.41a153.3 153.3 0 0 1-1-16.3 149.58 149.58 0 0 1 1-18.29l2.87-0.61'/%3e %3cpath class='cls-1' d='m78.77 191.26h-25a11.7 11.7 0 0 1-8.51-3.65 10.84 10.84 0 0 1 8.91-3.91h28.52'/%3e %3cline class='cls-3' x1='35.67' x2='36.07' y1='206.98' y2='168.53'/%3e %3cline class='cls-3' x1='57.01' x2='58.17' y1='206.98' y2='191.26'/%3e %3cline class='cls-3' x1='57.88' x2='57.3' y1='183.7' y2='168.53'/%3e %3cline class='cls-3' x1='35.87' x2='50.16' y1='191.26' y2='191.26'/%3e %3cline class='cls-3' x1='35.91' x2='52.7' y1='183.7' y2='183.68'/%3e %3cpath class='cls-1' d='m145 305.04v66.78l50.87 167.74 14.87 8.87h-5.48l-30.52-8.87-119.52-230.09a32.83 32.83 0 0 0-6-2.7 33.45 33.45 0 0 0-12-1.73z'/%3e %3cpath class='cls-2' d='m145 346.51a30.06 30.06 0 0 1 7.72 0.79 29.7 29.7 0 0 1 5.95 2.08 49.4 49.4 0 0 1-13.67 2.35'/%3e %3cpath class='cls-2' d='m154.15 403.77a48.85 48.85 0 0 0 7.41-0.78 51 51 0 0 0 6.26-1.56 29.05 29.05 0 0 0-5.95-2.09 29.56 29.56 0 0 0-7.72-0.78h-1.08'/%3e %3cpath class='cls-2' d='m170.69 458.7a49.4 49.4 0 0 0 13.67-2.36 29.7 29.7 0 0 0-5.95-2.08 30.06 30.06 0 0 0-7.72-0.79h-1.08'/%3e %3cpath class='cls-1' d='m32.27 342.34a148.82 148.82 0 0 0-0.85 36.61'/%3e %3cpath class='cls-1' d='m54.18 380.71c4.93-0.24 10.16-0.65 15.65-1.29 4.67-0.55 9.11-1.22 13.3-2v-10h2.22'/%3e %3cpath class='cls-1' d='m80.25 357.67h-25a11.8 11.8 0 0 0-5.18 1.2 11.62 11.62 0 0 0-3.33 2.45 10.84 10.84 0 0 0 8.91 3.91h28.53'/%3e %3cline class='cls-3' x1='37.16' x2='37.55' y1='341.95' y2='380.39'/%3e %3cline class='cls-3' x1='58.49' x2='59.66' y1='341.95' y2='357.67'/%3e %3cline class='cls-3' x1='59.36' x2='58.78' y1='365.23' y2='380.39'/%3e %3cline class='cls-3' x1='37.35' x2='51.64' y1='357.67' y2='357.67'/%3e %3cline class='cls-3' x1='37.39' x2='54.18' y1='365.23' y2='365.24'/%3e %3cpath class='cls-1' d='m72.59 379.15q-8.59 0.69-17.59 1.19-4.24 0.22-8.41 0.39a6.41 6.41 0 0 1-9.39-0.58h-2.2l-2.73-0.39-0.79-1.41'/%3e %3cpath class='cls-1' d='m31.27 342.78c0.49-0.19 1.18-0.43 2-0.67a26.76 26.76 0 0 1 4.1-0.78 50.15 50.15 0 0 1 7.44-0.28'/%3e %3cpath class='cls-1' d='m42 342.7a22.59 22.59 0 0 1 5.1-2.33 22.16 22.16 0 0 1 6.25-1v3.36z'/%3e %3cline class='cls-1' x1='72.48' x2='53.35' y1='342.7' y2='341.35'/%3e %3cpolyline class='cls-4' transform='matrix(.85 0 0 1 20.857 0)' points='278.09 305.01 189.24 305.01 0 305.01'/%3e %3cpath class='cls-1' d='m257.23 243.77-236.38 0.12544' stroke-width='.98456'/%3e %3cpath class='cls-1' d='m32.57 378.95-3.72-1.41a152.6 152.6 0 0 1 0-34.59l2.87-0.61'/%3e %3cpath class='cls-5' d='m64.06 243.87 114.33-230.21 9.39-0.3-76.78 230.67z'/%3e %3cpath class='cls-5' d='m171.92 59.34-16.5 0.52z'/%3e %3cpath class='cls-5' d='m130 111.91 24.5-0.77z'/%3e %3crect class='cls-6' x='64.06' y='245.16' width='46.94' height='58.43'/%3e %3cpath class='cls-5' d='m64.06 305.11 114.33 230.23 9.39 0.29-76.78-230.69z'/%3e %3cpath class='cls-5' d='m171.92 489.6-16.5-0.52z'/%3e %3cpath class='cls-5' d='m130 437.06 24.5 0.77z'/%3e %3c/g%3e%3c/svg%3e";
 
 	const FuelPage = () => {
-	  const totalFuelGallons = 6267;
-	  const outerCellGallon = 228;
-	  const innerCellGallon = 1816;
-	  const centerTankGallon = 2179;
-	  const wingTotalRefuelTimeSeconds = 1020;
-	  const CenterTotalRefuelTimeSeconds = 180;
+	  const totalFuelGallons = 4215; // 6267;
+	  const outerCellGallon = 110; //228;
+	  const innerCellGallon = 1260; //1816;
+	  const centerTankGallon = 1475; //2179;
+	  const wingTotalRefuelTimeSeconds = 684; //1020;
+	  const CenterTotalRefuelTimeSeconds = 122; // 180;
 	  const [usingMetrics] = usePersistentProperty('CONFIG_USING_METRIC_UNIT', '1');
 
 	  const currentUnit = () => {
@@ -54965,27 +54974,35 @@
 	  }
 	};
 	const todCalculatorReducer = typeToReducer({
-	  [SET_TOD_DATA]: (state, {
-	    data
-	  }) => _objectSpread$c(_objectSpread$c({}, state), data),
-	  [ADD_TOD_GROUND_SPEED]: (state, {
-	    groundSpeed
-	  }) => _objectSpread$c(_objectSpread$c({}, state), {}, {
-	    groundSpeed: [...state.groundSpeed, groundSpeed]
-	  }),
-	  [REMOVE_TOD_GROUND_SPEED]: (state, {
-	    elementIndex
-	  }) => {
+	  [SET_TOD_DATA]: (state, _ref) => {
+	    let {
+	      data
+	    } = _ref;
+	    return _objectSpread$c(_objectSpread$c({}, state), data);
+	  },
+	  [ADD_TOD_GROUND_SPEED]: (state, _ref2) => {
+	    let {
+	      groundSpeed
+	    } = _ref2;
+	    return _objectSpread$c(_objectSpread$c({}, state), {}, {
+	      groundSpeed: [...state.groundSpeed, groundSpeed]
+	    });
+	  },
+	  [REMOVE_TOD_GROUND_SPEED]: (state, _ref3) => {
+	    let {
+	      elementIndex
+	    } = _ref3;
 	    const groundSpeed = [...state.groundSpeed];
 	    groundSpeed.splice(elementIndex, 1);
 	    return _objectSpread$c(_objectSpread$c({}, state), {}, {
 	      groundSpeed
 	    });
 	  },
-	  [SET_TOD_GROUND_SPEED]: (state, {
-	    elementIndex,
-	    groundSpeed
-	  }) => {
+	  [SET_TOD_GROUND_SPEED]: (state, _ref4) => {
+	    let {
+	      elementIndex,
+	      groundSpeed
+	    } = _ref4;
 	    const stateGroundSpeed = [...state.groundSpeed];
 	    stateGroundSpeed[elementIndex] = _objectSpread$c(_objectSpread$c({}, stateGroundSpeed[elementIndex]), groundSpeed);
 	    return _objectSpread$c(_objectSpread$c({}, state), {}, {
@@ -55007,14 +55024,18 @@
 	  pushBackWaitTimerHandle: -1
 	};
 	const buttonsReducer = typeToReducer({
-	  [ADD_ACTIVE_BUTTON]: (state, {
-	    button
-	  }) => _objectSpread$b(_objectSpread$b({}, state), {}, {
-	    activeButtons: [...state.activeButtons, button]
-	  }),
-	  [REMOVE_ACTIVE_BUTTON]: (state, {
-	    elementIndex
-	  }) => {
+	  [ADD_ACTIVE_BUTTON]: (state, _ref) => {
+	    let {
+	      button
+	    } = _ref;
+	    return _objectSpread$b(_objectSpread$b({}, state), {}, {
+	      activeButtons: [...state.activeButtons, button]
+	    });
+	  },
+	  [REMOVE_ACTIVE_BUTTON]: (state, _ref2) => {
+	    let {
+	      elementIndex
+	    } = _ref2;
 	    const activeButtons = [...state.activeButtons];
 
 	    if (elementIndex !== -1) {
@@ -55025,19 +55046,26 @@
 	      activeButtons
 	    });
 	  },
-	  [SET_ACTIVE_BUTTONS]: (state, {
-	    updatedButtons
-	  }) => _objectSpread$b(_objectSpread$b({}, state), {}, {
-	    activeButtons: updatedButtons
-	  }),
-	  [ADD_DISABLED_BUTTON]: (state, {
-	    button
-	  }) => _objectSpread$b(_objectSpread$b({}, state), {}, {
-	    disabledButtons: [...state.disabledButtons, button]
-	  }),
-	  [REMOVE_DISABLED_BUTTON]: (state, {
-	    elementIndex
-	  }) => {
+	  [SET_ACTIVE_BUTTONS]: (state, _ref3) => {
+	    let {
+	      updatedButtons
+	    } = _ref3;
+	    return _objectSpread$b(_objectSpread$b({}, state), {}, {
+	      activeButtons: updatedButtons
+	    });
+	  },
+	  [ADD_DISABLED_BUTTON]: (state, _ref4) => {
+	    let {
+	      button
+	    } = _ref4;
+	    return _objectSpread$b(_objectSpread$b({}, state), {}, {
+	      disabledButtons: [...state.disabledButtons, button]
+	    });
+	  },
+	  [REMOVE_DISABLED_BUTTON]: (state, _ref5) => {
+	    let {
+	      elementIndex
+	    } = _ref5;
 	    const disabledButtons = [...state.disabledButtons];
 
 	    if (elementIndex !== -1) {
@@ -55048,16 +55076,22 @@
 	      disabledButtons
 	    });
 	  },
-	  [SET_TUG_REQUEST_ONLY]: (state, {
-	    tugRequest
-	  }) => _objectSpread$b(_objectSpread$b({}, state), {}, {
-	    tugRequestOnly: tugRequest
-	  }),
-	  [SET_PUSH_BACK_WAIT_TIMER_HANDLE]: (state, {
-	    pushBackWaitTimerHandle
-	  }) => _objectSpread$b(_objectSpread$b({}, state), {}, {
-	    pushBackWaitTimerHandle
-	  })
+	  [SET_TUG_REQUEST_ONLY]: (state, _ref6) => {
+	    let {
+	      tugRequest
+	    } = _ref6;
+	    return _objectSpread$b(_objectSpread$b({}, state), {}, {
+	      tugRequestOnly: tugRequest
+	    });
+	  },
+	  [SET_PUSH_BACK_WAIT_TIMER_HANDLE]: (state, _ref7) => {
+	    let {
+	      pushBackWaitTimerHandle
+	    } = _ref7;
+	    return _objectSpread$b(_objectSpread$b({}, state), {}, {
+	      pushBackWaitTimerHandle
+	    });
+	  }
 	}, initialState);
 
 	const TOD_CALCULATOR_REDUCER = 'todCalculatorReducer';
@@ -55102,19 +55136,20 @@
 	  pushBackWaitTimerHandle
 	});
 
-	const Ground = ({
-	  activeButtons,
-	  disabledButtons,
-	  pushBackWaitTimerHandle,
-	  setPushBackWaitTimerHandle,
-	  tugRequestOnly,
-	  setTugRequestOnly,
-	  addActiveButton,
-	  removeActiveButton,
-	  setActiveButtons,
-	  addDisabledButton,
-	  removeDisabledButton
-	}) => {
+	const Ground = _ref => {
+	  let {
+	    activeButtons,
+	    disabledButtons,
+	    pushBackWaitTimerHandle,
+	    setPushBackWaitTimerHandle,
+	    tugRequestOnly,
+	    setTugRequestOnly,
+	    addActiveButton,
+	    removeActiveButton,
+	    setActiveButtons,
+	    addDisabledButton,
+	    removeDisabledButton
+	  } = _ref;
 	  const [jetWayActive, setJetWayActive] = useSplitSimVar('A:INTERACTIVE POINT OPEN:0', 'Percent over 100', 'K:TOGGLE_JETWAY', 'bool', 1000);
 	  const [, setRampActive] = useSplitSimVar('A:INTERACTIVE POINT OPEN:0', 'Percent over 100', 'K:TOGGLE_RAMPTRUCK', 'bool', 1000);
 	  const [cargoActive, setCargoActive] = useSplitSimVar('A:INTERACTIVE POINT OPEN:5', 'Percent over 100', 'K:REQUEST_LUGGAGE', 'bool', 1000);
@@ -55172,7 +55207,8 @@
 	    setTugDirection(direction);
 	  };
 
-	  const togglePushback = (callOnly = false) => {
+	  const togglePushback = function () {
+	    let callOnly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 	    setPushBack(!pushBack);
 	    setTugActive(!tugActive);
 	    setTugRequestOnly(callOnly);
@@ -55471,19 +55507,22 @@
 	    })]
 	  });
 	};
-	var Ground$1 = connect(({
-	  [BUTTON_STATE_REDUCER]: {
+	var Ground$1 = connect(_ref2 => {
+	  let {
+	    [BUTTON_STATE_REDUCER]: {
+	      activeButtons,
+	      disabledButtons,
+	      tugRequestOnly,
+	      pushBackWaitTimerHandle
+	    }
+	  } = _ref2;
+	  return {
 	    activeButtons,
 	    disabledButtons,
 	    tugRequestOnly,
 	    pushBackWaitTimerHandle
-	  }
-	}) => ({
-	  activeButtons,
-	  disabledButtons,
-	  tugRequestOnly,
-	  pushBackWaitTimerHandle
-	}), {
+	  };
+	}, {
 	  addActiveButton,
 	  removeActiveButton,
 	  setActiveButtons,
@@ -55493,21 +55532,24 @@
 	  setPushBackWaitTimerHandle
 	})(Ground);
 
-	const Card = ({
-	  title,
-	  childrenContainerClassName = '',
-	  children,
-	  className
-	}) => /*#__PURE__*/jsxRuntime.jsxs("div", {
-	  className: className,
-	  children: [!!title && /*#__PURE__*/jsxRuntime.jsx("h1", {
-	    className: "text-white font-medium mb-4 text-2xl",
-	    children: title
-	  }), /*#__PURE__*/jsxRuntime.jsx("div", {
-	    className: classnames(['bg-navy-lighter rounded-2xl p-6 text-white shadow-lg', childrenContainerClassName]),
-	    children: children
-	  })]
-	});
+	const Card = _ref => {
+	  let {
+	    title,
+	    childrenContainerClassName = '',
+	    children,
+	    className
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsxs("div", {
+	    className: className,
+	    children: [!!title && /*#__PURE__*/jsxRuntime.jsx("h1", {
+	      className: "text-white font-medium mb-4 text-2xl",
+	      children: title
+	    }), /*#__PURE__*/jsxRuntime.jsx("div", {
+	      className: classnames(['bg-navy-lighter rounded-2xl p-6 text-white shadow-lg', childrenContainerClassName]),
+	      children: children
+	    })]
+	  });
+	};
 
 	const setTodData = data => ({
 	  type: SET_TOD_DATA,
@@ -55611,15 +55653,18 @@
 	  }));
 	};
 
-	var GroundSpeedAuto$1 = connect(({
-	  [TOD_CALCULATOR_REDUCER]: {
-	    groundSpeed,
+	var GroundSpeedAuto$1 = connect(_ref2 => {
+	  let {
+	    [TOD_CALCULATOR_REDUCER]: {
+	      groundSpeed,
+	      currentAltitude
+	    }
+	  } = _ref2;
+	  return {
+	    groundSpeedData: groundSpeed,
 	    currentAltitude
-	  }
-	}) => ({
-	  groundSpeedData: groundSpeed,
-	  currentAltitude
-	}), {
+	  };
+	}, {
 	  setTodGroundSpeed,
 	  removeTodGroundSpeed,
 	  setTodGroundSpeedMode
@@ -55744,38 +55789,41 @@
 	  return /*#__PURE__*/jsxRuntime.jsxs("div", _objectSpread$7(_objectSpread$7({}, props), {}, {
 	    children: [/*#__PURE__*/jsxRuntime.jsx("div", {
 	      className: "ground-speed-container mb-4",
-	      children: groundSpeed.map(({
-	        from,
-	        groundSpeed
-	      }, key) => /*#__PURE__*/jsxRuntime.jsxs("div", {
-	        className: "flex w-full mb-4 bg-blue-darker rounded-lg",
-	        children: [/*#__PURE__*/jsxRuntime.jsx(Input, {
-	          label: "Min. Alt ".concat(key + 1),
-	          type: "number",
-	          className: "dark-option w-6/12 mr-4",
-	          value: from,
-	          rightComponent: /*#__PURE__*/jsxRuntime.jsx("span", {
-	            className: "text-2xl",
-	            children: "ft"
-	          }),
-	          disabled: key === 0,
-	          onChange: from => setTodGroundSpeed(key, {
-	            from
-	          })
-	        }), /*#__PURE__*/jsxRuntime.jsx(Input, {
-	          label: "GS",
-	          type: "number",
-	          className: "dark-option w-6/12",
-	          rightComponent: /*#__PURE__*/jsxRuntime.jsx("span", {
-	            className: "text-2xl",
-	            children: "kt"
-	          }),
-	          value: groundSpeed,
-	          onChange: groundSpeed => setTodGroundSpeed(key, {
-	            groundSpeed
-	          })
-	        })]
-	      }))
+	      children: groundSpeed.map((_ref2, key) => {
+	        let {
+	          from,
+	          groundSpeed
+	        } = _ref2;
+	        return /*#__PURE__*/jsxRuntime.jsxs("div", {
+	          className: "flex w-full mb-4 bg-blue-darker rounded-lg",
+	          children: [/*#__PURE__*/jsxRuntime.jsx(Input, {
+	            label: "Min. Alt ".concat(key + 1),
+	            type: "number",
+	            className: "dark-option w-6/12 mr-4",
+	            value: from,
+	            rightComponent: /*#__PURE__*/jsxRuntime.jsx("span", {
+	              className: "text-2xl",
+	              children: "ft"
+	            }),
+	            disabled: key === 0,
+	            onChange: from => setTodGroundSpeed(key, {
+	              from
+	            })
+	          }), /*#__PURE__*/jsxRuntime.jsx(Input, {
+	            label: "GS",
+	            type: "number",
+	            className: "dark-option w-6/12",
+	            rightComponent: /*#__PURE__*/jsxRuntime.jsx("span", {
+	              className: "text-2xl",
+	              children: "kt"
+	            }),
+	            value: groundSpeed,
+	            onChange: groundSpeed => setTodGroundSpeed(key, {
+	              groundSpeed
+	            })
+	          })]
+	        });
+	      })
 	    }), /*#__PURE__*/jsxRuntime.jsxs("div", {
 	      className: "flex flex-row justify-end mb-4",
 	      children: [groundSpeed.length > 1 && /*#__PURE__*/jsxRuntime.jsx(Button, {
@@ -55804,15 +55852,18 @@
 	  }));
 	};
 
-	var GroundSpeedManual$1 = connect(({
-	  [TOD_CALCULATOR_REDUCER]: {
+	var GroundSpeedManual$1 = connect(_ref3 => {
+	  let {
+	    [TOD_CALCULATOR_REDUCER]: {
+	      groundSpeed,
+	      groundSpeedMode
+	    }
+	  } = _ref3;
+	  return {
 	    groundSpeed,
 	    groundSpeedMode
-	  }
-	}) => ({
-	  groundSpeed,
-	  groundSpeedMode
-	}), {
+	  };
+	}, {
 	  addTodGroundSpeed,
 	  removeTodGroundSpeed,
 	  setTodGroundSpeed,
@@ -55849,13 +55900,16 @@
 	  }));
 	};
 
-	var GroundSpeed$1 = connect(({
-	  [TOD_CALCULATOR_REDUCER]: {
+	var GroundSpeed$1 = connect(_ref2 => {
+	  let {
+	    [TOD_CALCULATOR_REDUCER]: {
+	      groundSpeedMode
+	    }
+	  } = _ref2;
+	  return {
 	    groundSpeedMode
-	  }
-	}) => ({
-	  groundSpeedMode
-	}))(GroundSpeed);
+	  };
+	})(GroundSpeed);
 
 	const _excluded$1 = ["currentAltitudeSyncEnabled", "calculationInputSyncEnabled", "currentAltitude", "targetAltitude", "calculation", "setTodCurrentAltitudeSync", "setTodData"];
 
@@ -55988,77 +56042,83 @@
 	      })
 	    }), /*#__PURE__*/jsxRuntime.jsx(Divider, {
 	      className: "mb-6"
-	    }), calculationTypes.map(({
-	      label,
-	      rightLabel,
-	      type,
-	      syncValue,
-	      negativeValue
-	    }) => (!calculationInput || calculationType === type) && /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
-	      children: /*#__PURE__*/jsxRuntime.jsx(Input, {
-	        label: label,
-	        type: "number",
-	        className: "dark-option mb-2 pr-1",
-	        leftInnerComponent: negativeValue ? /*#__PURE__*/jsxRuntime.jsx("span", {
-	          className: "text-2xl",
-	          children: "-"
-	        }) : null,
-	        rightComponent: /*#__PURE__*/jsxRuntime.jsxs("div", {
-	          className: "flex items-center justify-center",
-	          children: [/*#__PURE__*/jsxRuntime.jsx("span", {
-	            className: "text-2xl pr-3",
-	            children: rightLabel
-	          }), inputValid(type, syncValue) && /*#__PURE__*/jsxRuntime.jsx(Button, {
-	            className: "ml-1",
-	            text: "SYNC",
-	            type: calculationInputSyncEnabled ? BUTTON_TYPE.BLUE : BUTTON_TYPE.BLUE_OUTLINE,
-	            onClick: () => setTodData({
-	              calculationInputMode: !calculationInputSyncEnabled ? TOD_INPUT_MODE.AUTO : TOD_INPUT_MODE.MANUAL,
-	              calculation: {
-	                type,
-	                input: syncedInput
-	              }
-	            })
-	          }), !!calculationInput && !calculationInputSyncEnabled && /*#__PURE__*/jsxRuntime.jsx(Button, {
-	            className: "ml-1",
-	            text: "X",
-	            type: BUTTON_TYPE.RED_OUTLINE,
-	            onClick: () => setTodData({
-	              calculation: {
-	                input: '',
-	                type: undefined
-	              }
-	            })
-	          })]
-	        }),
-	        onChange: input => setTodData({
-	          calculation: {
-	            input,
-	            type: input !== '' ? type : undefined
-	          }
-	        }),
-	        value: calculationInput ? Math.abs(calculationInput) : '',
-	        disabled: calculationInputSyncEnabled
-	      })
-	    }))]
+	    }), calculationTypes.map(_ref2 => {
+	      let {
+	        label,
+	        rightLabel,
+	        type,
+	        syncValue,
+	        negativeValue
+	      } = _ref2;
+	      return (!calculationInput || calculationType === type) && /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
+	        children: /*#__PURE__*/jsxRuntime.jsx(Input, {
+	          label: label,
+	          type: "number",
+	          className: "dark-option mb-2 pr-1",
+	          leftInnerComponent: negativeValue ? /*#__PURE__*/jsxRuntime.jsx("span", {
+	            className: "text-2xl",
+	            children: "-"
+	          }) : null,
+	          rightComponent: /*#__PURE__*/jsxRuntime.jsxs("div", {
+	            className: "flex items-center justify-center",
+	            children: [/*#__PURE__*/jsxRuntime.jsx("span", {
+	              className: "text-2xl pr-3",
+	              children: rightLabel
+	            }), inputValid(type, syncValue) && /*#__PURE__*/jsxRuntime.jsx(Button, {
+	              className: "ml-1",
+	              text: "SYNC",
+	              type: calculationInputSyncEnabled ? BUTTON_TYPE.BLUE : BUTTON_TYPE.BLUE_OUTLINE,
+	              onClick: () => setTodData({
+	                calculationInputMode: !calculationInputSyncEnabled ? TOD_INPUT_MODE.AUTO : TOD_INPUT_MODE.MANUAL,
+	                calculation: {
+	                  type,
+	                  input: syncedInput
+	                }
+	              })
+	            }), !!calculationInput && !calculationInputSyncEnabled && /*#__PURE__*/jsxRuntime.jsx(Button, {
+	              className: "ml-1",
+	              text: "X",
+	              type: BUTTON_TYPE.RED_OUTLINE,
+	              onClick: () => setTodData({
+	                calculation: {
+	                  input: '',
+	                  type: undefined
+	                }
+	              })
+	            })]
+	          }),
+	          onChange: input => setTodData({
+	            calculation: {
+	              input,
+	              type: input !== '' ? type : undefined
+	            }
+	          }),
+	          value: calculationInput ? Math.abs(calculationInput) : '',
+	          disabled: calculationInputSyncEnabled
+	        })
+	      });
+	    })]
 	  }));
 	};
 
-	var Data$1 = connect(({
-	  [TOD_CALCULATOR_REDUCER]: {
-	    currentAltitudeMode,
-	    calculationInputMode,
+	var Data$1 = connect(_ref3 => {
+	  let {
+	    [TOD_CALCULATOR_REDUCER]: {
+	      currentAltitudeMode,
+	      calculationInputMode,
+	      currentAltitude,
+	      targetAltitude,
+	      calculation
+	    }
+	  } = _ref3;
+	  return {
+	    currentAltitudeSyncEnabled: currentAltitudeMode === TOD_INPUT_MODE.AUTO,
+	    calculationInputSyncEnabled: calculationInputMode === TOD_INPUT_MODE.AUTO,
 	    currentAltitude,
 	    targetAltitude,
 	    calculation
-	  }
-	}) => ({
-	  currentAltitudeSyncEnabled: currentAltitudeMode === TOD_INPUT_MODE.AUTO,
-	  calculationInputSyncEnabled: calculationInputMode === TOD_INPUT_MODE.AUTO,
-	  currentAltitude,
-	  targetAltitude,
-	  calculation
-	}), {
+	  };
+	}, {
 	  setTodCurrentAltitudeSync,
 	  setTodData
 	})(Data);
@@ -56105,10 +56165,11 @@
 
 	  findAverageGroundSpeed(groundSpeedsRanges) {
 	    let sum = 0;
-	    groundSpeedsRanges.forEach(({
-	      groundSpeed,
-	      range: [bottom, top]
-	    }) => {
+	    groundSpeedsRanges.forEach(_ref => {
+	      let {
+	        groundSpeed,
+	        range: [bottom, top]
+	      } = _ref;
 	      sum += groundSpeed * (top - bottom);
 	    });
 	    const totalVerticalDistance = lodash.get(lodash.last(groundSpeedsRanges), ['range', 1]) - lodash.get(lodash.head(groundSpeedsRanges), ['range', 0]);
@@ -56218,9 +56279,12 @@
 
 	  const calculationValid = value => !Number.isNaN(value) && Number.isFinite(value);
 
-	  const calculations = results.map(({
-	    calculate
-	  }) => calculate());
+	  const calculations = results.map(_ref2 => {
+	    let {
+	      calculate
+	    } = _ref2;
+	    return calculate();
+	  });
 	  const validCalculations = calculations.filter(value => calculationValid(value));
 
 	  if (inputDataValid && validCalculations.length > 0) {
@@ -56228,12 +56292,13 @@
 	      title: "Result",
 	      childrenContainerClassName: "flex-1 flex flex-col justify-center px-0"
 	    }, props), {}, {
-	      children: results.map(({
-	        headerText,
-	        footerText,
-	        calculate,
-	        unit
-	      }) => {
+	      children: results.map(_ref3 => {
+	        let {
+	          headerText,
+	          footerText,
+	          calculate,
+	          unit
+	        } = _ref3;
 	        const calculation = calculate();
 
 	        if (calculationValid(calculation)) {
@@ -56260,19 +56325,22 @@
 	  return null;
 	};
 
-	var Result$1 = connect(({
-	  [TOD_CALCULATOR_REDUCER]: {
+	var Result$1 = connect(_ref4 => {
+	  let {
+	    [TOD_CALCULATOR_REDUCER]: {
+	      currentAltitude,
+	      targetAltitude,
+	      calculation,
+	      groundSpeed
+	    }
+	  } = _ref4;
+	  return {
 	    currentAltitude,
 	    targetAltitude,
 	    calculation,
 	    groundSpeed
-	  }
-	}) => ({
-	  currentAltitude,
-	  targetAltitude,
-	  calculation,
-	  groundSpeed
-	}), {
+	  };
+	}, {
 	  setTodData
 	})(Result);
 
@@ -58390,13 +58458,13 @@
 	// 1
 	[1, 26, 19], [1, 26, 16], [1, 26, 13], [1, 26, 9], // 2
 	[1, 44, 34], [1, 44, 28], [1, 44, 22], [1, 44, 16], // 3
-	[1, 70, 55], [1, 70, 44], [2, 35, 17], [2, 35, 13], // 4		
+	[1, 70, 55], [1, 70, 44], [2, 35, 17], [2, 35, 13], // 4
 	[1, 100, 80], [2, 50, 32], [2, 50, 24], [4, 25, 9], // 5
 	[1, 134, 108], [2, 67, 43], [2, 33, 15, 2, 34, 16], [2, 33, 11, 2, 34, 12], // 6
-	[2, 86, 68], [4, 43, 27], [4, 43, 19], [4, 43, 15], // 7		
+	[2, 86, 68], [4, 43, 27], [4, 43, 19], [4, 43, 15], // 7
 	[2, 98, 78], [4, 49, 31], [2, 32, 14, 4, 33, 15], [4, 39, 13, 1, 40, 14], // 8
 	[2, 121, 97], [2, 60, 38, 2, 61, 39], [4, 40, 18, 2, 41, 19], [4, 40, 14, 2, 41, 15], // 9
-	[2, 146, 116], [3, 58, 36, 2, 59, 37], [4, 36, 16, 4, 37, 17], [4, 36, 12, 4, 37, 13], // 10		
+	[2, 146, 116], [3, 58, 36, 2, 59, 37], [4, 36, 16, 4, 37, 17], [4, 36, 12, 4, 37, 13], // 10
 	[2, 86, 68, 2, 87, 69], [4, 69, 43, 1, 70, 44], [6, 43, 19, 2, 44, 20], [6, 43, 15, 2, 44, 16], // 11
 	[4, 101, 81], [1, 80, 50, 4, 81, 51], [4, 50, 22, 4, 51, 23], [3, 36, 12, 8, 37, 13], // 12
 	[2, 116, 92, 2, 117, 93], [6, 58, 36, 2, 59, 37], [4, 46, 20, 6, 47, 21], [7, 42, 14, 4, 43, 15], // 13
@@ -59039,7 +59107,7 @@
 
 	proto.setupTypeInfo = function (test, maskPattern) {
 	  var data = this.errorCorrectLevel << 3 | maskPattern;
-	  var bits = util.getBCHTypeInfo(data); // vertical		
+	  var bits = util.getBCHTypeInfo(data); // vertical
 
 	  for (var i = 0; i < 15; i++) {
 	    var mod = !test && (bits >> i & 1) == 1;
@@ -60574,7 +60642,8 @@
 	   */
 
 
-	  _showPopUp(params = {}) {
+	  _showPopUp() {
+	    let params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    Coherent.trigger('SHOW_POP_UP', params);
 	  }
 	  /**
@@ -61060,22 +61129,25 @@
 	  return /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {});
 	};
 
-	const ControlSettings = ({
-	  setShowSettings
-	}) => /*#__PURE__*/jsxRuntime.jsx("div", {
-	  className: "bg-navy-lighter divide-y my-4 divide-gray-700 flex flex-col rounded-xl p-6 shadow-lg",
-	  children: /*#__PURE__*/jsxRuntime.jsxs("div", {
-	    className: "flex flex-row justify-between items-center",
-	    children: [/*#__PURE__*/jsxRuntime.jsx("span", {
-	      className: "text-lg text-gray-300",
-	      children: "Detents"
-	    }), /*#__PURE__*/jsxRuntime.jsx(Button, {
-	      className: "bg-teal-light-contrast border-teal-light-contrast",
-	      text: "Calibrate",
-	      onClick: () => setShowSettings(true)
-	    })]
-	  })
-	});
+	const ControlSettings = _ref => {
+	  let {
+	    setShowSettings
+	  } = _ref;
+	  return /*#__PURE__*/jsxRuntime.jsx("div", {
+	    className: "bg-navy-lighter divide-y my-4 divide-gray-700 flex flex-col rounded-xl p-6 shadow-lg",
+	    children: /*#__PURE__*/jsxRuntime.jsxs("div", {
+	      className: "flex flex-row justify-between items-center",
+	      children: [/*#__PURE__*/jsxRuntime.jsx("span", {
+	        className: "text-lg text-gray-300",
+	        children: "Detents"
+	      }), /*#__PURE__*/jsxRuntime.jsx(Button, {
+	        className: "bg-teal-light-contrast border-teal-light-contrast",
+	        text: "Calibrate",
+	        onClick: () => setShowSettings(true)
+	      })]
+	    })
+	  });
+	};
 
 	const DefaultsPage = () => {
 	  const [thrustReductionHeight, setThrustReductionHeight] = usePersistentProperty('CONFIG_THR_RED_ALT', '1500');
@@ -61292,6 +61364,7 @@
 	  const [defaultBaro, setDefaultBaro] = usePersistentProperty('CONFIG_INIT_BARO_UNIT', 'AUTO');
 	  const [mcduInput, setMcduInput] = usePersistentProperty('MCDU_KB_INPUT', 'DISABLED');
 	  const [mcduTimeout, setMcduTimeout] = usePersistentProperty('CONFIG_MCDU_KB_TIMEOUT', '60');
+	  const [dynamicRegistration, setDynamicRegistration] = usePersistentProperty('DYNAMIC_REGISTRATION_DECAL', '0');
 	  const adirsAlignTimeButtons = [{
 	    name: 'Instant',
 	    setting: 'INSTANT',
@@ -61324,6 +61397,13 @@
 	  }, {
 	    name: 'hPa',
 	    setting: 'HPA'
+	  }];
+	  const dynamicRegistrationButtons = [{
+	    name: 'Disabled',
+	    setting: '0'
+	  }, {
+	    name: 'Enabled',
+	    setting: '1'
 	  }];
 	  react.useEffect(() => {
 	    setShowNavbar(!showThrottleSettings);
@@ -61407,6 +61487,19 @@
 	                setMcduTimeout(event.trim());
 	              }
 	            }
+	          })]
+	        }), /*#__PURE__*/jsxRuntime.jsxs("div", {
+	          className: "py-4 flex flex-row justify-between items-center",
+	          children: [/*#__PURE__*/jsxRuntime.jsx("span", {
+	            className: "text-lg text-gray-300 mr-1",
+	            children: "Dynamic Registration Decal"
+	          }), /*#__PURE__*/jsxRuntime.jsx(SelectGroup, {
+	            children: dynamicRegistrationButtons.map(button => /*#__PURE__*/jsxRuntime.jsx(SelectItem, {
+	              enabled: true,
+	              onSelect: () => setDynamicRegistration(button.setting),
+	              selected: dynamicRegistration === button.setting,
+	              children: button.name
+	            }))
 	          })]
 	        })]
 	      }), /*#__PURE__*/jsxRuntime.jsx(ControlSettings, {
@@ -61964,12 +62057,13 @@
 	  });
 	};
 
-	const FailureButton = ({
-	  name,
-	  isActive,
-	  isChanging,
-	  onClick
-	}) => {
+	const FailureButton = _ref => {
+	  let {
+	    name,
+	    isActive,
+	    isChanging,
+	    onClick
+	  } = _ref;
 	  let type;
 
 	  if (isChanging) {
@@ -62341,7 +62435,8 @@
 	customElement.addEventListener('update', () => {
 	  SIMVAR_CACHE.clear();
 	});
-	function setSimVar(name, value, type = SIMVAR_TYPES[name]) {
+	function setSimVar(name, value) {
+	  let type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : SIMVAR_TYPES[name];
 	  SIMVAR_CACHE.delete(name);
 	  return SimVar.SetSimVarValue(name, type, value);
 	}
@@ -62897,7 +62992,7 @@ button,
  * as it triggers the better focus styles even for links, which still use a dotted
  * outline in Firefox by default.
  */
- 
+
 :-moz-focusring {
 	outline: auto;
 }
@@ -62964,14 +63059,14 @@ samp {
  *    CSS Remedy, with `svg` added as well.
  *
  *    https://github.com/mozdevs/cssremedy/issues/14
- * 
+ *
  * 2. Add `vertical-align: middle` to align replaced elements more
  *    sensibly by default when overriding `display` by adding a
  *    utility like `inline`.
  *
  *    This can trigger a poorly considered linting error in some
  *    tools but is included by design.
- * 
+ *
  *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 
@@ -63036,22 +63131,22 @@ video {
   @font-face {
     font-family: "IBMPlexMono";
     font-weight: 300;
-    src: url("/Fonts/ibm-plex-mono-v6-latin-300.ttf") format("truetype");
+    src: url("/Fonts_SU95/ibm-plex-mono-v6-latin-300.ttf") format("truetype");
   }
   @font-face {
     font-family: "NunitoSans";
     font-weight: 200;
-    src: url("/Fonts/nunito-sans-v6-latin-200.ttf") format("truetype");
+    src: url("/Fonts_SU95/nunito-sans-v6-latin-200.ttf") format("truetype");
   }
   @font-face {
     font-family: "NunitoSans";
     font-weight: 400;
-    src: url("/Fonts/nunito-sans-v6-latin-regular.ttf") format("truetype");
+    src: url("/Fonts_SU95/nunito-sans-v6-latin-regular.ttf") format("truetype");
   }
   @font-face {
     font-family: "NunitoSans";
     font-weight: 700;
-    src: url("/Fonts/nunito-sans-v6-latin-700.ttf") format("truetype");
+    src: url("/Fonts_SU95/nunito-sans-v6-latin-700.ttf") format("truetype");
   }
 .pointer-events-none {
 	pointer-events: none;
@@ -65142,7 +65237,7 @@ button,
  * as it triggers the better focus styles even for links, which still use a dotted
  * outline in Firefox by default.
  */
- 
+
 :-moz-focusring {
 	outline: auto;
 }
@@ -65209,14 +65304,14 @@ samp {
  *    CSS Remedy, with `svg` added as well.
  *
  *    https://github.com/mozdevs/cssremedy/issues/14
- * 
+ *
  * 2. Add `vertical-align: middle` to align replaced elements more
  *    sensibly by default when overriding `display` by adding a
  *    utility like `inline`.
  *
  *    This can trigger a poorly considered linting error in some
  *    tools but is included by design.
- * 
+ *
  *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 
@@ -65281,22 +65376,22 @@ video {
   @font-face {
     font-family: "IBMPlexMono";
     font-weight: 300;
-    src: url("/Fonts/ibm-plex-mono-v6-latin-300.ttf") format("truetype");
+    src: url("/Fonts_SU95/ibm-plex-mono-v6-latin-300.ttf") format("truetype");
   }
   @font-face {
     font-family: "NunitoSans";
     font-weight: 200;
-    src: url("/Fonts/nunito-sans-v6-latin-200.ttf") format("truetype");
+    src: url("/Fonts_SU95/nunito-sans-v6-latin-200.ttf") format("truetype");
   }
   @font-face {
     font-family: "NunitoSans";
     font-weight: 400;
-    src: url("/Fonts/nunito-sans-v6-latin-regular.ttf") format("truetype");
+    src: url("/Fonts_SU95/nunito-sans-v6-latin-regular.ttf") format("truetype");
   }
   @font-face {
     font-family: "NunitoSans";
     font-weight: 700;
-    src: url("/Fonts/nunito-sans-v6-latin-700.ttf") format("truetype");
+    src: url("/Fonts_SU95/nunito-sans-v6-latin-700.ttf") format("truetype");
   }
 .pointer-events-none {
 	pointer-events: none;
@@ -66799,4 +66894,4 @@ html body {
 
 <script type="text/html" import-script="/JS/dataStorage.js" import-async="false"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX/EFB/template.js" import-async="false"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/A32NX_SU95/EFB_SU95/template.js" import-async="false"></script>
