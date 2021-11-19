@@ -777,13 +777,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/EFB_SU95/template.html",
-      "size": 4019723,
-      "date": 132804895839916492
+      "size": 4018946,
+      "date": 132808912068193726
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/EFB_SU95/template.js",
       "size": 1697,
-      "date": 132803166240000000
+      "date": 132808282420000000
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/EWD/template.html",
@@ -2157,53 +2157,53 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.bin",
-      "size": 20429192,
-      "date": 132799588420000000
+      "size": 20424584,
+      "date": 132809394299263401
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.gltf",
-      "size": 2628346,
-      "date": 132799588420000000
+      "size": 2622495,
+      "date": 132809394299450116
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.bin",
-      "size": 14434132,
-      "date": 132799588420000000
+      "size": 14429524,
+      "date": 132809394302842878
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.gltf",
-      "size": 2598021,
-      "date": 132799588420000000
+      "size": 2592036,
+      "date": 132809394303022875
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.bin",
-      "size": 5620984,
-      "date": 132799588420000000
+      "size": 5616376,
+      "date": 132809394304743924
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.gltf",
-      "size": 181057,
-      "date": 132799588420000000
+      "size": 164978,
+      "date": 132809394304763894
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.bin",
-      "size": 2226300,
-      "date": 132799588420000000
+      "size": 2221692,
+      "date": 132809394305053911
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.gltf",
-      "size": 173267,
-      "date": 132799588420000000
+      "size": 157160,
+      "date": 132809394305073902
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.bin",
-      "size": 719464,
-      "date": 132799588420000000
+      "size": 714856,
+      "date": 132809394305313914
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.gltf",
-      "size": 163685,
-      "date": 132799588420000000
+      "size": 147485,
+      "date": 132809394305333914
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/model.cfg",
@@ -2218,17 +2218,17 @@
     {
       "path": "SimObjects/Airplanes/SU95/model/SU95_internal.xml",
       "size": 264342,
-      "date": 132800530493076452
+      "date": 132808903020048014
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/fadec.wasm",
       "size": 542817,
-      "date": 132805497064157378
+      "date": 132810244120850401
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/fbw.wasm",
-      "size": 932211,
-      "date": 132804992723106887
+      "size": 939841,
+      "date": 132810258336343079
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/panel.cfg",
@@ -2242,8 +2242,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/systems.wasm",
-      "size": 621204,
-      "date": 132804995451301017
+      "size": 621047,
+      "date": 132810244964608346
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/ban1shut.wav",
@@ -2292,13 +2292,13 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/FBW_A320_NEO_1.PC.PCK",
-      "size": 49018935,
-      "date": 132799868110000000
+      "size": 49309231,
+      "date": 132806098520000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/FBW_A320_NEO_2.PC.PCK",
-      "size": 96529126,
-      "date": 132799868110000000
+      "size": 96799694,
+      "date": 132806098520000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/sound.cfg",
@@ -2307,8 +2307,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/sound.xml",
-      "size": 115484,
-      "date": 132800537390252703
+      "size": 115322,
+      "date": 132808893842410761
     },
     {
       "path": "SimObjects/Airplanes/SU95/sound/turbine11.wav",
