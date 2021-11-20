@@ -8978,6 +8978,7 @@
 	  return value => contextValue.update(name, unit, value, proxy);
 	};
 
+	/* eslint-disable max-classes-per-file */
 	class Arinc429WordSsmParseError extends Error {
 	  constructor(ssm) {
 	    super();
@@ -8985,7 +8986,6 @@
 	  }
 
 	}
-
 	class Arinc429Word {
 	  constructor(word) {
 	    _defineProperty(this, "ssm", void 0);
@@ -9004,6 +9004,14 @@
 
 
 	    this.value = Arinc429Word.f32View[1];
+	  }
+
+	  static empty() {
+	    return new Arinc429Word(0);
+	  }
+
+	  static fromSimVarValue(name) {
+	    return new Arinc429Word(SimVar.GetSimVarValue(name, 'number'));
 	  }
 
 	  isFailureWarning() {
