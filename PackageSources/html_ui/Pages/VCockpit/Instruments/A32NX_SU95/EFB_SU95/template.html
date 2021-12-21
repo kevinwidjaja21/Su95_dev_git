@@ -4155,7 +4155,7 @@
 	  selectorFactory, which has the signature:
 
 	    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
-	  
+
 	  connect passes its args to connectAdvanced as options, which will in turn pass them to
 	  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
 
@@ -13056,7 +13056,6 @@
 	const NavigraphContext = /*#__PURE__*/react.createContext(undefined);
 	const useNavigraph = () => react.useContext(NavigraphContext);
 
-	/* eslint-disable camelcase */
 	const EmptyISimbriefData = {
 	  airline: '',
 	  flightNumber: '',
@@ -34521,7 +34520,6 @@
 	  exports.Charts = Charts;
 	});
 
-	/* eslint-disable camelcase */
 	const MetarParserTypeWindState = {
 	  degrees: 0,
 	  speed_kts: 0,
@@ -55680,7 +55678,17 @@
 	    if (previousValue !== propsValue) {
 	      onChange(propsValue);
 	    }
-	  }, [propsValue]);
+
+	    if (focusActive) {
+	      Coherent.trigger('FOCUS_INPUT_FIELD');
+	    } else {
+	      Coherent.trigger('UNFOCUS_INPUT_FIELD');
+	    }
+
+	    return () => {
+	      Coherent.trigger('UNFOCUS_INPUT_FIELD');
+	    };
+	  }, [propsValue, focusActive]);
 	  const emptyValue = value === '' || lodash.isNumber(value) && Number.isNaN(value);
 	  return /*#__PURE__*/jsxRuntime.jsxs("div", {
 	    className: classnames('default-input-container', {
@@ -57730,9 +57738,10 @@
 	      }
 	    }
 
+	    e > -1 && (r = r.slice(e + 1));
 	    var o = b("Patches").$;
 	    return t(n) ? o(n, r) : this.produce(n, function (n) {
-	      return o(n, r.slice(e + 1));
+	      return o(n, r);
 	    });
 	  }, e;
 	}(),
@@ -58419,13 +58428,13 @@
 	// 1
 	[1, 26, 19], [1, 26, 16], [1, 26, 13], [1, 26, 9], // 2
 	[1, 44, 34], [1, 44, 28], [1, 44, 22], [1, 44, 16], // 3
-	[1, 70, 55], [1, 70, 44], [2, 35, 17], [2, 35, 13], // 4		
+	[1, 70, 55], [1, 70, 44], [2, 35, 17], [2, 35, 13], // 4
 	[1, 100, 80], [2, 50, 32], [2, 50, 24], [4, 25, 9], // 5
 	[1, 134, 108], [2, 67, 43], [2, 33, 15, 2, 34, 16], [2, 33, 11, 2, 34, 12], // 6
-	[2, 86, 68], [4, 43, 27], [4, 43, 19], [4, 43, 15], // 7		
+	[2, 86, 68], [4, 43, 27], [4, 43, 19], [4, 43, 15], // 7
 	[2, 98, 78], [4, 49, 31], [2, 32, 14, 4, 33, 15], [4, 39, 13, 1, 40, 14], // 8
 	[2, 121, 97], [2, 60, 38, 2, 61, 39], [4, 40, 18, 2, 41, 19], [4, 40, 14, 2, 41, 15], // 9
-	[2, 146, 116], [3, 58, 36, 2, 59, 37], [4, 36, 16, 4, 37, 17], [4, 36, 12, 4, 37, 13], // 10		
+	[2, 146, 116], [3, 58, 36, 2, 59, 37], [4, 36, 16, 4, 37, 17], [4, 36, 12, 4, 37, 13], // 10
 	[2, 86, 68, 2, 87, 69], [4, 69, 43, 1, 70, 44], [6, 43, 19, 2, 44, 20], [6, 43, 15, 2, 44, 16], // 11
 	[4, 101, 81], [1, 80, 50, 4, 81, 51], [4, 50, 22, 4, 51, 23], [3, 36, 12, 8, 37, 13], // 12
 	[2, 116, 92, 2, 117, 93], [6, 58, 36, 2, 59, 37], [4, 46, 20, 6, 47, 21], [7, 42, 14, 4, 43, 15], // 13
@@ -59068,7 +59077,7 @@
 
 	proto.setupTypeInfo = function (test, maskPattern) {
 	  var data = this.errorCorrectLevel << 3 | maskPattern;
-	  var bits = util.getBCHTypeInfo(data); // vertical		
+	  var bits = util.getBCHTypeInfo(data); // vertical
 
 	  for (var i = 0; i < 15; i++) {
 	    var mod = !test && (bits >> i & 1) == 1;
@@ -60554,7 +60563,6 @@
 	  });
 	};
 
-	/* eslint-disable no-underscore-dangle */
 	/// <reference path="../../../typings/fs-base-ui/html_ui/JS/common.d.ts" />
 
 	/**
@@ -60601,6 +60609,8 @@
 	   * Pass Popup display data to Coherent
 	   * @param params
 	   */
+
+	  /* eslint-disable no-underscore-dangle */
 
 
 	  _showPopUp() {
@@ -60653,7 +60663,7 @@
 	  const [showWarning, setShowWarning] = react.useState(false);
 	  const [deadZone, setDeadZone] = usePersistentProperty("THROTTLE_".concat(props.throttleNumber, "DETENT_").concat(props.index, "_RANGE"), '0.05');
 	  const [previousMode, setPreviousMode] = react.useState(props.expertMode);
-	  const [axisValue, setAxisValue] = usePersistentProperty("THROTTLE_".concat(props.throttleNumber, "AXIS_").concat(props.index, "_VALUE"));
+	  const [axisValue, setAxisValue] = usePersistentProperty("THROTTLE_".concat(props.throttleNumber, "AXIS_").concat(props.index, "_VALUE"), '0');
 
 	  const setFromTo = (throttle1Position, settingLower, settingUpper, deadZone, overrideValue) => {
 	    const newSetting = overrideValue || throttle1Position;
@@ -60686,9 +60696,9 @@
 	    }
 
 	    setPreviousMode(props.expertMode);
-	  }, [axisValue, props, setAxisValue, deadZone, setDeadZone]);
+	  }, [axisValue, props, deadZone]);
 	  return /*#__PURE__*/jsxRuntime.jsxs("div", {
-	    className: "mb-2 w-full h-96 justify-between items-center p-2 flex flex-row flex-shrink-0",
+	    className: "mb-2w-full h-96 justify-between items-center p-2 flex flex-row flex-shrink-0 text-white overflow-hidden",
 	    children: [props.barPosition === 'left' && /*#__PURE__*/jsxRuntime.jsx("div", {
 	      className: "mr-8 h-full",
 	      children: /*#__PURE__*/jsxRuntime.jsx(ProgressBar, {
@@ -60711,10 +60721,13 @@
 	    }), /*#__PURE__*/jsxRuntime.jsxs("div", {
 	      children: [!props.expertMode && /*#__PURE__*/jsxRuntime.jsxs("div", {
 	        className: "flex flex-col w-full",
-	        children: [/*#__PURE__*/jsxRuntime.jsx(Input, {
+	        children: [/*#__PURE__*/jsxRuntime.jsx(SimpleInput, {
 	          label: "Deadband +/-",
-	          className: " w-52 dark-option mb-4",
+	          className: "w-52 mb-4",
 	          value: deadZone,
+	          labelPosition: "col",
+	          reverse: true,
+	          noLeftMargin: true,
 	          onChange: deadZone => {
 	            if (parseFloat(deadZone) >= 0.01) {
 	              if (previousMode === props.expertMode) {
@@ -60735,27 +60748,33 @@
 	          type: BUTTON_TYPE.NONE
 	        })]
 	      }), props.expertMode && /*#__PURE__*/jsxRuntime.jsxs("div", {
-	        children: [/*#__PURE__*/jsxRuntime.jsx(Input, {
+	        children: [/*#__PURE__*/jsxRuntime.jsx(SimpleInput, {
 	          label: "Configure End",
+	          labelPosition: "col",
+	          reverse: true,
 	          className: "dark-option w-36 mr-0",
 	          value: !props.expertMode ? deadZone : props.upperBoundDetentGetter.toFixed(2),
+	          noLeftMargin: true,
 	          onChange: deadZone => {
 	            if (previousMode === props.expertMode && deadZone.length > 1 && !Number.isNaN(Number(deadZone))) {
 	              const dz = Math.abs(Math.abs(props.upperBoundDetentGetter) - Math.abs(props.lowerBoundDetentGetter));
-	              setAxisValue(dz / 2);
+	              setAxisValue((dz / 2).toFixed(2));
 	              setDeadZone(dz.toFixed(2));
 	              props.upperBoundDetentSetter.forEach(f => f(parseFloat(deadZone)));
 	              setShowWarning(false);
 	            }
 	          }
-	        }), /*#__PURE__*/jsxRuntime.jsx(Input, {
+	        }), /*#__PURE__*/jsxRuntime.jsx(SimpleInput, {
 	          label: props.expertMode ? 'Configure Start' : 'Configure Range',
 	          className: "dark-option mt-2 w-36",
+	          labelPosition: "col",
+	          reverse: true,
 	          value: !props.expertMode ? deadZone : props.lowerBoundDetentGetter.toFixed(2),
+	          noLeftMargin: true,
 	          onChange: deadZone => {
 	            if (previousMode === props.expertMode && deadZone.length > 1 && !Number.isNaN(Number(deadZone))) {
 	              const dz = Math.abs(Math.abs(props.upperBoundDetentGetter) - Math.abs(props.lowerBoundDetentGetter));
-	              setAxisValue(dz / 2);
+	              setAxisValue((dz / 2).toFixed(2));
 	              setDeadZone(dz.toFixed(2));
 	              props.lowerBoundDetentSetter.forEach(f => f(parseFloat(deadZone)));
 	              setShowWarning(false);
@@ -62147,9 +62166,8 @@
 	  react.useEffect(() => {
 	    if (usingAutobrightness) {
 	      const localTime = currentLocalTime / 3600; // the below code defines a semicircular function.
-	      // eslint-disable-next-line no-restricted-properties
 
-	      setBrightness(Math.sqrt(48 - Math.pow(localTime - 14, 2)) * 14.431 || 0);
+	      setBrightness(Math.sqrt(48 - (localTime - 14) ** 2) * 14.431 || 0);
 	    } else {
 	      setBrightness(brightnessSetting);
 	    }
@@ -62953,7 +62971,7 @@ button,
  * as it triggers the better focus styles even for links, which still use a dotted
  * outline in Firefox by default.
  */
- 
+
 :-moz-focusring {
 	outline: auto;
 }
@@ -63020,14 +63038,14 @@ samp {
  *    CSS Remedy, with `svg` added as well.
  *
  *    https://github.com/mozdevs/cssremedy/issues/14
- * 
+ *
  * 2. Add `vertical-align: middle` to align replaced elements more
  *    sensibly by default when overriding `display` by adding a
  *    utility like `inline`.
  *
  *    This can trigger a poorly considered linting error in some
  *    tools but is included by design.
- * 
+ *
  *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 
@@ -63075,6 +63093,13 @@ video {
 	--tw-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 	--tw-border-opacity: 1;
 	border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+	--tw-ring-offset-shadow: 0 0 #0000;
+	--tw-ring-shadow: 0 0 #0000;
+	--tw-shadow: 0 0 #0000;
+	--tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+	--tw-ring-offset-width: 0px;
+	--tw-ring-offset-color: #fff;
+	--tw-ring-color: rgba(59, 130, 246, 0.5);
 	--tw-ring-offset-shadow: 0 0 #0000;
 	--tw-ring-shadow: 0 0 #0000;
 	--tw-shadow: 0 0 #0000;
@@ -64386,6 +64411,15 @@ video {
 .shadow-md {
 	--tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow {
+	--tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.ring {
+	--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+	--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+	box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 .saturate-0 {
 	--tw-saturate: saturate(0);
@@ -65198,7 +65232,7 @@ button,
  * as it triggers the better focus styles even for links, which still use a dotted
  * outline in Firefox by default.
  */
- 
+
 :-moz-focusring {
 	outline: auto;
 }
@@ -65265,14 +65299,14 @@ samp {
  *    CSS Remedy, with `svg` added as well.
  *
  *    https://github.com/mozdevs/cssremedy/issues/14
- * 
+ *
  * 2. Add `vertical-align: middle` to align replaced elements more
  *    sensibly by default when overriding `display` by adding a
  *    utility like `inline`.
  *
  *    This can trigger a poorly considered linting error in some
  *    tools but is included by design.
- * 
+ *
  *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 
@@ -65320,6 +65354,13 @@ video {
 	--tw-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 	--tw-border-opacity: 1;
 	border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+	--tw-ring-offset-shadow: 0 0 #0000;
+	--tw-ring-shadow: 0 0 #0000;
+	--tw-shadow: 0 0 #0000;
+	--tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+	--tw-ring-offset-width: 0px;
+	--tw-ring-offset-color: #fff;
+	--tw-ring-color: rgba(59, 130, 246, 0.5);
 	--tw-ring-offset-shadow: 0 0 #0000;
 	--tw-ring-shadow: 0 0 #0000;
 	--tw-shadow: 0 0 #0000;
@@ -66631,6 +66672,15 @@ video {
 .shadow-md {
 	--tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow {
+	--tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.ring {
+	--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+	--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+	box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 .saturate-0 {
 	--tw-saturate: saturate(0);

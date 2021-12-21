@@ -407,8 +407,8 @@
     },
     {
       "path": "html_ui/Fonts_SU95/ECAMFontRegular.ttf",
-      "size": 13680,
-      "date": 132792477280000000
+      "size": 13796,
+      "date": 132833959560000000
     },
     {
       "path": "html_ui/Fonts_SU95/HoneywellMCDU.ttf",
@@ -777,8 +777,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/EFB_SU95/template.html",
-      "size": 4018946,
-      "date": 132808912068193726
+      "size": 4020196,
+      "date": 132834819942650002
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/EFB_SU95/template.html.bak",
+      "size": 4020576,
+      "date": 132834813749948064
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/A32NX_SU95/EFB_SU95/template.js",
@@ -2117,8 +2122,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/flight_model.cfg",
-      "size": 34262,
-      "date": 132805017299899845
+      "size": 34256,
+      "date": 132844796133120499
     },
     {
       "path": "SimObjects/Airplanes/SU95/gameplay.cfg",
@@ -2157,53 +2162,53 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.bin",
-      "size": 20424584,
-      "date": 132818708831179382
+      "size": 20851036,
+      "date": 132845570285038309
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD00.gltf",
-      "size": 2622495,
-      "date": 132818708831389372
+      "size": 2628756,
+      "date": 132845570285228307
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.bin",
-      "size": 14429524,
-      "date": 132818708835044682
+      "size": 14855976,
+      "date": 132845570288799237
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD01.gltf",
-      "size": 2592036,
-      "date": 132818708835244672
+      "size": 2598296,
+      "date": 132845570288979220
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.bin",
-      "size": 5616376,
-      "date": 132818708837065841
+      "size": 6042828,
+      "date": 132845570290799238
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD02.gltf",
-      "size": 164978,
-      "date": 132818708837085877
+      "size": 171166,
+      "date": 132845570290809220
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.bin",
-      "size": 2221692,
-      "date": 132818708837395856
+      "size": 2648144,
+      "date": 132845570291189244
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD03.gltf",
-      "size": 157160,
-      "date": 132818708837425852
+      "size": 163348,
+      "date": 132845570291209252
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.bin",
-      "size": 714856,
-      "date": 132818708837675859
+      "size": 1141308,
+      "date": 132845570291519222
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/A320_NEO_INTERIOR_LOD04.gltf",
-      "size": 147485,
-      "date": 132818708837705864
+      "size": 153672,
+      "date": 132845570291539220
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/model.cfg",
@@ -2217,8 +2222,8 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/model/SU95_internal.xml",
-      "size": 263739,
-      "date": 132818707022452215
+      "size": 263828,
+      "date": 132845647316093176
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/fadec.wasm",
@@ -2227,13 +2232,13 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/fbw.wasm",
-      "size": 939841,
-      "date": 132818394119420461
+      "size": 940266,
+      "date": 132824058011325667
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/panel.cfg",
       "size": 3240,
-      "date": 132804853743307857
+      "date": 132834796422195070
     },
     {
       "path": "SimObjects/Airplanes/SU95/panel/panel.xml",
@@ -2681,6 +2686,36 @@
       "date": 131897982273426029
     },
     {
+      "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_AIRFRAME_FUSELAGE_ALBD.PNG.DDS",
+      "size": 2796344,
+      "date": 132836286440000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_AIRFRAME_FUSELAGE_ALBD.PNG.DDS.json",
+      "size": 102,
+      "date": 132836286440000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_AIRFRAME_FUSELAGE_COMP.PNG.DDS",
+      "size": 5592580,
+      "date": 132836286440000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_AIRFRAME_FUSELAGE_COMP.PNG.DDS.json",
+      "size": 191,
+      "date": 132836286440000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_AIRFRAME_FUSELAGE_NORM.PNG.DDS",
+      "size": 5592560,
+      "date": 132836286440000000
+    },
+    {
+      "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_AIRFRAME_FUSELAGE_NORM.PNG.DDS.json",
+      "size": 160,
+      "date": 132836286440000000
+    },
+    {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_BACK01_ALBD.PNG.DDS",
       "size": 22369796,
       "date": 132791234116249536
@@ -2842,33 +2877,33 @@
     },
     {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_GLARESHIELD_ALBD.PNG.dds",
-      "size": 89478660,
-      "date": 132791234135438147
+      "size": 44739384,
+      "date": 132831899680000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_GLARESHIELD_ALBD.PNG.DDS.json",
       "size": 102,
-      "date": 132763983610000000
+      "date": 132831899680000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_GLARESHIELD_COMP.PNG.dds",
       "size": 89478660,
-      "date": 132791234141566906
+      "date": 132831899680000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_GLARESHIELD_COMP.PNG.DDS.json",
       "size": 191,
-      "date": 132763983610000000
+      "date": 132831899680000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_GLARESHIELD_NORM.PNG.DDS",
       "size": 89478640,
-      "date": 132791234147596865
+      "date": 132831899700000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_GLARESHIELD_NORM.PNG.DDS.json",
       "size": 160,
-      "date": 132763983630000000
+      "date": 132831899700000000
     },
     {
       "path": "SimObjects/Airplanes/SU95/texture.A32NX_stable/A320NEO_COCKPIT_INPUTS01_ALBD.PNG.DDS",

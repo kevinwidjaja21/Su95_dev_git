@@ -15,3 +15,6 @@ third-party
 Packages/SSJ100/layout.json
 /src/fbw/obj/
 fadec.o
+node_modules
+third-party
+*.bak
