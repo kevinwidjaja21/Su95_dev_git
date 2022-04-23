@@ -61,11 +61,9 @@ class CDUProgressPage {
                 break;
         }
 
-        mcdu.onLeftInput[0] = (value, scratchpadCallback) => {
+        mcdu.onLeftInput[0] = (value) => {
             if (mcdu.trySetCruiseFlCheckInput(value)) {
                 CDUProgressPage.ShowPage(mcdu);
-            } else {
-                scratchpadCallback();
             }
         };
         mcdu.leftInputDelay[1] = () => {
@@ -90,13 +88,9 @@ class CDUProgressPage {
                 progBearingDist = `{small}{green}\xa0${mcdu.progBearing.toFixed(0).padStart(3, "0")}°\xa0/${mcdu.progDistance.toFixed(distDigits).padStart(3)}{end}{end}`;
             }
         }
-        mcdu.onRightInput[3] = (input, scratchpadCallback) => {
-            mcdu.trySetProgWaypoint(input, (success) => {
-                if (success) {
-                    CDUProgressPage.ShowPage(mcdu);
-                } else {
-                    scratchpadCallback(input);
-                }
+        mcdu.onRightInput[3] = (input) => {
+            mcdu.trySetProgWaypoint(input, () => {
+                CDUProgressPage.ShowPage(mcdu);
             });
         };
         mcdu.setTemplate([
@@ -127,11 +121,9 @@ class CDUProgressPage {
         if (isFinite(mcdu.cruiseFlightLevel)) {
             altCell = mcdu.cruiseFlightLevel.toFixed(0);
         }
-        mcdu.onRightInput[0] = (value, scratchpadCallback) => {
+        mcdu.onRightInput[0] = (value) => {
             if (mcdu.setCruiseFlightLevelAndTemperature(value)) {
                 CDUProgressPage.ShowReportPage(mcdu);
-            } else {
-                scratchpadCallback();
             }
         };
         let toWaypoint;

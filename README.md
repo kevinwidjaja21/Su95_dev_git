@@ -10,21 +10,27 @@ Optional software that you don't need but I personally prefer to use it.
 - [VScode](https://code.visualstudio.com/download)
 
  ## How to use
-By default, the repository doesn't include AEROPROYECTO SSJ 3D model and engine sounds. You will have to obtain the model and sound file by either through the flightsim.to the release package.
+By default, the repository doesn't include AEROPROYECTO SSJ 3D model and engine sounds. You will have to obtain the model and sound file by either through the flightsim.to or the release package.
 - Remove the SSJ100 folder from the community folder
 - Put the .mdl file inside "PackageSources/SimObjects/Airplanes/SU95/model".
 - Put the .wav and sound.cfg to "PackageSources/SimObjects/Airplanes/SU95/sound/"
-- Build fadec.wasm by running following command on the project root in powershell.
+- Run following. This will install the A32NX docker images and node module.
+For powershell:
 ```shell
-.\docker-env\run.cmd ./src/fadec/build.sh
+.\scripts\dev-env\run.cmd ./scripts/setup.sh
 ```
-- Build fbw.wasm by running following command on the project root in powershell.
+For Git Bash/Linux:
 ```shell
-.\docker-env\run.cmd ./src/fbw/build.sh
+./scripts/dev-env/run.sh ./scripts/setup.sh
 ```
-- Build systems.wasm by running following command on the project root in powershell. First run will take a few minutes.
+- Build all A32NX module by running following command. This isntall A32NX modules to PackageSources.
+For powershell:
 ```shell
-.\docker-env\run.cmd ./build_system_wasm.sh
+.\scripts\dev-env\run.cmd ./scripts/build.sh
+```
+For Git Bash/Linux:
+```shell
+./scripts/dev-env/run.sh ./scripts/build.sh
 ```
 - Click on Sync.bat on the project root.
 - Now the plane should appears when you load the project.

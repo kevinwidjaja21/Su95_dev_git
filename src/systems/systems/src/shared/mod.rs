@@ -4,14 +4,10 @@ use crate::{
 };
 use num_derive::FromPrimitive;
 use std::{cell::Ref, fmt::Display, time::Duration};
-use uom::si::{f64::*, pressure::hectopascal, thermodynamic_temperature::degree_celsius};
-
-pub mod low_pass_filter;
-pub mod pid;
+use uom::si::{f64::*, thermodynamic_temperature::degree_celsius};
 
 mod random;
 pub use random::*;
-pub mod arinc429;
 
 pub trait AuxiliaryPowerUnitElectrical:
     ControllerSignal<ContactorSignal> + ApuAvailable + ElectricalElement + ElectricitySource
@@ -43,8 +39,8 @@ pub trait ApuStart {
     fn start_is_on(&self) -> bool;
 }
 
-pub trait RamAirTurbineHydraulicCircuitPressurised {
-    fn is_rat_hydraulic_circuit_pressurised(&self) -> bool;
+pub trait RamAirTurbineHydraulicLoopPressurised {
+    fn is_rat_hydraulic_loop_pressurised(&self) -> bool;
 }
 
 pub trait LandingGearRealPosition {
@@ -273,7 +269,7 @@ impl DelayedPulseTrueLogicGate {
     }
 
     pub fn update(&mut self, context: &UpdateContext, expression_result: bool) {
-        self.true_delayed_gate.update(context, expression_result);
+        self.true_delayed_gate.update(&context, expression_result);
 
         let gate_out = self.true_delayed_gate.output();
 
@@ -375,66 +371,11 @@ pub fn to_bool(value: f64) -> bool {
 }
 
 /// The ratio of flow velocity past a boundary to the local speed of sound.
-#[derive(Clone, Copy, Default, Debug, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 pub struct MachNumber(pub f64);
-
-impl From<f64> for MachNumber {
-    fn from(value: f64) -> Self {
-        MachNumber(value)
-    }
-}
-
-impl From<MachNumber> for f64 {
-    fn from(value: MachNumber) -> Self {
-        value.0
-    }
-}
-
-pub trait AverageExt: Iterator {
-    fn average<M>(self) -> M
-    where
-        M: Average<Self::Item>,
-        Self: Sized,
-    {
-        M::average(self)
-    }
-}
-
-impl<I: Iterator> AverageExt for I {}
-
-pub trait Average<A = Self> {
-    fn average<I>(iter: I) -> Self
-    where
-        I: Iterator<Item = A>;
-}
-
-impl Average for Pressure {
-    fn average<I>(iter: I) -> Self
-    where
-        I: Iterator<Item = Pressure>,
-    {
-        let mut sum = 0.0;
-        let mut count: usize = 0;
-
-        for v in iter {
-            sum += v.get::<hectopascal>();
-            count += 1;
-        }
-
-        if count > 0 {
-            Pressure::new::<hectopascal>(sum / (count as f64))
-        } else {
-            Pressure::new::<hectopascal>(0.)
-        }
-    }
-}
-
-impl<'a> Average<&'a Pressure> for Pressure {
-    fn average<I>(iter: I) -> Self
-    where
-        I: Iterator<Item = &'a Pressure>,
-    {
-        iter.copied().average()
+impl Default for MachNumber {
+    fn default() -> Self {
+        Self(0.)
     }
 }
 
@@ -485,7 +426,7 @@ mod delayed_true_logic_gate_tests {
         test_bed.run_with_delta(Duration::from_millis(0));
         test_bed.run();
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -499,7 +440,7 @@ mod delayed_true_logic_gate_tests {
         test_bed.run_with_delta(Duration::from_millis(0));
         test_bed.run();
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -513,7 +454,7 @@ mod delayed_true_logic_gate_tests {
         test_bed.run_with_delta(Duration::from_millis(0));
         test_bed.run();
 
-        assert!(test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), true);
     }
 
     #[test]
@@ -531,7 +472,7 @@ mod delayed_true_logic_gate_tests {
         test_bed.run_with_delta(Duration::from_millis(100));
         test_bed.run_with_delta(Duration::from_millis(200));
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 }
 
@@ -581,7 +522,7 @@ mod delayed_false_logic_gate_tests {
 
         test_bed.run();
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -593,7 +534,7 @@ mod delayed_false_logic_gate_tests {
         test_bed.command(|a| a.set_expression(true));
         test_bed.run();
 
-        assert!(test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), true);
     }
 
     #[test]
@@ -608,7 +549,7 @@ mod delayed_false_logic_gate_tests {
         test_bed.command(|a| a.set_expression(false));
         test_bed.run();
 
-        assert!(test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), true);
     }
 
     #[test]
@@ -623,7 +564,7 @@ mod delayed_false_logic_gate_tests {
         test_bed.command(|a| a.set_expression(false));
         test_bed.run();
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -641,7 +582,7 @@ mod delayed_false_logic_gate_tests {
         test_bed.run_with_delta(Duration::from_millis(100));
         test_bed.run_with_delta(Duration::from_millis(200));
 
-        assert!(test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), true);
     }
 }
 
@@ -691,7 +632,7 @@ mod delayed_pulse_true_logic_gate_tests {
 
         test_bed.run();
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -703,7 +644,7 @@ mod delayed_pulse_true_logic_gate_tests {
         test_bed.command(|a| a.set_expression(true));
         test_bed.run_with_delta(Duration::from_millis(0));
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -715,7 +656,7 @@ mod delayed_pulse_true_logic_gate_tests {
         test_bed.command(|a| a.set_expression(false));
         test_bed.run();
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -731,7 +672,7 @@ mod delayed_pulse_true_logic_gate_tests {
         test_bed.command(|a| a.set_expression(false));
         test_bed.run_with_delta(Duration::from_millis(300));
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 
     #[test]
@@ -744,15 +685,15 @@ mod delayed_pulse_true_logic_gate_tests {
         test_bed.command(|a| a.set_expression(true));
         test_bed.run_with_delta(Duration::from_millis(1200));
 
-        assert!(test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), true);
 
         test_bed.run_with_delta(Duration::from_millis(100));
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
 
         test_bed.run_with_delta(Duration::from_millis(1200));
 
-        assert!(!test_bed.query(|a| a.gate_output()));
+        assert_eq!(test_bed.query(|a| a.gate_output()), false);
     }
 }
 #[cfg(test)]
@@ -921,22 +862,5 @@ mod electrical_bus_type_tests {
             ElectricalBusType::DirectCurrentHot(2).to_string(),
             "DC_HOT_2"
         );
-    }
-}
-
-#[cfg(test)]
-mod average_tests {
-    use super::*;
-
-    #[test]
-    fn average_returns_average() {
-        let iterator = [
-            Pressure::new::<hectopascal>(100.),
-            Pressure::new::<hectopascal>(200.),
-            Pressure::new::<hectopascal>(300.),
-        ];
-
-        let average: Pressure = iterator.iter().average();
-        assert_eq!(average, Pressure::new::<hectopascal>(200.));
     }
 }

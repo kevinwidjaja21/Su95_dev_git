@@ -1,22 +1,25 @@
 use crate::{
+    hydraulic::HydraulicLoop,
     overhead::PressSingleSignalButton,
-    shared::low_pass_filter::LowPassFilter,
-    shared::pid::PidController,
     simulation::{
         SimulationElement, SimulationElementVisitor, SimulatorWriter, UpdateContext, Write,
     },
 };
 
+use std::f64::consts::E;
+use std::string::String;
 use std::time::Duration;
 
 use uom::si::{
     acceleration::meter_per_second_squared, f64::*, pressure::psi, ratio::ratio, volume::gallon,
 };
 
-use super::linear_actuator::Actuator;
 use super::Accumulator;
-use super::SectionPressure;
-use crate::simulation::{InitContext, VariableIdentifier};
+
+pub trait Actuator {
+    fn used_volume(&self) -> Volume;
+    fn reservoir_return(&self) -> Volume;
+}
 
 struct BrakeActuator {
     total_displacement: Volume,
@@ -73,6 +76,11 @@ impl BrakeActuator {
         }
     }
 
+    fn reset_accumulators(&mut self) {
+        self.volume_to_actuator_accumulator = Volume::new::<gallon>(0.);
+        self.volume_to_res_accumulator = Volume::new::<gallon>(0.);
+    }
+
     fn update_position(&mut self, context: &UpdateContext, loop_pressure: Pressure) -> f64 {
         // Final required position for actuator is the required one unless we can't reach it due to pressure
         let final_required_position = self
@@ -99,14 +107,8 @@ impl Actuator for BrakeActuator {
     fn used_volume(&self) -> Volume {
         self.volume_to_actuator_accumulator
     }
-
     fn reservoir_return(&self) -> Volume {
         self.volume_to_res_accumulator
-    }
-
-    fn reset_volumes(&mut self) {
-        self.volume_to_res_accumulator = Volume::new::<gallon>(0.);
-        self.volume_to_actuator_accumulator = Volume::new::<gallon>(0.);
     }
 }
 
@@ -114,9 +116,10 @@ impl Actuator for BrakeActuator {
 /// Brake model is simplified as we just move brake actuator position from 0 to 1 and take corresponding fluid volume (vol = max_displacement * brake_position).
 /// So it's fairly simplified as we just end up with brake pressure = PRESSURE_FOR_MAX_BRAKE_DEFLECTION_PSI * current_position
 pub struct BrakeCircuit {
-    left_press_id: VariableIdentifier,
-    right_press_id: VariableIdentifier,
-    acc_press_id: VariableIdentifier,
+    _id: String,
+    id_left_press: String,
+    id_right_press: String,
+    id_acc_press: String,
 
     left_brake_actuator: BrakeActuator,
     right_brake_actuator: BrakeActuator,
@@ -134,21 +137,25 @@ pub struct BrakeCircuit {
 
     /// Common vars to all actuators: will be used by the calling loop to know what is used
     /// and what comes back to  reservoir at each iteration
-    total_volume_to_actuator: Volume,
-    total_volume_to_reservoir: Volume,
+    volume_to_actuator_accumulator: Volume,
+    volume_to_res_accumulator: Volume,
 
     /// Fluid pressure in brake circuit filtered for cockpit gauges
-    accumulator_fluid_pressure_sensor_filter: LowPassFilter<Pressure>,
+    accumulator_fluid_pressure_sensor_filtered: Pressure,
 }
 impl BrakeCircuit {
     const ACCUMULATOR_GAS_PRE_CHARGE: f64 = 1000.0; // Nitrogen PSI
+    const ACCUMULATOR_PRESS_BREAKPTS: [f64; 10] = [
+        0.0, 5.0, 25.0, 40.0, 100.0, 200.0, 500.0, 1000.0, 3000., 10000.0,
+    ];
+    const ACCUMULATOR_FLOW_CARAC: [f64; 10] =
+        [0.0, 0.001, 0.004, 0.006, 0.02, 0.05, 0.15, 0.35, 0.5, 0.5];
 
     // Filtered using time constant low pass: new_val = old_val + (new_val - old_val)* (1 - e^(-dt/TCONST))
     // Time constant of the filter used to measure brake circuit pressure
-    const ACC_PRESSURE_SENSOR_FILTER_TIMECONST: Duration = Duration::from_millis(100);
+    const ACC_PRESSURE_SENSOR_FILTER_TIMECONST: f64 = 0.1;
 
     pub fn new(
-        context: &mut InitContext,
         id: &str,
         accumulator_volume: Volume,
         accumulator_fluid_volume_at_init: Volume,
@@ -160,9 +167,10 @@ impl BrakeCircuit {
         }
 
         BrakeCircuit {
-            left_press_id: context.get_identifier(format!("HYD_BRAKE_{}_LEFT_PRESS", id)),
-            right_press_id: context.get_identifier(format!("HYD_BRAKE_{}_RIGHT_PRESS", id)),
-            acc_press_id: context.get_identifier(format!("HYD_BRAKE_{}_ACC_PRESS", id)),
+            _id: String::from(id).to_uppercase(),
+            id_left_press: format!("HYD_BRAKE_{}_LEFT_PRESS", id),
+            id_right_press: format!("HYD_BRAKE_{}_RIGHT_PRESS", id),
+            id_acc_press: format!("HYD_BRAKE_{}_ACC_PRESS", id),
 
             // We assume displacement is just split on left and right
             left_brake_actuator: BrakeActuator::new(total_displacement / 2.),
@@ -178,15 +186,15 @@ impl BrakeCircuit {
                 Pressure::new::<psi>(Self::ACCUMULATOR_GAS_PRE_CHARGE),
                 accumulator_volume,
                 accumulator_fluid_volume_at_init,
+                Self::ACCUMULATOR_PRESS_BREAKPTS,
+                Self::ACCUMULATOR_FLOW_CARAC,
                 true,
             ),
-            total_volume_to_actuator: Volume::new::<gallon>(0.),
-            total_volume_to_reservoir: Volume::new::<gallon>(0.),
+            volume_to_actuator_accumulator: Volume::new::<gallon>(0.),
+            volume_to_res_accumulator: Volume::new::<gallon>(0.),
 
             // Pressure measured after accumulator in brake circuit
-            accumulator_fluid_pressure_sensor_filter: LowPassFilter::<Pressure>::new(
-                Self::ACC_PRESSURE_SENSOR_FILTER_TIMECONST,
-            ),
+            accumulator_fluid_pressure_sensor_filtered: Pressure::new::<psi>(0.0),
         }
     }
 
@@ -208,13 +216,13 @@ impl BrakeCircuit {
             .update(context, actual_max_allowed_pressure);
     }
 
-    pub fn update(&mut self, context: &UpdateContext, section: &impl SectionPressure) {
+    pub fn update(&mut self, context: &UpdateContext, hyd_loop: &HydraulicLoop) {
         // The pressure available in brakes is the one of accumulator only if accumulator has fluid
         let actual_pressure_available: Pressure;
         if self.accumulator.fluid_volume() > Volume::new::<gallon>(0.) {
             actual_pressure_available = self.accumulator.raw_gas_press();
         } else {
-            actual_pressure_available = section.pressure();
+            actual_pressure_available = hyd_loop.pressure();
         }
 
         self.update_brake_actuators(context, actual_pressure_available);
@@ -227,34 +235,39 @@ impl BrakeCircuit {
             self.accumulator.update(
                 context,
                 &mut volume_into_accumulator,
-                section.pressure(),
-                Volume::new::<gallon>(1.),
+                hyd_loop.loop_pressure,
             );
 
             // Volume that just came into accumulator is taken from hydraulic loop through volume_to_actuator interface
-            self.total_volume_to_actuator += volume_into_accumulator.abs();
+            self.volume_to_actuator_accumulator += volume_into_accumulator.abs();
 
             if delta_vol > Volume::new::<gallon>(0.) {
                 let volume_from_acc = self.accumulator.get_delta_vol(delta_vol);
                 let remaining_vol_after_accumulator_empty = delta_vol - volume_from_acc;
-                self.total_volume_to_actuator += remaining_vol_after_accumulator_empty;
+                self.volume_to_actuator_accumulator += remaining_vol_after_accumulator_empty;
             }
         } else {
             // Else case if no accumulator: we just take deltavol needed or return it back to res
-            self.total_volume_to_actuator += delta_vol;
+            self.volume_to_actuator_accumulator += delta_vol;
         }
 
-        self.total_volume_to_reservoir += self.left_brake_actuator.reservoir_return();
-        self.total_volume_to_reservoir += self.right_brake_actuator.reservoir_return();
+        self.volume_to_res_accumulator += self.left_brake_actuator.reservoir_return();
+        self.volume_to_res_accumulator += self.right_brake_actuator.reservoir_return();
 
-        self.left_brake_actuator.reset_volumes();
-        self.right_brake_actuator.reset_volumes();
+        self.left_brake_actuator.reset_accumulators();
+        self.right_brake_actuator.reset_accumulators();
 
         self.pressure_applied_left = self.left_brake_actuator.get_applied_brake_pressure();
         self.pressure_applied_right = self.right_brake_actuator.get_applied_brake_pressure();
 
-        self.accumulator_fluid_pressure_sensor_filter
-            .update(context.delta(), actual_pressure_available);
+        self.accumulator_fluid_pressure_sensor_filtered = self
+            .accumulator_fluid_pressure_sensor_filtered
+            + (actual_pressure_available - self.accumulator_fluid_pressure_sensor_filtered)
+                * (1.
+                    - E.powf(
+                        -context.delta_as_secs_f64()
+                            / BrakeCircuit::ACC_PRESSURE_SENSOR_FILTER_TIMECONST,
+                    ));
     }
 
     pub fn set_brake_demand_left(&mut self, brake_ratio: Ratio) {
@@ -278,33 +291,32 @@ impl BrakeCircuit {
     }
 
     fn accumulator_pressure(&self) -> Pressure {
-        self.accumulator_fluid_pressure_sensor_filter.output()
+        self.accumulator_fluid_pressure_sensor_filtered
     }
 
     pub fn accumulator_fluid_volume(&self) -> Volume {
         self.accumulator.fluid_volume()
     }
+
+    pub fn reset_accumulators(&mut self) {
+        self.volume_to_res_accumulator = Volume::new::<gallon>(0.);
+        self.volume_to_actuator_accumulator = Volume::new::<gallon>(0.);
+    }
 }
 impl Actuator for BrakeCircuit {
     fn used_volume(&self) -> Volume {
-        self.total_volume_to_actuator
+        self.volume_to_actuator_accumulator
     }
-
     fn reservoir_return(&self) -> Volume {
-        self.total_volume_to_reservoir
-    }
-
-    fn reset_volumes(&mut self) {
-        self.total_volume_to_actuator = Volume::new::<gallon>(0.);
-        self.total_volume_to_reservoir = Volume::new::<gallon>(0.);
+        self.volume_to_res_accumulator
     }
 }
 impl SimulationElement for BrakeCircuit {
     fn write(&self, writer: &mut SimulatorWriter) {
-        writer.write(&self.left_press_id, self.left_brake_pressure());
-        writer.write(&self.right_press_id, self.right_brake_pressure());
+        writer.write(&self.id_left_press, self.left_brake_pressure());
+        writer.write(&self.id_right_press, self.right_brake_pressure());
         if self.has_accumulator {
-            writer.write(&self.acc_press_id, self.accumulator_pressure());
+            writer.write(&self.id_acc_press, self.accumulator_pressure());
         }
     }
 }
@@ -340,11 +352,11 @@ pub struct AutobrakePanel {
     max_button: PressSingleSignalButton,
 }
 impl AutobrakePanel {
-    pub fn new(context: &mut InitContext) -> AutobrakePanel {
+    pub fn new() -> AutobrakePanel {
         AutobrakePanel {
-            lo_button: PressSingleSignalButton::new(context, "AUTOBRK_LOW_ON"),
-            med_button: PressSingleSignalButton::new(context, "AUTOBRK_MED_ON"),
-            max_button: PressSingleSignalButton::new(context, "AUTOBRK_MAX_ON"),
+            lo_button: PressSingleSignalButton::new("AUTOBRK_LOW_ON"),
+            med_button: PressSingleSignalButton::new("AUTOBRK_MED_ON"),
+            max_button: PressSingleSignalButton::new("AUTOBRK_MAX_ON"),
         }
     }
 
@@ -381,32 +393,43 @@ impl SimulationElement for AutobrakePanel {
         visitor.visit(self);
     }
 }
+impl Default for AutobrakePanel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 /// Deceleration governor is the PI controller computing the expected brake force to reach the target
 /// it's been given by update caller
 pub struct AutobrakeDecelerationGovernor {
-    pid_controller: PidController,
+    target: Acceleration,
+    i_gain: f64,
+    p_gain: f64,
+    last_error: f64,
 
     current_output: f64,
-    acceleration_filter: LowPassFilter<Acceleration>,
+    filtered_acceleration: Acceleration,
 
     is_engaged: bool,
     time_engaged: Duration,
+    filter: f64,
 }
 impl AutobrakeDecelerationGovernor {
     // Low pass filter for controller acceleration input, time constant in second
-    const ACCELERATION_FILTER_TIME_CONSTANT: Duration = Duration::from_millis(100);
+    const ACCELERATION_INPUT_FILTER: f64 = 0.1;
 
     pub fn new() -> AutobrakeDecelerationGovernor {
         Self {
-            pid_controller: PidController::new(0.3, 0.25, 0., -1., 0., 0.),
+            target: Acceleration::new::<meter_per_second_squared>(10.),
+            i_gain: 0.018,
+            p_gain: 0.18,
+            last_error: 0.,
 
             current_output: 0.,
-            acceleration_filter: LowPassFilter::<Acceleration>::new(
-                Self::ACCELERATION_FILTER_TIME_CONSTANT,
-            ),
+            filtered_acceleration: Acceleration::new::<meter_per_second_squared>(0.),
             is_engaged: false,
             time_engaged: Duration::from_secs(0),
+            filter: Self::ACCELERATION_INPUT_FILTER,
         }
     }
 
@@ -425,7 +448,7 @@ impl AutobrakeDecelerationGovernor {
     fn disengage(&mut self) {
         self.is_engaged = false;
         self.time_engaged = Duration::from_secs(0);
-        self.pid_controller.reset();
+        self.target = Acceleration::new::<meter_per_second_squared>(10.);
     }
 
     pub fn time_engaged(&self) -> Duration {
@@ -434,30 +457,33 @@ impl AutobrakeDecelerationGovernor {
 
     pub fn is_on_target(&self, percent_margin_to_target: Ratio) -> bool {
         self.is_engaged
-            && self.acceleration_filter.output()
-                < Acceleration::new::<meter_per_second_squared>(self.pid_controller.setpoint())
-                    * percent_margin_to_target.get::<ratio>()
+            && self.filtered_acceleration < self.target * percent_margin_to_target.get::<ratio>()
     }
 
     pub fn update(&mut self, context: &UpdateContext, target: Acceleration) {
-        self.pid_controller
-            .change_setpoint(target.get::<meter_per_second_squared>());
+        self.target = target;
 
-        self.acceleration_filter
-            .update(context.delta(), context.long_accel());
+        let accel = context.long_accel();
+        self.filtered_acceleration = self.filtered_acceleration
+            + (accel - self.filtered_acceleration)
+                * (1. - std::f64::consts::E.powf(-context.delta_as_secs_f64() / self.filter));
 
         if self.is_engaged {
             self.time_engaged += context.delta();
 
-            self.current_output = -self.pid_controller.next_control_output(
-                self.acceleration_filter
-                    .output()
-                    .get::<meter_per_second_squared>(),
-                Some(context.delta()),
-            );
+            let target_error = self.filtered_acceleration.get::<meter_per_second_squared>()
+                - self.target.get::<meter_per_second_squared>();
+
+            let p_term = self.p_gain * (target_error - self.last_error);
+            let i_term = self.i_gain * target_error;
+            self.current_output += p_term + i_term;
+
+            self.last_error = target_error;
+
+            self.current_output = self.current_output.min(1.).max(0.);
         } else {
+            self.last_error = 0.;
             self.current_output = 0.;
-            self.pid_controller.reset();
         }
     }
 
@@ -466,7 +492,7 @@ impl AutobrakeDecelerationGovernor {
     }
 
     pub fn decelerating_at_or_above_rate(&self, target_threshold: Acceleration) -> bool {
-        self.acceleration_filter.output() < target_threshold
+        self.filtered_acceleration < target_threshold
     }
 }
 impl Default for AutobrakeDecelerationGovernor {
@@ -478,42 +504,22 @@ impl Default for AutobrakeDecelerationGovernor {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    use crate::electrical::Electricity;
-    use crate::simulation::test::{ElementCtorFn, SimulationTestBed, TestVariableRegistry};
-    use crate::simulation::UpdateContext;
+    use crate::{
+        hydraulic::{Fluid, HydraulicLoop},
+        simulation::UpdateContext,
+    };
     use std::time::Duration;
     use uom::si::{
-        acceleration::foot_per_second_squared, angle::radian, length::foot, pressure::psi,
-        thermodynamic_temperature::degree_celsius, velocity::knot, volume::gallon,
+        acceleration::foot_per_second_squared,
+        length::foot,
+        pressure::{pascal, psi},
+        thermodynamic_temperature::degree_celsius,
+        velocity::knot,
+        volume::gallon,
     };
-
-    struct TestHydraulicSection {
-        current_pressure: Pressure,
-    }
-    impl TestHydraulicSection {
-        fn new(pressure: Pressure) -> Self {
-            Self {
-                current_pressure: pressure,
-            }
-        }
-    }
-    impl SectionPressure for TestHydraulicSection {
-        fn pressure(&self) -> Pressure {
-            self.current_pressure
-        }
-
-        fn is_pressure_switch_pressurised(&self) -> bool {
-            self.current_pressure.get::<psi>() > 2000.
-        }
-    }
 
     #[test]
     fn brake_actuator_movement() {
-        let mut electricity = Electricity::new();
-        let mut registry: TestVariableRegistry = Default::default();
-        let mut init_context = InitContext::new(&mut electricity, &mut registry);
-
         let mut brake_actuator = BrakeActuator::new(Volume::new::<gallon>(0.04));
 
         assert!(brake_actuator.current_position == 0.);
@@ -523,7 +529,7 @@ mod tests {
 
         for _loop_idx in 0..15 {
             brake_actuator.update(
-                &context(&mut init_context, Duration::from_secs_f64(0.1)),
+                &context(Duration::from_secs_f64(0.1)),
                 Pressure::new::<psi>(BrakeActuator::PRESSURE_FOR_MAX_BRAKE_DEFLECTION_PSI),
             );
         }
@@ -537,12 +543,12 @@ mod tests {
         );
         assert!(brake_actuator.volume_to_res_accumulator <= Volume::new::<gallon>(0.0001));
 
-        brake_actuator.reset_volumes();
+        brake_actuator.reset_accumulators();
 
         brake_actuator.set_position_demand(-2.);
         for _ in 0..15 {
             brake_actuator.update(
-                &context(&mut init_context, Duration::from_secs_f64(0.1)),
+                &context(Duration::from_secs_f64(0.1)),
                 Pressure::new::<psi>(3000.),
             );
         }
@@ -555,12 +561,12 @@ mod tests {
         assert!(brake_actuator.volume_to_actuator_accumulator <= Volume::new::<gallon>(0.0001));
 
         // Now same brake increase but with ultra low pressure
-        brake_actuator.reset_volumes();
+        brake_actuator.reset_accumulators();
         brake_actuator.set_position_demand(1.2);
 
         for _ in 0..15 {
             brake_actuator.update(
-                &context(&mut init_context, Duration::from_secs_f64(0.1)),
+                &context(Duration::from_secs_f64(0.1)),
                 Pressure::new::<psi>(20.),
             );
         }
@@ -574,10 +580,6 @@ mod tests {
 
     #[test]
     fn brake_actuator_movement_medium_pressure() {
-        let mut electricity = Electricity::new();
-        let mut registry: TestVariableRegistry = Default::default();
-        let mut init_context = InitContext::new(&mut electricity, &mut registry);
-
         let mut brake_actuator = BrakeActuator::new(Volume::new::<gallon>(0.04));
 
         brake_actuator.set_position_demand(1.2);
@@ -585,10 +587,7 @@ mod tests {
         let medium_pressure = Pressure::new::<psi>(1500.);
         // Update position with 1500psi only: should not reach max displacement.
         for loop_idx in 0..15 {
-            brake_actuator.update(
-                &context(&mut init_context, Duration::from_secs_f64(0.1)),
-                medium_pressure,
-            );
+            brake_actuator.update(&context(Duration::from_secs_f64(0.1)), medium_pressure);
             println!(
                 "Loop {}, position: {}",
                 loop_idx, brake_actuator.current_position
@@ -601,12 +600,12 @@ mod tests {
         );
 
         // Now same max demand but pressure so low so actuator should get back to 0
-        brake_actuator.reset_volumes();
+        brake_actuator.reset_accumulators();
         brake_actuator.set_position_demand(1.2);
 
         for _loop_idx in 0..15 {
             brake_actuator.update(
-                &context(&mut init_context, Duration::from_secs_f64(0.1)),
+                &context(Duration::from_secs_f64(0.1)),
                 Pressure::new::<psi>(20.),
             );
             println!(
@@ -620,61 +619,48 @@ mod tests {
     }
 
     #[test]
-    fn unprimed_brake_circuit_state_at_init() {
+    fn brake_state_at_init() {
         let init_max_vol = Volume::new::<gallon>(1.5);
-        let test_bed = SimulationTestBed::from(ElementCtorFn(|context| {
-            BrakeCircuit::new(
-                context,
-                "altn",
-                init_max_vol,
-                Volume::new::<gallon>(0.0),
-                Volume::new::<gallon>(0.1),
-            )
-        }));
-
-        assert!(test_bed.query_element(
-            |e| e.left_brake_pressure() + e.right_brake_pressure() < Pressure::new::<psi>(10.0)
-        ));
-
-        assert!(test_bed.query_element(|e| e.accumulator.total_volume == init_max_vol));
-        assert!(
-            test_bed.query_element(|e| e.accumulator.fluid_volume() == Volume::new::<gallon>(0.0))
+        let brake_circuit_unprimed = BrakeCircuit::new(
+            "altn",
+            init_max_vol,
+            Volume::new::<gallon>(0.0),
+            Volume::new::<gallon>(0.1),
         );
-        assert!(test_bed.query_element(|e| e.accumulator.gas_volume == init_max_vol));
+
+        assert!(
+            brake_circuit_unprimed.left_brake_pressure()
+                + brake_circuit_unprimed.right_brake_pressure()
+                < Pressure::new::<psi>(10.0)
+        );
+        assert!(brake_circuit_unprimed.accumulator.total_volume == init_max_vol);
+        assert!(brake_circuit_unprimed.accumulator.fluid_volume() == Volume::new::<gallon>(0.0));
+        assert!(brake_circuit_unprimed.accumulator.gas_volume == init_max_vol);
+
+        let brake_circuit_primed = BrakeCircuit::new(
+            "altn",
+            init_max_vol,
+            init_max_vol / 2.0,
+            Volume::new::<gallon>(0.1),
+        );
+
+        assert!(
+            brake_circuit_unprimed.left_brake_pressure()
+                + brake_circuit_unprimed.right_brake_pressure()
+                < Pressure::new::<psi>(10.0)
+        );
+        assert!(brake_circuit_primed.accumulator.total_volume == init_max_vol);
+        assert!(brake_circuit_primed.accumulator.fluid_volume() == init_max_vol / 2.0);
+        assert!(brake_circuit_primed.accumulator.gas_volume < init_max_vol);
     }
 
     #[test]
-    fn primed_brake_circuit_state_at_init() {
+    fn brake_pressure_rise() {
         let init_max_vol = Volume::new::<gallon>(1.5);
-        let test_bed = SimulationTestBed::from(ElementCtorFn(|context| {
-            BrakeCircuit::new(
-                context,
-                "altn",
-                init_max_vol,
-                init_max_vol / 2.0,
-                Volume::new::<gallon>(0.1),
-            )
-        }));
+        let mut hyd_loop = hydraulic_loop("YELLOW");
+        hyd_loop.loop_pressure = Pressure::new::<psi>(2500.0);
 
-        assert!(test_bed.query_element(
-            |e| e.left_brake_pressure() + e.right_brake_pressure() < Pressure::new::<psi>(10.0)
-        ));
-        assert!(test_bed.query_element(|e| e.accumulator.total_volume == init_max_vol));
-        assert!(test_bed.query_element(|e| e.accumulator.fluid_volume() == init_max_vol / 2.0));
-        assert!(test_bed.query_element(|e| e.accumulator.gas_volume < init_max_vol));
-    }
-
-    #[test]
-    fn primed_circuit_brake_pressure_rise() {
-        let mut electricity = Electricity::new();
-        let mut registry: TestVariableRegistry = Default::default();
-        let mut init_context = InitContext::new(&mut electricity, &mut registry);
-
-        let init_max_vol = Volume::new::<gallon>(1.5);
-        let hyd_circuit = TestHydraulicSection::new(Pressure::new::<psi>(2500.0));
-
-        let mut brake_circuit = BrakeCircuit::new(
-            &mut init_context,
+        let mut brake_circuit_primed = BrakeCircuit::new(
             "Altn",
             init_max_vol,
             init_max_vol / 2.0,
@@ -682,52 +668,41 @@ mod tests {
         );
 
         assert!(
-            brake_circuit.left_brake_pressure() + brake_circuit.right_brake_pressure()
+            brake_circuit_primed.left_brake_pressure()
+                + brake_circuit_primed.right_brake_pressure()
                 < Pressure::new::<psi>(10.0)
         );
 
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(0.1)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(0.1)), &hyd_loop);
 
         assert!(
-            brake_circuit.left_brake_pressure() + brake_circuit.right_brake_pressure()
+            brake_circuit_primed.left_brake_pressure()
+                + brake_circuit_primed.right_brake_pressure()
                 < Pressure::new::<psi>(10.0)
         );
 
-        brake_circuit.set_brake_demand_left(Ratio::new::<ratio>(1.0));
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(1.)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.set_brake_demand_left(Ratio::new::<ratio>(1.0));
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(1.)), &hyd_loop);
 
-        assert!(brake_circuit.left_brake_pressure() >= Pressure::new::<psi>(1000.));
-        assert!(brake_circuit.right_brake_pressure() <= Pressure::new::<psi>(50.));
-        assert!(brake_circuit.accumulator.fluid_volume() >= Volume::new::<gallon>(0.1));
+        assert!(brake_circuit_primed.left_brake_pressure() >= Pressure::new::<psi>(1000.));
+        assert!(brake_circuit_primed.right_brake_pressure() <= Pressure::new::<psi>(50.));
+        assert!(brake_circuit_primed.accumulator.fluid_volume() >= Volume::new::<gallon>(0.1));
 
-        brake_circuit.set_brake_demand_left(Ratio::new::<ratio>(0.0));
-        brake_circuit.set_brake_demand_right(Ratio::new::<ratio>(1.0));
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(1.)),
-            &hyd_circuit,
-        );
-        assert!(brake_circuit.right_brake_pressure() >= Pressure::new::<psi>(1000.));
-        assert!(brake_circuit.left_brake_pressure() <= Pressure::new::<psi>(50.));
-        assert!(brake_circuit.accumulator.fluid_volume() >= Volume::new::<gallon>(0.1));
+        brake_circuit_primed.set_brake_demand_left(Ratio::new::<ratio>(0.0));
+        brake_circuit_primed.set_brake_demand_right(Ratio::new::<ratio>(1.0));
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(1.)), &hyd_loop);
+        assert!(brake_circuit_primed.right_brake_pressure() >= Pressure::new::<psi>(1000.));
+        assert!(brake_circuit_primed.left_brake_pressure() <= Pressure::new::<psi>(50.));
+        assert!(brake_circuit_primed.accumulator.fluid_volume() >= Volume::new::<gallon>(0.1));
     }
 
     #[test]
-    fn primed_circuit_brake_pressure_rise_no_accumulator() {
-        let mut electricity = Electricity::new();
-        let mut registry: TestVariableRegistry = Default::default();
-        let mut init_context = InitContext::new(&mut electricity, &mut registry);
-
+    fn brake_pressure_rise_no_accumulator() {
         let init_max_vol = Volume::new::<gallon>(0.0);
-        let hyd_circuit = TestHydraulicSection::new(Pressure::new::<psi>(2500.0));
+        let mut hyd_loop = hydraulic_loop("GREEN");
+        hyd_loop.loop_pressure = Pressure::new::<psi>(2500.0);
 
-        let mut brake_circuit = BrakeCircuit::new(
-            &mut init_context,
+        let mut brake_circuit_primed = BrakeCircuit::new(
             "norm",
             init_max_vol,
             init_max_vol / 2.0,
@@ -735,111 +710,128 @@ mod tests {
         );
 
         assert!(
-            brake_circuit.left_brake_pressure() + brake_circuit.right_brake_pressure()
+            brake_circuit_primed.left_brake_pressure()
+                + brake_circuit_primed.right_brake_pressure()
                 < Pressure::new::<psi>(10.0)
         );
 
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(0.1)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(0.1)), &hyd_loop);
 
         assert!(
-            brake_circuit.left_brake_pressure() + brake_circuit.right_brake_pressure()
+            brake_circuit_primed.left_brake_pressure()
+                + brake_circuit_primed.right_brake_pressure()
                 < Pressure::new::<psi>(10.0)
         );
 
-        brake_circuit.set_brake_demand_left(Ratio::new::<ratio>(1.0));
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(1.5)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.set_brake_demand_left(Ratio::new::<ratio>(1.0));
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(1.5)), &hyd_loop);
 
-        assert!(brake_circuit.left_brake_pressure() >= Pressure::new::<psi>(2500.));
-        assert!(brake_circuit.right_brake_pressure() <= Pressure::new::<psi>(50.));
+        assert!(brake_circuit_primed.left_brake_pressure() >= Pressure::new::<psi>(2500.));
+        assert!(brake_circuit_primed.right_brake_pressure() <= Pressure::new::<psi>(50.));
 
-        brake_circuit.set_brake_demand_left(Ratio::new::<ratio>(0.0));
-        brake_circuit.set_brake_demand_right(Ratio::new::<ratio>(1.0));
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(1.5)),
-            &hyd_circuit,
-        );
-        assert!(brake_circuit.right_brake_pressure() >= Pressure::new::<psi>(2500.));
-        assert!(brake_circuit.left_brake_pressure() <= Pressure::new::<psi>(50.));
-        assert!(brake_circuit.accumulator.fluid_volume() == Volume::new::<gallon>(0.0));
+        brake_circuit_primed.set_brake_demand_left(Ratio::new::<ratio>(0.0));
+        brake_circuit_primed.set_brake_demand_right(Ratio::new::<ratio>(1.0));
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(1.5)), &hyd_loop);
+        assert!(brake_circuit_primed.right_brake_pressure() >= Pressure::new::<psi>(2500.));
+        assert!(brake_circuit_primed.left_brake_pressure() <= Pressure::new::<psi>(50.));
+        assert!(brake_circuit_primed.accumulator.fluid_volume() == Volume::new::<gallon>(0.0));
     }
 
     #[test]
     fn brake_pressure_limitation() {
-        let mut electricity = Electricity::new();
-        let mut registry: TestVariableRegistry = Default::default();
-        let mut init_context = InitContext::new(&mut electricity, &mut registry);
-
         let init_max_vol = Volume::new::<gallon>(0.0);
-        let hyd_circuit = TestHydraulicSection::new(Pressure::new::<psi>(3100.0));
+        let mut hyd_loop = hydraulic_loop("GREEN");
+        hyd_loop.loop_pressure = Pressure::new::<psi>(3100.0);
 
-        let mut brake_circuit = BrakeCircuit::new(
-            &mut init_context,
+        let mut brake_circuit_primed = BrakeCircuit::new(
             "norm",
             init_max_vol,
             init_max_vol / 2.0,
             Volume::new::<gallon>(0.1),
         );
 
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(5.)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(5.)), &hyd_loop);
 
         assert!(
-            brake_circuit.left_brake_pressure() + brake_circuit.right_brake_pressure()
+            brake_circuit_primed.left_brake_pressure()
+                + brake_circuit_primed.right_brake_pressure()
                 < Pressure::new::<psi>(1.0)
         );
 
-        brake_circuit.set_brake_demand_left(Ratio::new::<ratio>(1.0));
-        brake_circuit.set_brake_demand_right(Ratio::new::<ratio>(1.0));
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(1.5)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.set_brake_demand_left(Ratio::new::<ratio>(1.0));
+        brake_circuit_primed.set_brake_demand_right(Ratio::new::<ratio>(1.0));
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(1.5)), &hyd_loop);
 
-        assert!(brake_circuit.left_brake_pressure() >= Pressure::new::<psi>(2900.));
-        assert!(brake_circuit.right_brake_pressure() >= Pressure::new::<psi>(2900.));
+        assert!(brake_circuit_primed.left_brake_pressure() >= Pressure::new::<psi>(2900.));
+        assert!(brake_circuit_primed.right_brake_pressure() >= Pressure::new::<psi>(2900.));
 
         let pressure_limit = Pressure::new::<psi>(1200.);
-        brake_circuit.set_brake_press_limit(pressure_limit);
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(0.1)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.set_brake_press_limit(pressure_limit);
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(0.1)), &hyd_loop);
 
         // Now we limit to 1200 but pressure shouldn't drop instantly
-        assert!(brake_circuit.left_brake_pressure() >= Pressure::new::<psi>(2500.));
-        assert!(brake_circuit.right_brake_pressure() >= Pressure::new::<psi>(2500.));
+        assert!(brake_circuit_primed.left_brake_pressure() >= Pressure::new::<psi>(2500.));
+        assert!(brake_circuit_primed.right_brake_pressure() >= Pressure::new::<psi>(2500.));
 
-        brake_circuit.update(
-            &context(&mut init_context, Duration::from_secs_f64(1.)),
-            &hyd_circuit,
-        );
+        brake_circuit_primed.update(&context(Duration::from_secs_f64(1.)), &hyd_loop);
 
         // After one second it should have reached the lower limit
-        assert!(brake_circuit.left_brake_pressure() <= pressure_limit);
-        assert!(brake_circuit.right_brake_pressure() <= pressure_limit);
+        assert!(brake_circuit_primed.left_brake_pressure() <= pressure_limit);
+        assert!(brake_circuit_primed.right_brake_pressure() <= pressure_limit);
     }
 
-    fn context(context: &mut InitContext, delta_time: Duration) -> UpdateContext {
+    fn hydraulic_loop(loop_color: &str) -> HydraulicLoop {
+        match loop_color {
+            "GREEN" => HydraulicLoop::new(
+                loop_color,
+                false,
+                true,
+                Volume::new::<gallon>(26.00),
+                Volume::new::<gallon>(26.41),
+                Volume::new::<gallon>(10.0),
+                Volume::new::<gallon>(3.83),
+                Fluid::new(Pressure::new::<pascal>(1450000000.0)),
+                true,
+                Pressure::new::<psi>(1450.0),
+                Pressure::new::<psi>(1750.0),
+            ),
+            "YELLOW" => HydraulicLoop::new(
+                loop_color,
+                true,
+                false,
+                Volume::new::<gallon>(10.2),
+                Volume::new::<gallon>(10.2),
+                Volume::new::<gallon>(8.0),
+                Volume::new::<gallon>(3.3),
+                Fluid::new(Pressure::new::<pascal>(1450000000.0)),
+                true,
+                Pressure::new::<psi>(1450.0),
+                Pressure::new::<psi>(1750.0),
+            ),
+            _ => HydraulicLoop::new(
+                loop_color,
+                false,
+                false,
+                Volume::new::<gallon>(15.85),
+                Volume::new::<gallon>(15.85),
+                Volume::new::<gallon>(8.0),
+                Volume::new::<gallon>(1.5),
+                Fluid::new(Pressure::new::<pascal>(1450000000.0)),
+                false,
+                Pressure::new::<psi>(1450.0),
+                Pressure::new::<psi>(1750.0),
+            ),
+        }
+    }
+
+    fn context(delta_time: Duration) -> UpdateContext {
         UpdateContext::new(
-            context,
             delta_time,
             Velocity::new::<knot>(250.),
             Length::new::<foot>(5000.),
             ThermodynamicTemperature::new::<degree_celsius>(25.0),
             true,
             Acceleration::new::<foot_per_second_squared>(0.),
-            Acceleration::new::<foot_per_second_squared>(0.),
-            Acceleration::new::<foot_per_second_squared>(0.),
-            Angle::new::<radian>(0.),
-            Angle::new::<radian>(0.),
         )
     }
 }

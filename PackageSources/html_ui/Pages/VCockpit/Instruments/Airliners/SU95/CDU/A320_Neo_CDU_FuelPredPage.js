@@ -25,19 +25,15 @@ class CDUFuelPredPage {
         let zfwCell = "___._";
         let zfwCgCell = (" __._");
         let zfwColor = "[color]amber";
-        mcdu.onRightInput[2] = async (value, scratchpadCallback) => {
+        mcdu.onRightInput[2] = async (value) => {
             if (value === "") {
                 mcdu.updateZfwVars();
-                mcdu.scratchpad.setText(
+                mcdu.sendDataToScratchpad(
                     (isFinite(mcdu.zeroFuelWeight) ? (NXUnits.kgToUser(mcdu.zeroFuelWeight)).toFixed(1) : "") +
                     "/" +
                     (isFinite(mcdu.zeroFuelWeightMassCenter) ? mcdu.zeroFuelWeightMassCenter.toFixed(1) : ""));
-            } else {
-                if (mcdu.trySetZeroFuelWeightZFWCG(value)) {
-                    CDUFuelPredPage.ShowPage(mcdu);
-                } else {
-                    scratchpadCallback();
-                }
+            } else if (mcdu.trySetZeroFuelWeightZFWCG(value)) {
+                CDUFuelPredPage.ShowPage(mcdu);
             }
         };
 
@@ -116,11 +112,9 @@ class CDUFuelPredPage {
                     }
                     finalColor = "[color]cyan";
                 }
-                mcdu.onLeftInput[4] = async (value, scratchpadCallback) => {
+                mcdu.onLeftInput[4] = async (value) => {
                     if (await mcdu.trySetRouteFinalFuel(value)) {
                         CDUFuelPredPage.ShowPage(mcdu);
-                    } else {
-                        scratchpadCallback();
                     }
                 };
 
@@ -147,11 +141,10 @@ class CDUFuelPredPage {
                     altFuelColor = "[color]green";
                     altTimeColor = "{white}";
                 }
-                mcdu.onLeftInput[3] = async (value, scratchpadCallback) => {
+                mcdu.onLeftInput[3] = async (value) => {
+                    console.log("Entered Val : " + value);
                     if (await mcdu.trySetRouteAlternateFuel(value)) {
                         CDUFuelPredPage.ShowPage(mcdu);
-                    } else {
-                        scratchpadCallback();
                     }
                 };
                 if (mcdu.altDestination) {
@@ -205,11 +198,9 @@ class CDUFuelPredPage {
                     }
                     rteRSvCellColor = "[color]cyan";
 
-                    mcdu.onLeftInput[2] = async (value, scratchpadCallback) => {
+                    mcdu.onLeftInput[2] = async (value) => {
                         if (await mcdu.trySetRouteReservedFuel(value)) {
                             CDUFuelPredPage.ShowPage(mcdu);
-                        } else {
-                            scratchpadCallback();
                         }
                     };
                 }
@@ -222,11 +213,9 @@ class CDUFuelPredPage {
                     minDestFobCell = "{sp}{sp}{small}" + (NXUnits.kgToUser(mcdu._minDestFob)).toFixed(1) + "{end}";
                     minDestFobCellColor = "[color]cyan";
                 }
-                mcdu.onLeftInput[5] = async (value, scratchpadCallback) => {
+                mcdu.onLeftInput[5] = async (value) => {
                     if (await mcdu.trySetMinDestFob(value)) {
                         CDUFuelPredPage.ShowPage(mcdu);
-                    } else {
-                        scratchpadCallback();
                     }
                 };
                 mcdu.checkEFOBBelowMin();

@@ -1,0 +1,32 @@
+{
+  "creator": "AEROPROYECTO",
+  "release_notes": {
+    "neutral": {
+      "LastUpdate": "",
+      "OlderHistory": ""
+    }
+  },
+  "title": "Sukhoi Superjet 100",
+  "dependencies": [
+    {
+      "package_version": "0.1.99",
+      "name": "asobo-aircraft-a320-neo"
+    },
+    {
+      "package_version": "0.1.127",
+      "name": "asobo-vcockpits-instruments-a320-neo"
+    },
+    {
+      "package_version": "0.1.128",
+      "name": "asobo-vcockpits-instruments-airliners"
+    },
+    {
+      "package_version": "0.1.123",
+      "name": "fs-base-aircraft-common"
+    }
+  ],
+  "content_type": "AIRCRAFT",
+  "minimum_game_version": "1.20.6",
+  "package_version": "0.2.3.2",
+  "manufacturer": "Sukhoi/Irkut"
+}

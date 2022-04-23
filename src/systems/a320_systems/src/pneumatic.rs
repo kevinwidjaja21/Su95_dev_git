@@ -1,4 +1,3 @@
-use systems::simulation::InitContext;
 use systems::{
     overhead::OnOffFaultPushButton,
     simulation::{SimulationElement, SimulationElementVisitor},
@@ -8,9 +7,9 @@ pub struct A320PneumaticOverheadPanel {
     apu_bleed: OnOffFaultPushButton,
 }
 impl A320PneumaticOverheadPanel {
-    pub fn new(context: &mut InitContext) -> Self {
+    pub fn new() -> Self {
         A320PneumaticOverheadPanel {
-            apu_bleed: OnOffFaultPushButton::new_on(context, "PNEU_APU_BLEED"),
+            apu_bleed: OnOffFaultPushButton::new_on("PNEU_APU_BLEED"),
         }
     }
 

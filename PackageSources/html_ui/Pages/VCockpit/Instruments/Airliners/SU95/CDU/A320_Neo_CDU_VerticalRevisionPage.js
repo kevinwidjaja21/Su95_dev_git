@@ -72,7 +72,7 @@ class CDUVerticalRevisionPage {
                 }
                 mcdu.addNewMessage(NXFictionalMessages.notYetImplemented);
             }; // SPD CSTR
-            mcdu.onRightInput[2] = (value, scratchpadCallback) => {
+            mcdu.onRightInput[2] = (value) => {
                 if (value === FMCMainDisplay.clrValue) {
                     mcdu.removeWaypoint(fpIndex, () => {
                         mcdu.updateConstraints();
@@ -107,7 +107,6 @@ class CDUVerticalRevisionPage {
                     }
                 } else {
                     mcdu.addNewMessage(NXSystemMessages.notAllowed);
-                    scratchpadCallback();
                 }
             }; // ALT CSTR
             mcdu.onLeftInput[4] = () => {

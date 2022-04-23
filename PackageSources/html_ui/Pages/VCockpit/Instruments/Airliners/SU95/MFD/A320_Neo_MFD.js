@@ -815,52 +815,52 @@ class A320_Neo_MFD_NDInfo extends NavSystemElement {
         const failed = ADIRS.mapNotAvailable(this.screenIndex);
 
         const tasElement = this.ndInfo.querySelector("#TAS_Value");
-        const trueAirSpeed = Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_TRUE_AIRSPEED`);
-        if (!trueAirSpeed.equals(this.lastTrueAirSpeed)) {
+        const trueAirSpeed = ADIRS.getValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_TRUE_AIRSPEED`, "Knots");
+        if (trueAirSpeed !== this.lastTrueAirSpeed) {
             this.lastTrueAirSpeed = trueAirSpeed;
-            if (!trueAirSpeed.isNormalOperation()) {
+            if (Number.isNaN(trueAirSpeed)) {
                 tasElement.textContent = "";
-            } else if (trueAirSpeed.value < 0.00001) {
+            } else if (trueAirSpeed < 0.00001) {
                 tasElement.textContent = "---";
             } else {
-                tasElement.textContent = Math.round(trueAirSpeed.value).toString().padStart(3);
+                tasElement.textContent = Math.round(trueAirSpeed).toString().padStart(3);
             }
         }
 
         const windDirectionElement = this.ndInfo.querySelector("#Wind_Direction");
         const windVelocityElement = this.ndInfo.querySelector("#Wind_Strength");
         const windArrowElement = this.ndInfo.querySelector("#Wind_Arrow");
-        const windDirection = Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_WIND_DIRECTION`);
-        const windVelocity = Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_WIND_VELOCITY`);
-        if (!windVelocity.equals(this.lastWindVelocity) || !windDirection.equals(this.lastWindDirection)) {
+        const windDirection = ADIRS.getValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_WIND_DIRECTION`, "Degrees");
+        const windVelocity = ADIRS.getValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_WIND_VELOCITY`, "Knots");
+        if (windVelocity !== this.lastWindVelocity || windDirection !== this.lastWindDirection) {
             this.lastWindDirection = windDirection;
             this.lastWindVelocity = windVelocity;
-            if (!windVelocity.isNormalOperation() || !windDirection.isNormalOperation()) {
+            if (Number.isNaN(windVelocity) || Number.isNaN(windDirection)) {
                 windDirectionElement.textContent = "";
                 windVelocityElement.textContent = "";
                 windArrowElement.style.display = "none";
-            } else if (windVelocity.value < 0.00001) {
+            } else if (windVelocity < 0.00001) {
                 windDirectionElement.textContent = "---";
                 windVelocityElement.textContent = "---";
             } else {
-                windDirectionElement.textContent = Math.round(windDirection.value).toString().padStart(3, '0');
-                windVelocityElement.textContent = Math.round(windVelocity.value).toString();
+                windDirectionElement.textContent = Math.round(windDirection).toString().padStart(3, '0');
+                windVelocityElement.textContent = Math.round(windVelocity).toString();
                 windArrowElement.style.display = "block";
             }
 
-            if (!windVelocity.isNormalOperation() || !windDirection.isNormalOperation() || windVelocity.value <= 2) {
+            if (Number.isNaN(windVelocity) || Number.isNaN(windDirection) || windVelocity <= 2) {
                 windArrowElement.style.display = "none";
             }
         }
 
         const gsElement = this.ndInfo.querySelector("#GS_Value");
-        const groundSpeed = Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_GROUND_SPEED`);
-        if (!groundSpeed.equals(this.lastGroundSpeed)) {
+        const groundSpeed = Math.round(ADIRS.getValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_GROUND_SPEED`, "Knots"));
+        if (groundSpeed !== this.lastGroundSpeed) {
             this.lastGroundSpeed = groundSpeed;
-            if (!groundSpeed.isNormalOperation()) {
+            if (Number.isNaN(groundSpeed)) {
                 gsElement.textContent = "";
             } else {
-                gsElement.textContent = Math.round(groundSpeed.value).toString().padStart(3);
+                gsElement.textContent = Math.round(groundSpeed).toString().padStart(3);
             }
         }
 

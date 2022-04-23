@@ -1,25 +1,21 @@
-use std::cmp::min;
-
-use uom::si::{
-    electric_potential::volt, f64::*, frequency::hertz, power::watt, ratio::percent,
-    thermodynamic_temperature::degree_celsius,
+use super::{
+    ElectricalElement, ElectricalElementIdentifier, ElectricalElementIdentifierProvider,
+    ElectricalStateWriter, ElectricitySource, EngineGeneratorPushButtons, Potential,
+    PotentialOrigin, ProvideFrequency, ProvideLoad, ProvidePotential,
 };
-
 use crate::{
     shared::{
         calculate_towards_target_temperature, EngineCorrectedN2, EngineFirePushButtons,
         PowerConsumptionReport,
     },
     simulation::{
-        InitContext, SimulationElement, SimulationElementVisitor, SimulatorWriter, UpdateContext,
-        VariableIdentifier, Write,
+        SimulationElement, SimulationElementVisitor, SimulatorWriter, UpdateContext, Write,
     },
 };
-
-use super::{
-    ElectricalElement, ElectricalElementIdentifier, ElectricalElementIdentifierProvider,
-    ElectricalStateWriter, ElectricitySource, EngineGeneratorPushButtons, Potential,
-    PotentialOrigin, ProvideFrequency, ProvideLoad, ProvidePotential,
+use std::cmp::min;
+use uom::si::{
+    electric_potential::volt, f64::*, frequency::hertz, power::watt, ratio::percent,
+    thermodynamic_temperature::degree_celsius,
 };
 
 pub const INTEGRATED_DRIVE_GENERATOR_STABILIZATION_TIME_IN_MILLISECONDS: u64 = 500;
@@ -34,12 +30,15 @@ pub struct EngineGenerator {
     load: Ratio,
 }
 impl EngineGenerator {
-    pub fn new(context: &mut InitContext, number: usize) -> EngineGenerator {
+    pub fn new(
+        number: usize,
+        identifier_provider: &mut impl ElectricalElementIdentifierProvider,
+    ) -> EngineGenerator {
         EngineGenerator {
-            writer: ElectricalStateWriter::new(context, &format!("ENG_GEN_{}", number)),
+            writer: ElectricalStateWriter::new(&format!("ENG_GEN_{}", number)),
             number,
-            identifier: context.next_electrical_identifier(),
-            idg: IntegratedDriveGenerator::new(context, number),
+            identifier: identifier_provider.next(),
+            idg: IntegratedDriveGenerator::new(number),
             output_frequency: Frequency::new::<hertz>(0.),
             output_potential: ElectricPotential::new::<volt>(0.),
             load: Ratio::new::<percent>(0.),
@@ -139,9 +138,9 @@ impl SimulationElement for EngineGenerator {
 }
 
 struct IntegratedDriveGenerator {
-    oil_outlet_temperature_id: VariableIdentifier,
+    oil_outlet_temperature_id: String,
     oil_outlet_temperature: ThermodynamicTemperature,
-    is_connected_id: VariableIdentifier,
+    is_connected_id: String,
     connected: bool,
     activated: bool,
     number: usize,
@@ -152,15 +151,14 @@ impl IntegratedDriveGenerator {
     pub const ENGINE_N2_POWER_UP_OUTPUT_THRESHOLD: f64 = 58.;
     pub const ENGINE_N2_POWER_DOWN_OUTPUT_THRESHOLD: f64 = 56.;
 
-    fn new(context: &mut InitContext, number: usize) -> IntegratedDriveGenerator {
+    fn new(number: usize) -> IntegratedDriveGenerator {
         IntegratedDriveGenerator {
-            oil_outlet_temperature_id: context.get_identifier(format!(
+            oil_outlet_temperature_id: format!(
                 "ELEC_ENG_GEN_{}_IDG_OIL_OUTLET_TEMPERATURE",
                 number
-            )),
+            ),
             oil_outlet_temperature: ThermodynamicTemperature::new::<degree_celsius>(0.),
-            is_connected_id: context
-                .get_identifier(format!("ELEC_ENG_GEN_{}_IDG_IS_CONNECTED", number)),
+            is_connected_id: format!("ELEC_ENG_GEN_{}_IDG_IS_CONNECTED", number),
             connected: true,
             activated: true,
             number,
@@ -349,15 +347,13 @@ mod tests {
     #[cfg(test)]
     mod engine_generator_tests {
         use super::*;
-        use crate::simulation::test::ReadByName;
-        use crate::simulation::InitContext;
         use crate::{
             electrical::{
                 consumption::PowerConsumer, ElectricalBus, ElectricalBusType, Electricity,
             },
             simulation::{
                 test::{SimulationTestBed, TestBed},
-                Aircraft,
+                Aircraft, Read,
             },
         };
 
@@ -367,30 +363,34 @@ mod tests {
         impl EngineGeneratorTestBed {
             fn with_running_engine() -> Self {
                 Self {
-                    test_bed: SimulationTestBed::new(TestAircraft::with_running_engine),
+                    test_bed: SimulationTestBed::new(|electricity| {
+                        TestAircraft::with_running_engine(electricity)
+                    }),
                 }
             }
 
             fn with_shutdown_engine() -> Self {
                 Self {
-                    test_bed: SimulationTestBed::new(TestAircraft::with_shutdown_engine),
+                    test_bed: SimulationTestBed::new(|electricity| {
+                        TestAircraft::with_shutdown_engine(electricity)
+                    }),
                 }
             }
 
             fn frequency_is_normal(&mut self) -> bool {
-                self.read_by_name("ELEC_ENG_GEN_1_FREQUENCY_NORMAL")
+                self.read("ELEC_ENG_GEN_1_FREQUENCY_NORMAL")
             }
 
             fn potential_is_normal(&mut self) -> bool {
-                self.read_by_name("ELEC_ENG_GEN_1_POTENTIAL_NORMAL")
+                self.read("ELEC_ENG_GEN_1_POTENTIAL_NORMAL")
             }
 
             fn load_is_normal(&mut self) -> bool {
-                self.read_by_name("ELEC_ENG_GEN_1_LOAD_NORMAL")
+                self.read("ELEC_ENG_GEN_1_LOAD_NORMAL")
             }
 
             fn load(&mut self) -> Ratio {
-                self.read_by_name("ELEC_ENG_GEN_1_LOAD")
+                self.read("ELEC_ENG_GEN_1_LOAD")
             }
 
             fn generator_is_powered(&mut self) -> bool {
@@ -421,10 +421,10 @@ mod tests {
                 bool,
         }
         impl TestAircraft {
-            fn new(running: bool, context: &mut InitContext) -> Self {
+            fn new(running: bool, electricity: &mut Electricity) -> Self {
                 Self {
-                    engine_gen: EngineGenerator::new(context, 1),
-                    bus: ElectricalBus::new(context, ElectricalBusType::AlternatingCurrent(1)),
+                    engine_gen: EngineGenerator::new(1, electricity),
+                    bus: ElectricalBus::new(ElectricalBusType::AlternatingCurrent(1), electricity),
                     running,
                     gen_push_button_on: true,
                     idg_push_button_released: false,
@@ -434,12 +434,12 @@ mod tests {
                 }
             }
 
-            fn with_shutdown_engine(context: &mut InitContext) -> Self {
-                TestAircraft::new(false, context)
+            fn with_shutdown_engine(electricity: &mut Electricity) -> Self {
+                TestAircraft::new(false, electricity)
             }
 
-            fn with_running_engine(context: &mut InitContext) -> Self {
-                TestAircraft::new(true, context)
+            fn with_running_engine(electricity: &mut Electricity) -> Self {
+                TestAircraft::new(true, electricity)
             }
 
             fn disconnect_idg(&mut self) {
@@ -770,89 +770,94 @@ mod tests {
             let mut test_bed = EngineGeneratorTestBed::with_running_engine();
             test_bed.run();
 
-            assert!(test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_POTENTIAL"));
-            assert!(test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_POTENTIAL_NORMAL"));
-            assert!(test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_FREQUENCY"));
-            assert!(test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_FREQUENCY_NORMAL"));
-            assert!(test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_LOAD"));
-            assert!(test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_LOAD_NORMAL"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_POTENTIAL"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_POTENTIAL_NORMAL"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_FREQUENCY"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_FREQUENCY_NORMAL"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_LOAD"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_LOAD_NORMAL"));
         }
     }
 
     #[cfg(test)]
     mod integrated_drive_generator_tests {
-        use crate::simulation::test::{ElementCtorFn, SimulationTestBed, TestBed};
+        use crate::simulation::test::{SimulationTestBed, TestBed};
 
         use super::*;
         use std::time::Duration;
 
-        fn idg(context: &mut InitContext) -> IntegratedDriveGenerator {
-            IntegratedDriveGenerator::new(context, 1)
+        fn idg() -> IntegratedDriveGenerator {
+            IntegratedDriveGenerator::new(1)
         }
 
         #[test]
         fn writes_its_state() {
-            let mut test_bed = SimulationTestBed::from(ElementCtorFn(idg));
+            let mut test_bed = SimulationTestBed::from(idg());
             test_bed.run();
 
-            assert!(
-                test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_IDG_OIL_OUTLET_TEMPERATURE")
-            );
-            assert!(test_bed.contains_variable_with_name("ELEC_ENG_GEN_1_IDG_IS_CONNECTED"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_IDG_OIL_OUTLET_TEMPERATURE"));
+            assert!(test_bed.contains_key("ELEC_ENG_GEN_1_IDG_IS_CONNECTED"));
         }
 
         #[test]
         fn starts_unstable() {
-            let test_bed = SimulationTestBed::from(ElementCtorFn(idg));
-
-            assert!(test_bed.query_element(|e| !e.provides_stable_power_output()));
+            assert_eq!(idg().provides_stable_power_output(), false);
         }
 
         #[test]
         fn becomes_stable_once_engine_above_threshold_for_500_milliseconds() {
-            let mut test_bed = SimulationTestBed::from(ElementCtorFn(idg))
-                .with_update_after_power_distribution(|idg, context| {
+            let mut test_bed = SimulationTestBed::from(idg()).with_update_after_power_distribution(
+                |idg, context| {
                     idg.update(
                         context,
                         &TestEngine::new(Ratio::new::<percent>(80.)),
                         &TestOverhead::new(true, false),
                         &TestFireOverhead::new(false),
                     )
-                });
+                },
+            );
 
             test_bed.run_with_delta(Duration::from_millis(500));
 
-            assert!(test_bed.query_element(|e| e.provides_stable_power_output()));
+            assert_eq!(
+                test_bed.query_element(|e| e.provides_stable_power_output()),
+                true
+            );
         }
 
         #[test]
         fn does_not_become_stable_before_engine_above_threshold_for_500_milliseconds() {
-            let mut test_bed = SimulationTestBed::from(ElementCtorFn(idg))
-                .with_update_after_power_distribution(|idg, context| {
+            let mut test_bed = SimulationTestBed::from(idg()).with_update_after_power_distribution(
+                |idg, context| {
                     idg.update(
                         context,
                         &TestEngine::new(Ratio::new::<percent>(80.)),
                         &TestOverhead::new(true, false),
                         &TestFireOverhead::new(false),
                     )
-                });
+                },
+            );
 
             test_bed.run_with_delta(Duration::from_millis(499));
 
-            assert!(!test_bed.query_element(|e| e.provides_stable_power_output()));
+            assert_eq!(
+                test_bed.query_element(|e| e.provides_stable_power_output()),
+                false
+            );
         }
 
         #[test]
         fn cannot_reconnect_once_disconnected() {
-            let mut test_bed = SimulationTestBed::from(ElementCtorFn(idg))
-                .with_update_after_power_distribution(|idg, context| {
+            let mut test_bed = SimulationTestBed::from(idg()).with_update_after_power_distribution(
+                |idg, context| {
                     idg.update(
                         context,
                         &TestEngine::new(Ratio::new::<percent>(80.)),
                         &TestOverhead::new(true, true),
                         &TestFireOverhead::new(false),
                     )
-                });
+                },
+            );
 
             test_bed.run_with_delta(Duration::from_millis(500));
 
@@ -867,20 +872,24 @@ mod tests {
 
             test_bed.run_with_delta(Duration::from_millis(500));
 
-            assert!(!test_bed.query_element(|e| e.provides_stable_power_output()));
+            assert_eq!(
+                test_bed.query_element(|e| e.provides_stable_power_output()),
+                false
+            );
         }
 
         #[test]
         fn running_engine_warms_up_idg() {
-            let mut test_bed = SimulationTestBed::from(ElementCtorFn(idg))
-                .with_update_after_power_distribution(|idg, context| {
+            let mut test_bed = SimulationTestBed::from(idg()).with_update_after_power_distribution(
+                |idg, context| {
                     idg.update(
                         context,
                         &TestEngine::new(Ratio::new::<percent>(80.)),
                         &TestOverhead::new(true, false),
                         &TestFireOverhead::new(false),
                     )
-                });
+                },
+            );
 
             let starting_temperature = test_bed.query_element(|e| e.oil_outlet_temperature);
 
@@ -891,15 +900,16 @@ mod tests {
 
         #[test]
         fn running_engine_does_not_warm_up_idg_when_disconnected() {
-            let mut test_bed = SimulationTestBed::from(ElementCtorFn(idg))
-                .with_update_after_power_distribution(|idg, context| {
+            let mut test_bed = SimulationTestBed::from(idg()).with_update_after_power_distribution(
+                |idg, context| {
                     idg.update(
                         context,
                         &TestEngine::new(Ratio::new::<percent>(80.)),
                         &TestOverhead::new(true, true),
                         &TestFireOverhead::new(false),
                     )
-                });
+                },
+            );
 
             let starting_temperature = test_bed.query_element(|e| e.oil_outlet_temperature);
 
@@ -913,15 +923,16 @@ mod tests {
 
         #[test]
         fn shutdown_engine_cools_down_idg() {
-            let mut test_bed = SimulationTestBed::from(ElementCtorFn(idg))
-                .with_update_after_power_distribution(|idg, context| {
+            let mut test_bed = SimulationTestBed::from(idg()).with_update_after_power_distribution(
+                |idg, context| {
                     idg.update(
                         context,
                         &TestEngine::new(Ratio::new::<percent>(80.)),
                         &TestOverhead::new(true, false),
                         &TestFireOverhead::new(false),
                     )
-                });
+                },
+            );
 
             test_bed.run_with_delta(Duration::from_secs(10));
 

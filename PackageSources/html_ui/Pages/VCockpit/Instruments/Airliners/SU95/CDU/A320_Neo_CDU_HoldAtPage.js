@@ -70,10 +70,9 @@ class CDUHoldAtPage {
                 ...rows
             ]);
 
-            mcdu.onLeftInput[0] = (value, scratchpadCallback) => {
+            mcdu.onLeftInput[0] = (value) => {
                 if (isNaN(value) || 0 < value > 360) {
                     mcdu.addNewMessage(NXSystemMessages.entryOutOfRange);
-                    scratchpadCallback();
                     return;
                 }
                 mcdu.manualHoldData = {
@@ -85,10 +84,9 @@ class CDUHoldAtPage {
                 CDUHoldAtPage.ShowPage(mcdu, waypoint, waypointIndexFP);
             };
 
-            mcdu.onLeftInput[1] = (value, scratchpadCallback) => {
+            mcdu.onLeftInput[1] = (value) => {
                 if (value != "L" && value != "R") {
                     mcdu.addNewMessage(NXSystemMessages.formatError);
-                    scratchpadCallback();
                     return;
                 }
                 mcdu.manualHoldData = {
@@ -100,12 +98,11 @@ class CDUHoldAtPage {
                 CDUHoldAtPage.ShowPage(mcdu, waypoint, waypointIndexFP);
             };
 
-            mcdu.onLeftInput[2] = (value, scratchpadCallback) => {
+            mcdu.onLeftInput[2] = (value) => {
                 if (value.startsWith("/")) {
                     const distComp = value.replace("/", "");
                     if (isNaN(distComp)) {
                         mcdu.addNewMessage(NXSystemMessages.formatError);
-                        scratchpadCallback();
                         return;
                     }
                     mcdu.manualHoldData = {
@@ -121,7 +118,6 @@ class CDUHoldAtPage {
 
                 if (isNaN(value)) {
                     mcdu.addNewMessage(NXSystemMessages.formatError);
-                    scratchpadCallback();
                     return;
                 }
 

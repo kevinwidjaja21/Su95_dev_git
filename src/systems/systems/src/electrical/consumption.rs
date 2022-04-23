@@ -17,7 +17,6 @@
 //!    load %, voltage, frequency and current.
 
 use super::ElectricalBusType;
-use crate::simulation::{InitContext, VariableIdentifier};
 use crate::{
     shared::{random_number, ConsumePower, ElectricalBuses, FwcFlightPhase},
     simulation::{
@@ -62,18 +61,14 @@ impl SimulationElement for PowerConsumer {
 /// A special type of power consumer which changes its consumption
 /// based on the phase of the flight.
 pub struct FlightPhasePowerConsumer {
-    fwc_flight_phase_id: VariableIdentifier,
-
     consumer: PowerConsumer,
     base_demand: [Power; PowerConsumerFlightPhase::TaxiIn as usize + 1],
     current_flight_phase: PowerConsumerFlightPhase,
     update_after: Duration,
 }
 impl FlightPhasePowerConsumer {
-    pub fn new(context: &mut InitContext, bus_type: ElectricalBusType) -> Self {
+    pub fn from(bus_type: ElectricalBusType) -> Self {
         Self {
-            fwc_flight_phase_id: context.get_identifier("FWC_FLIGHT_PHASE".to_owned()),
-
             consumer: PowerConsumer::from(bus_type),
             base_demand: Default::default(),
             current_flight_phase: PowerConsumerFlightPhase::BeforeStart,
@@ -113,7 +108,7 @@ impl SimulationElement for FlightPhasePowerConsumer {
 
     fn read(&mut self, reader: &mut SimulatorReader) {
         let flight_phase: Option<FwcFlightPhase> =
-            FromPrimitive::from_f64(reader.read(&self.fwc_flight_phase_id));
+            FromPrimitive::from_f64(reader.read("FWC_FLIGHT_PHASE"));
         if let Some(phase) = flight_phase {
             self.current_flight_phase = PowerConsumerFlightPhase::from(phase);
         }
@@ -154,16 +149,14 @@ mod tests {
     #[cfg(test)]
     mod flight_phase_power_consumer_tests {
         use crate::{
-            electrical::{test::TestElectricitySource, ElectricalBus},
+            electrical::{test::TestElectricitySource, ElectricalBus, Electricity},
             simulation::{
                 test::{SimulationTestBed, TestBed},
-                Aircraft,
+                Aircraft, Write,
             },
         };
 
         use super::*;
-        use crate::simulation::test::WriteByName;
-        use crate::simulation::InitContext;
 
         struct FlightPhasePowerConsumerTestAircraft {
             electricity_source: TestElectricitySource,
@@ -175,16 +168,16 @@ mod tests {
             fn new(
                 consumer: FlightPhasePowerConsumer,
                 bus_with_demand: ElectricalBusType,
-                context: &mut InitContext,
+                electricity: &mut Electricity,
             ) -> Self {
                 Self {
                     electricity_source: TestElectricitySource::unpowered(
-                        context,
                         PotentialOrigin::ApuGenerator(1),
+                        electricity,
                     ),
                     apu_generator_consumption: None,
                     consumer,
-                    bus_with_demand: ElectricalBus::new(context, bus_with_demand),
+                    bus_with_demand: ElectricalBus::new(bus_with_demand, electricity),
                 }
             }
 
@@ -241,30 +234,27 @@ mod tests {
             test_bed: &mut SimulationTestBed<FlightPhasePowerConsumerTestAircraft>,
             phase: FwcFlightPhase,
         ) {
-            test_bed.write_by_name("FWC_FLIGHT_PHASE", phase as i32 as f64);
+            test_bed.write("FWC_FLIGHT_PHASE", phase as i32 as f64);
         }
 
         #[test]
         fn when_flight_phase_doesnt_have_demand_usage_is_zero() {
-            let mut test_bed = SimulationTestBed::new(|context| {
+            let mut test_bed = SimulationTestBed::new(|electricity| {
                 FlightPhasePowerConsumerTestAircraft::new(
-                    FlightPhasePowerConsumer::new(
-                        context,
-                        ElectricalBusType::AlternatingCurrent(1),
-                    )
-                    .demand([
-                        (
-                            PowerConsumerFlightPhase::BeforeStart,
-                            Power::new::<watt>(0.),
-                        ),
-                        (PowerConsumerFlightPhase::AfterStart, Power::new::<watt>(0.)),
-                        (PowerConsumerFlightPhase::Takeoff, Power::new::<watt>(0.)),
-                        (PowerConsumerFlightPhase::Flight, Power::new::<watt>(0.)),
-                        (PowerConsumerFlightPhase::Landing, Power::new::<watt>(0.)),
-                        (PowerConsumerFlightPhase::TaxiIn, Power::new::<watt>(0.)),
-                    ]),
+                    FlightPhasePowerConsumer::from(ElectricalBusType::AlternatingCurrent(1))
+                        .demand([
+                            (
+                                PowerConsumerFlightPhase::BeforeStart,
+                                Power::new::<watt>(0.),
+                            ),
+                            (PowerConsumerFlightPhase::AfterStart, Power::new::<watt>(0.)),
+                            (PowerConsumerFlightPhase::Takeoff, Power::new::<watt>(0.)),
+                            (PowerConsumerFlightPhase::Flight, Power::new::<watt>(0.)),
+                            (PowerConsumerFlightPhase::Landing, Power::new::<watt>(0.)),
+                            (PowerConsumerFlightPhase::TaxiIn, Power::new::<watt>(0.)),
+                        ]),
                     ElectricalBusType::AlternatingCurrent(1),
-                    context,
+                    electricity,
                 )
             });
 
@@ -280,25 +270,22 @@ mod tests {
         #[test]
         fn when_flight_phase_does_have_demand_usage_is_close_to_demand() {
             let input = Power::new::<watt>(20000.);
-            let mut test_bed = SimulationTestBed::new(|context| {
+            let mut test_bed = SimulationTestBed::new(|electricity| {
                 FlightPhasePowerConsumerTestAircraft::new(
-                    FlightPhasePowerConsumer::new(
-                        context,
-                        ElectricalBusType::AlternatingCurrent(1),
-                    )
-                    .demand([
-                        (
-                            PowerConsumerFlightPhase::BeforeStart,
-                            Power::new::<watt>(0.),
-                        ),
-                        (PowerConsumerFlightPhase::AfterStart, Power::new::<watt>(0.)),
-                        (PowerConsumerFlightPhase::Takeoff, Power::new::<watt>(0.)),
-                        (PowerConsumerFlightPhase::Flight, input),
-                        (PowerConsumerFlightPhase::Landing, Power::new::<watt>(0.)),
-                        (PowerConsumerFlightPhase::TaxiIn, Power::new::<watt>(0.)),
-                    ]),
+                    FlightPhasePowerConsumer::from(ElectricalBusType::AlternatingCurrent(1))
+                        .demand([
+                            (
+                                PowerConsumerFlightPhase::BeforeStart,
+                                Power::new::<watt>(0.),
+                            ),
+                            (PowerConsumerFlightPhase::AfterStart, Power::new::<watt>(0.)),
+                            (PowerConsumerFlightPhase::Takeoff, Power::new::<watt>(0.)),
+                            (PowerConsumerFlightPhase::Flight, input),
+                            (PowerConsumerFlightPhase::Landing, Power::new::<watt>(0.)),
+                            (PowerConsumerFlightPhase::TaxiIn, Power::new::<watt>(0.)),
+                        ]),
                     ElectricalBusType::AlternatingCurrent(1),
-                    context,
+                    electricity,
                 )
             });
 
@@ -313,34 +300,31 @@ mod tests {
 
         #[test]
         fn when_flight_phase_does_have_demand_but_consumer_unpowered_usage_is_zero() {
-            let mut test_bed = SimulationTestBed::new(|context| {
+            let mut test_bed = SimulationTestBed::new(|electricity| {
                 FlightPhasePowerConsumerTestAircraft::new(
-                    FlightPhasePowerConsumer::new(
-                        context,
-                        ElectricalBusType::AlternatingCurrent(1),
-                    )
-                    .demand([
-                        (
-                            PowerConsumerFlightPhase::BeforeStart,
-                            Power::new::<watt>(20000.),
-                        ),
-                        (
-                            PowerConsumerFlightPhase::AfterStart,
-                            Power::new::<watt>(20000.),
-                        ),
-                        (
-                            PowerConsumerFlightPhase::Takeoff,
-                            Power::new::<watt>(20000.),
-                        ),
-                        (PowerConsumerFlightPhase::Flight, Power::new::<watt>(20000.)),
-                        (
-                            PowerConsumerFlightPhase::Landing,
-                            Power::new::<watt>(20000.),
-                        ),
-                        (PowerConsumerFlightPhase::TaxiIn, Power::new::<watt>(20000.)),
-                    ]),
+                    FlightPhasePowerConsumer::from(ElectricalBusType::AlternatingCurrent(1))
+                        .demand([
+                            (
+                                PowerConsumerFlightPhase::BeforeStart,
+                                Power::new::<watt>(20000.),
+                            ),
+                            (
+                                PowerConsumerFlightPhase::AfterStart,
+                                Power::new::<watt>(20000.),
+                            ),
+                            (
+                                PowerConsumerFlightPhase::Takeoff,
+                                Power::new::<watt>(20000.),
+                            ),
+                            (PowerConsumerFlightPhase::Flight, Power::new::<watt>(20000.)),
+                            (
+                                PowerConsumerFlightPhase::Landing,
+                                Power::new::<watt>(20000.),
+                            ),
+                            (PowerConsumerFlightPhase::TaxiIn, Power::new::<watt>(20000.)),
+                        ]),
                     ElectricalBusType::AlternatingCurrent(1),
-                    context,
+                    electricity,
                 )
             });
 
