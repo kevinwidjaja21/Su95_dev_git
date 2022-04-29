@@ -169,8 +169,9 @@ class FMCMainDisplay extends BaseAirliners {
         this.blockFuel = undefined;
         this.zeroFuelWeight = undefined;
         this.zeroFuelWeightMassCenter = undefined;
+        this.gpsPrimaryLostMessageAcknowledged = false;
+        this.gpsPrimaryMessageAcknowledged = false;
         this.activeWpIdx = undefined;
-        this.previousAdirsStatus = undefined;
     }
 
     Init() {
@@ -465,7 +466,6 @@ class FMCMainDisplay extends BaseAirliners {
         this.blockFuel = undefined;
         this.zeroFuelWeight = undefined;
         this.zeroFuelWeightMassCenter = undefined;
-        this.previousAdirsStatus = undefined;
 
         // Reset SimVars
         SimVar.SetSimVarValue("L:AIRLINER_V1_SPEED", "Knots", NaN);
@@ -991,25 +991,28 @@ class FMCMainDisplay extends BaseAirliners {
         this.approachSpeeds.valid = this.currentFlightPhase >= FmgcFlightPhases.APPROACH || isFinite(weight);
     }
 
-    // updateGPSMessage is called every 250ms, only call addNewMessage when the status changed, anything else confuses the message system
     updateGPSMessage() {
-        const currentAdirsStatus = SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool");
-
-        if (currentAdirsStatus !== this.previousAdirsStatus) {
-            this.previousAdirsStatus = currentAdirsStatus;
-            SimVar.SetSimVarValue("L:GPSPrimaryAcknowledged", "Bool", 0);
-
-            this.addNewMessage(
-                NXSystemMessages.gpsPrimary,
-                () => !SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool"),
-                () => SimVar.SetSimVarValue("L:GPSPrimaryAcknowledged", "Bool", 1)
-            );
-
-            this.addNewMessage(
-                NXSystemMessages.gpsPrimaryLost,
-                () => SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool")
-            );
+        if (SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool")) {
+            this.gpsPrimaryLostMessageAcknowledged = false;
+        } else {
+            this.gpsPrimaryMessageAcknowledged = false;
         }
+
+        this.addNewMessage(NXSystemMessages.gpsPrimary, () => {
+            return this.gpsPrimaryMessageAcknowledged ||
+                !SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool");
+        }, () => {
+            this.gpsPrimaryMessageAcknowledged = true;
+        });
+
+        this.addNewMessage(NXSystemMessages.gpsPrimaryLost, () => {
+            return this.gpsPrimaryLostMessageAcknowledged ||
+                SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool");
+        }, () => {
+            this.gpsPrimaryLostMessageAcknowledged = true;
+        });
+
+        SimVar.SetSimVarValue("L:GPSPrimaryAcknowledged", "Bool", this.gpsPrimaryMessageAcknowledged);
     }
 
     updateDisplayedConstraints(force = false) {
@@ -1452,8 +1455,9 @@ class FMCMainDisplay extends BaseAirliners {
 
     /**
      * Attempts to calculate trip information. Is dynamic in that it will use liveDistanceTo the destination rather than a
+     * static distance. Works down to 20NM airDistance and FL100 Up to 3100NM airDistance and FL390, anything out of those ranges and values
      * static distance. Change some parameter according to SSJ Specs
-     * won't be updated.
+	 * won't be updated.
      */
     tryUpdateRouteTrip(dynamic = false) {
         let airDistance = 0;
@@ -1568,7 +1572,6 @@ class FMCMainDisplay extends BaseAirliners {
             const currentRunway = this.flightPlanManager.getDepartureRunway();
             this.flightPlanManager.setDepartureProcIndex(departureIndex, () => {
                 if (currentRunway) {
-                    SimVar.SetSimVarValue("L:A32NX_DEPARTURE_ELEVATION", "feet", A32NX_Util.meterToFeet(currentRunway.elevation));
                     const departure = this.flightPlanManager.getDeparture();
                     const departureRunwayIndex = departure.runwayTransitions.findIndex(t => {
                         return t.name.indexOf(currentRunway.designation) !== -1;
@@ -3686,13 +3689,13 @@ class FMCMainDisplay extends BaseAirliners {
         const latitude = ADIRS.getLatitude();
         const longitude = ADIRS.getLongitude();
 
-        if (!latitude.isNormalOperation() || !longitude.isNormalOperation()) {
+        if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
             this._progBrgDist.distance = -1;
             this._progBrgDist.bearing = -1;
             return;
         }
 
-        const planeLl = new LatLong(latitude.value, longitude.value);
+        const planeLl = new LatLong(latitude, longitude);
         this._progBrgDist.distance = Avionics.Utils.computeGreatCircleDistance(planeLl, this._progBrgDist.coordinates);
         this._progBrgDist.bearing = A32NX_Util.trueToMagnetic(Avionics.Utils.computeGreatCircleHeading(planeLl, this._progBrgDist.coordinates));
     }

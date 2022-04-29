@@ -1,10 +1,4 @@
-use std::time::Duration;
-
-use uom::si::{
-    electric_potential::volt, f64::*, frequency::hertz, power::watt, ratio::percent,
-    temperature_interval, thermodynamic_temperature::degree_celsius,
-};
-
+use super::{ApuGenerator, ApuStartMotor, Turbine, TurbineSignal, TurbineState};
 use crate::{
     electrical::{
         ElectricalElement, ElectricalElementIdentifier, ElectricalElementIdentifierProvider,
@@ -15,10 +9,13 @@ use crate::{
         calculate_towards_target_temperature, random_number, ConsumePower, ControllerSignal,
         ElectricalBusType, ElectricalBuses, PotentialOrigin, PowerConsumptionReport,
     },
-    simulation::{InitContext, SimulationElement, SimulatorWriter, UpdateContext},
+    simulation::{SimulationElement, SimulatorWriter, UpdateContext},
 };
-
-use super::{ApuGenerator, ApuStartMotor, Turbine, TurbineSignal, TurbineState};
+use std::time::Duration;
+use uom::si::{
+    electric_potential::volt, f64::*, frequency::hertz, power::watt, ratio::percent,
+    temperature_interval, thermodynamic_temperature::degree_celsius,
+};
 
 pub struct ShutdownAps3200Turbine {
     egt: ThermodynamicTemperature,
@@ -555,12 +552,15 @@ pub struct Aps3200ApuGenerator {
 impl Aps3200ApuGenerator {
     pub(super) const APU_GEN_POWERED_N: f64 = 84.;
 
-    pub fn new(context: &mut InitContext, number: usize) -> Aps3200ApuGenerator {
+    pub fn new(
+        number: usize,
+        identifier_provider: &mut impl ElectricalElementIdentifierProvider,
+    ) -> Aps3200ApuGenerator {
         Aps3200ApuGenerator {
             number,
-            identifier: context.next_electrical_identifier(),
+            identifier: identifier_provider.next(),
             n: Ratio::new::<percent>(0.),
-            writer: ElectricalStateWriter::new(context, &format!("APU_GEN_{}", number)),
+            writer: ElectricalStateWriter::new(&format!("APU_GEN_{}", number)),
             output_potential: ElectricPotential::new::<volt>(0.),
             output_frequency: Frequency::new::<hertz>(0.),
             load: Ratio::new::<percent>(0.),
@@ -764,7 +764,6 @@ mod apu_generator_tests {
     };
 
     use super::*;
-    use crate::simulation::InitContext;
 
     #[test]
     fn starts_without_output() {
@@ -803,7 +802,7 @@ mod apu_generator_tests {
         loop {
             test_bed = test_bed.run(Duration::from_millis(50));
 
-            let n = test_bed.n().normal_value().unwrap().get::<percent>();
+            let n = test_bed.n().get::<percent>();
             if n > 84. {
                 assert!(test_bed.potential().get::<volt>() > 0.);
             }
@@ -821,7 +820,7 @@ mod apu_generator_tests {
         loop {
             test_bed = test_bed.run(Duration::from_millis(50));
 
-            let n = test_bed.n().normal_value().unwrap().get::<percent>();
+            let n = test_bed.n().get::<percent>();
             if n > 84. {
                 assert!(test_bed.frequency().get::<hertz>() > 0.);
             }
@@ -952,16 +951,18 @@ mod apu_generator_tests {
 
         test_bed.run();
 
-        assert!(test_bed.contains_variable_with_name("ELEC_APU_GEN_1_POTENTIAL"));
-        assert!(test_bed.contains_variable_with_name("ELEC_APU_GEN_1_POTENTIAL_NORMAL"));
-        assert!(test_bed.contains_variable_with_name("ELEC_APU_GEN_1_FREQUENCY"));
-        assert!(test_bed.contains_variable_with_name("ELEC_APU_GEN_1_FREQUENCY_NORMAL"));
-        assert!(test_bed.contains_variable_with_name("ELEC_APU_GEN_1_LOAD"));
-        assert!(test_bed.contains_variable_with_name("ELEC_APU_GEN_1_LOAD_NORMAL"));
+        assert!(test_bed.contains_key("ELEC_APU_GEN_1_POTENTIAL"));
+        assert!(test_bed.contains_key("ELEC_APU_GEN_1_POTENTIAL_NORMAL"));
+        assert!(test_bed.contains_key("ELEC_APU_GEN_1_FREQUENCY"));
+        assert!(test_bed.contains_key("ELEC_APU_GEN_1_FREQUENCY_NORMAL"));
+        assert!(test_bed.contains_key("ELEC_APU_GEN_1_LOAD"));
+        assert!(test_bed.contains_key("ELEC_APU_GEN_1_LOAD_NORMAL"));
     }
 
-    fn apu_generator(context: &mut InitContext) -> Aps3200ApuGenerator {
-        Aps3200ApuGenerator::new(context, 1)
+    fn apu_generator(
+        identifier_provider: &mut impl ElectricalElementIdentifierProvider,
+    ) -> Aps3200ApuGenerator {
+        Aps3200ApuGenerator::new(1, identifier_provider)
     }
 
     fn update_above_threshold(test_bed: &mut SimulationTestBed<TestAircraft<Aps3200ApuGenerator>>) {

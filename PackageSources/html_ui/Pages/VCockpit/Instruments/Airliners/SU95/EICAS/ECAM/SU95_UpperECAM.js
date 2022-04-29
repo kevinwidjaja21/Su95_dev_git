@@ -717,9 +717,9 @@ var A320_Neo_UpperECAM;
                                 message: "EXCESS CAB ALT",
                                 level: 3,
                                 flightPhasesInhib: [1, 2, 3, 4, 5, 7, 8, 9, 10],
-                                page: "PRESS",
                                 isActive: () => (
-                                    !Simplane.getIsGrounded() && this.getCachedSimVar("L:A32NX_PRESS_EXCESS_CAB_ALT", "bool")
+                                    !Simplane.getIsGrounded() &&
+                                    this.getCachedSimVar("PRESSURIZATION CABIN ALTITUDE", "feet") > 10000
                                 ),
                                 actions: [
                                     {
@@ -766,54 +766,7 @@ var A320_Neo_UpperECAM;
                                         action: "MAN ON"
                                     },
                                 ]
-                            },
-                            {
-                                message: "EXCES RESIDUAL PR",
-                                level: 3,
-                                flightPhasesInhib: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-                                isActive: () => (
-                                    Simplane.getIsGrounded() &&
-                                    !this.isEngineRunning(1) && !this.isEngineRunning(2) &&
-                                    this.getCachedSimVar("L:A32NX_PRESS_EXCESS_RESIDUAL_PR", "bool")
-                                ),
-                                actions: [
-                                    {
-                                        style: "action",
-                                        message: "PACK 1",
-                                        action: "OFF"
-                                    },
-                                    {
-                                        style: "action",
-                                        message: "PACK 2",
-                                        action: "OFF",
-                                    },
-                                    {
-                                        style: "action",
-                                        message: "CABIN CREW",
-                                        action: "ALERT",
-                                    },
-                                ]
-                            },
-                            {
-                                message: "LO DIFF PR",
-                                level: 2,
-                                flightPhasesInhib: [2, 3, 4, 5, 7, 8, 9, 10],
-                                page: "PRESS",
-                                isActive: () => (
-                                    this.getCachedSimVar("L:A32NX_PRESS_LOW_DIFF_PR", "bool")
-                                ),
-                                actions: [
-                                    {
-                                        style: "cyan",
-                                        message: "&nbsp;-EXPECT HI CAB RATE",
-                                    },
-                                    {
-                                        style: "action",
-                                        message: "A/C V/S",
-                                        action: "REDUCE",
-                                    },
-                                ]
-                            },
+                            }
                         ]
                     },
                     {
@@ -1371,15 +1324,16 @@ var A320_Neo_UpperECAM;
                     {
                         message: "HYD PTU",
                         isActive: () => {
-                            // Info computed in hydraulic system while waiting for FWS implementation
-                            return SimVar.GetSimVarValue("L:A32NX_HYD_PTU_ON_ECAM_MEMO", "Bool");
+                            // Rough approximation until hydraulic system fully implemented
+                            // Needs the last 2 conditions because PTU_ON is (incorrectly) permanently set to true during first engine start
+                            return (this.getCachedSimVar("L:XMLVAR_PTU_ON", "Bool") == 1) && (SimVar.GetSimVarValue("ENG N1 RPM:1", "Percent") < 1 || SimVar.GetSimVarValue("ENG N1 RPM:2", "Percent") < 1);
                         }
                     },
                     {
                         message: "NW STRG DISC",
                         style: () => this.isEngineRunning(1) || this.isEngineRunning(2) ? "InfoCaution" : "InfoIndication",
                         isActive: () => (
-                            this.getCachedSimVar("L:A32NX_HYD_NW_STRG_DISC_ECAM_MEMO", "Bool")
+                            this.getCachedSimVar("PUSHBACK STATE", "Enum") !== 3
                         )
                     },
                     {
@@ -1507,14 +1461,6 @@ var A320_Neo_UpperECAM;
                             return (
                                 (SimVar.GetSimVarValue("L:A32NX_ATT_HDG_SWITCHING_KNOB", "Enum") != 1) ||
                                 (SimVar.GetSimVarValue("L:A32NX_AIR_DATA_SWITCHING_KNOB", "Enum") != 1)
-                            );
-                        }
-                    },
-                    {
-                        message: "MAN LDG ELEV",
-                        isActive: () => {
-                            return (
-                                (this.getCachedSimVar("L:XMLVAR_KNOB_OVHD_CABINPRESS_LDGELEV", "number") !== 0)
                             );
                         }
                     },
@@ -1916,8 +1862,8 @@ var A320_Neo_UpperECAM;
 
         isInAttAlign(number) {
             const knobValue = this.getCachedSimVar(`L:A32NX_OVHD_ADIRS_IR_${number}_MODE_SELECTOR_KNOB`, "Enum");
-            const pitch = new Arinc429Word(this.getCachedSimVar(`L:A32NX_ADIRS_IR_${number}_PITCH`, "Degrees"));
-            return knobValue === 2 && !pitch.isNormalOperation();
+            const pitch = ADIRS.parseValue(this.getCachedSimVar(`L:A32NX_ADIRS_IR_${number}_PITCH`, "Degrees"));
+            return knobValue === 2 && Number.isNaN(pitch);
         }
     }
     A320_Neo_UpperECAM.Display = Display;
@@ -2672,7 +2618,7 @@ var A320_Neo_UpperECAM;
         }
         update(_deltaTime) {
             super.update(_deltaTime);
-            const slatsAngle = Math.max(0, Math.min(24, (SimVar.GetSimVarValue("LEADING EDGE FLAPS LEFT ANGLE", "degrees") + SimVar.GetSimVarValue("LEADING EDGE FLAPS RIGHT ANGLE", "degrees")) * 0.5));
+            const slatsAngle = Math.max(0, Math.min(24, (SimVar.GetSimVarValue("LEADING EDGE FLAPS LEFT ANGLE", "degrees") + SimVar.GetSimVarValue("LEADING EDGE FLAPS RIGHT ANGLE", "degrees")) * 0.5)); //change for SSJ
             const flapsAngle = Math.max(0, (SimVar.GetSimVarValue("TRAILING EDGE FLAPS LEFT ANGLE", "degrees") + SimVar.GetSimVarValue("TRAILING EDGE FLAPS RIGHT ANGLE", "degrees")) * 0.5);
             const handleIndex = SimVar.GetSimVarValue("FLAPS HANDLE INDEX", "Number");
             let slatsTargetIndex = 0;
@@ -2729,10 +2675,10 @@ var A320_Neo_UpperECAM;
                     if (this.currentSlatsArrow != null) {
                         this.currentSlatsArrow.setAttribute("d", dSlatsArrow);
                     }
-                }
+                } //change for SSJ
                 if (flapsAngleChanged) {
                     this.currentFlapsAngle = flapsAngle;
-                    let dFlapsArrow = "";
+                    let dFlapsArrow = ""; //change for SSJ
                     if (this.currentFlapsAngle <= this.cockpitSettings.FlapsLevels.flapsAngle[0]) {
                         dFlapsArrow = this.targetFlapsArrowsStrings[0];
                     } else if (this.currentFlapsAngle <= this.cockpitSettings.FlapsLevels.flapsAngle[1]) {
@@ -3259,7 +3205,6 @@ var A320_Neo_UpperECAM;
                 div.setAttribute("id", _item.id);
             }
         }
-
 
         /**
          * @param {MemoItem} _item

@@ -30,9 +30,9 @@ class EICASCommonDisplay extends Airliners.EICASTemplateElement {
         this.loadFactorVisible = new NXLogic_MemoryNode(true);
         this.gwUnit = this.querySelector("#GWUnit");
         this.gwValue = this.querySelector("#GWValue");
-        this.refreshTAT(Arinc429Word.empty());
-        this.refreshSAT(Arinc429Word.empty());
-        this.refreshISA(Arinc429Word.empty());
+        this.refreshTAT(0);
+        this.refreshSAT(0);
+        this.refreshISA(0);
         this.refreshClock();
         this.refreshGrossWeight(true);
         this.isInitialised = true;
@@ -43,10 +43,10 @@ class EICASCommonDisplay extends Airliners.EICASTemplateElement {
         }
 
         const airDataReferenceSource = this.getStatusAirDataReferenceSource();
-        const sat = Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_STATIC_AIR_TEMPERATURE`);
-        this.refreshTAT(Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_TOTAL_AIR_TEMPERATURE`));
+        const sat = Math.round(ADIRS.getValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_STATIC_AIR_TEMPERATURE`, 'Celsius'));
+        this.refreshTAT(Math.round(ADIRS.getValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_TOTAL_AIR_TEMPERATURE`, 'Celsius')));
         this.refreshSAT(sat);
-        this.refreshISA(Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_INTERNATIONAL_STANDARD_ATMOSPHERE_DELTA`), sat);
+        this.refreshISA(Math.round(ADIRS.getValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_INTERNATIONAL_STANDARD_ATMOSPHERE_DELTA`, 'Celsius')), sat);
 
         this.refreshClock();
         this.refreshLoadFactor(_deltaTime, SimVar.GetSimVarValue("G FORCE", "GFORCE"));
@@ -62,34 +62,34 @@ class EICASCommonDisplay extends Airliners.EICASTemplateElement {
         return knobValue === adirs3ToCaptain ? 3 : 1;
     }
 
-    refreshTAT(tat) {
-        if (!tat.isNormalOperation()) {
+    refreshTAT(value) {
+        if (Number.isNaN(value)) {
             this.tatText.textContent = "XX";
             this.toggleWarning(true, this.tatText);
         } else {
-            this.setValueOnTemperatureElement(Math.round(tat.value), this.tatText);
+            this.setValueOnTemperatureElement(value, this.tatText);
             this.toggleWarning(false, this.tatText);
         }
     }
 
-    refreshSAT(sat) {
-        if (!sat.isNormalOperation()) {
+    refreshSAT(value) {
+        if (Number.isNaN(value)) {
             this.satText.textContent = "XX";
             this.toggleWarning(true, this.satText);
         } else {
-            this.setValueOnTemperatureElement(Math.round(sat.value), this.satText);
+            this.setValueOnTemperatureElement(value, this.satText);
             this.toggleWarning(false, this.satText);
         }
     }
 
-    refreshISA(isa, sat) {
+    refreshISA(value, sat) {
         const isInStdMode = Simplane.getPressureSelectedMode(Aircraft.A320_NEO) === "STD";
         // As ISA relates to SAT, we cannot present ISA when SAT is unavailable. We might want to move this into
         // Rust ADIRS code itself.
-        const isaShouldBeVisible = isInStdMode && isa.isNormalOperation() && sat.isNormalOperation();
+        const isaShouldBeVisible = isInStdMode && !Number.isNaN(value) && !Number.isNaN(sat);
         this.isaContainer.setAttribute("visibility", isaShouldBeVisible ? "visible" : "hidden");
 
-        this.setValueOnTemperatureElement(Math.round(isa.value), this.isaText);
+        this.setValueOnTemperatureElement(value, this.isaText);
     }
 
     setValueOnTemperatureElement(value, element) {

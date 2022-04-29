@@ -89,7 +89,7 @@ class CDUAocOfpData {
         mcdu.leftInputDelay[0] = () => {
             return mcdu.getDelayBasic();
         };
-        mcdu.onLeftInput[0] = (value, scratchpadCallback) => {
+        mcdu.onLeftInput[0] = (value) => {
             if (value === FMCMainDisplay.clrValue) {
                 mcdu.aocWeight.blockFuel = undefined;
                 updateView();
@@ -102,14 +102,13 @@ class CDUAocOfpData {
                 return true;
             }
             mcdu.addNewMessage(NXSystemMessages.notAllowed);
-            scratchpadCallback();
             return false;
         };
 
         mcdu.leftInputDelay[1] = () => {
             return mcdu.getDelayBasic();
         };
-        mcdu.onLeftInput[1] = (value, scratchpadCallback) => {
+        mcdu.onLeftInput[1] = (value) => {
             if (value === FMCMainDisplay.clrValue) {
                 mcdu.aocWeight.taxiFuel = undefined;
                 updateView();
@@ -122,14 +121,13 @@ class CDUAocOfpData {
                 return true;
             }
             mcdu.addNewMessage(NXSystemMessages.notAllowed);
-            scratchpadCallback();
             return false;
         };
 
         mcdu.leftInputDelay[2] = () => {
             return mcdu.getDelayBasic();
         };
-        mcdu.onLeftInput[2] = (value, scratchpadCallback) => {
+        mcdu.onLeftInput[2] = (value) => {
             if (value === FMCMainDisplay.clrValue) {
                 mcdu.aocWeight.tripFuel = undefined;
                 updateView();
@@ -142,7 +140,6 @@ class CDUAocOfpData {
                 return true;
             }
             mcdu.addNewMessage(NXSystemMessages.notAllowed);
-            scratchpadCallback();
             return false;
         };
 
@@ -257,7 +254,7 @@ class CDUAocOfpData {
 
         const currentZfwcg = getZfwcg();
         if (currentZfwcg !== undefined) {
-            const cgColor = currentZfwcg >= 12.5 && currentZfwcg <= 30 ? 'green' : 'red';
+            const cgColor = currentZfwcg >= 16 && currentZfwcg <= 40 ? 'green' : 'red';
             zfwcg = `${currentZfwcg.toFixed(1)}{end}[color]${cgColor}`;
         }
 
@@ -341,9 +338,9 @@ async function loadFuel(mcdu, updateView) {
     mcdu.aocWeight.loading = true;
     updateView();
 
-    const outerTankCapacity = 110; // Left and Right // Value from flight_model.cfg (plus the unusable fuel capacity (GALLONS))
-    const innerTankCapacity = 1260; // Left and Right // Value from flight_model.cfg (plus the unusable fuel capacity (GALLONS))
-    const centerTankCapacity = 1475; // Center // Value from flight_model.cfg (plus the unusable fuel capacity (GALLONS))
+    const outerTankCapacity = 228 + (1 * 2); // Left and Right // Value from flight_model.cfg (plus the unusable fuel capacity (GALLONS))
+    const innerTankCapacity = 1816 + (7 * 2); // Left and Right // Value from flight_model.cfg (plus the unusable fuel capacity (GALLONS))
+    const centerTankCapacity = 2179 + 6; // Center // Value from flight_model.cfg (plus the unusable fuel capacity (GALLONS))
 
     const fuelWeightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilograms");
     let currentBlockFuelInGallons = +currentBlockFuel / +fuelWeightPerGallon;
@@ -385,8 +382,8 @@ function getZfwcg() {
     const leMacZ = -5.39; // Value from Debug Weight
     const macSize = 13.45; // Value from Debug Aircraft Sim Tunning
 
-    const emptyWeight = 53460 * 0.453592; // Value from flight_model.cfg to kgs
-    const emptyPosition = -3.56; // Value from flight_model.cfg
+    const emptyWeight = 101990 * 0.453592; // Value from flight_model.cfg to kgs
+    const emptyPosition = -8.75; // Value from flight_model.cfg
     const emptyMoment = emptyPosition * emptyWeight;
 
     const paxTotalMass = Object.values(paxStations).map((station) => (SimVar.GetSimVarValue(`L:${station.simVar}_DESIRED`, "Number") * currentPaxWeight)).reduce((acc, cur) => acc + cur, 0);
