@@ -1404,7 +1404,7 @@ bool FlyByWireInterface::updateAutothrust(double sampleTime) {
     autoThrustInput.in.input.V_c_kn = simData.ap_V_c_kn;
     autoThrustInput.in.input.V_LS_kn = idFmgcV_LS->get();
     autoThrustInput.in.input.V_MAX_kn = idFmgcV_MAX->get();
-    autoThrustInput.in.input.thrust_limit_REV_percent = -60;
+    autoThrustInput.in.input.thrust_limit_REV_percent = -45;
     autoThrustInput.in.input.thrust_limit_IDLE_percent = engineEngineIdleN1->get();
     autoThrustInput.in.input.thrust_limit_CLB_percent = 80.0;
     autoThrustInput.in.input.thrust_limit_MCT_percent = 81.0;
