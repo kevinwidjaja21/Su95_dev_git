@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelInfo>
+	<LODS>
+		<LOD minSize="0" ModelFile="node0_5.gltf"/>
+	</LODS>
+	<Behaviors>
+        <Include ModelBehaviorFile="A32NX\Exterior\A32NX_Exterior_Includes.xml"/>
+        <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
+        <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
+        <Include Path="A32NX\generated\A32NX_Exterior.xml"/>
+        <Component ID="HANDLING">
+            <UseTemplate Name="ASOBO_HANDLING_Elevator_Template">
+                <ANIM_NAME>elevator_percent_key</ANIM_NAME>
+            </UseTemplate>
+            <UseTemplate Name="ASOBO_HANDLING_Elevator_Template">
+                <TRIM_ONLY>True</TRIM_ONLY>
+                <ANIM_NAME_TRIM>trimtab_elevator_key_left</ANIM_NAME_TRIM>
+            </UseTemplate>
+        </Component>
+    </Behaviors>
+</ModelInfo>

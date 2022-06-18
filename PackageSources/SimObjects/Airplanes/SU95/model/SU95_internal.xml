@@ -9,7 +9,7 @@
         <LOD minSize="100" ModelFile="A320_NEO_INTERIOR_LOD01.gltf"/>
         <LOD minSize="60" ModelFile="A320_NEO_INTERIOR_LOD02.gltf"/>
         <LOD minSize="20" ModelFile="A320_NEO_INTERIOR_LOD03.gltf"/>
-        <LOD minSize="10" ModelFile="A320_NEO_INTERIOR_LOD04.gltf"/>
+        <!-- <LOD minSize="10" ModelFile="A320_NEO_INTERIOR_LOD04.gltf"/> -->
     </LODS>
 
     <Behaviors>
