@@ -27,7 +27,7 @@ class CDUWaypointPage {
             [""]
         ]);
 
-        mcdu.onLeftInput[0] = (value) => {
+        mcdu.onLeftInput[0] = (value, scratchpadCallback) => {
             const selectedWaypoint = mcdu.getOrSelectWaypointByIdent(value, res => {
                 if (res) {
                     mcdu.clearDisplay();
@@ -47,7 +47,8 @@ class CDUWaypointPage {
                         [""]
                     ]);
                 } else {
-                    mcdu.addNewMessage(NXSystemMessages.notAllowed);
+                    mcdu.setScratchpadMessage(NXSystemMessages.notAllowed);
+                    scratchpadCallback();
                 }
             });
         };

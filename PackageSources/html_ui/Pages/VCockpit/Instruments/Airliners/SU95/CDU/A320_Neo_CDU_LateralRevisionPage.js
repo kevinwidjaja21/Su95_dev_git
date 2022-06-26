@@ -1,7 +1,5 @@
 class CDULateralRevisionPage {
     static ShowPage(mcdu, waypoint, waypointIndexFP) {
-        console.log("CDULateralRevisionPage.ShowPage");
-        console.log(waypoint);
         mcdu.clearDisplay();
         mcdu.page.Current = mcdu.page.LateralRevisionPage;
 
@@ -11,22 +9,24 @@ class CDULateralRevisionPage {
             const long = CDUInitPage.ConvertDDToDMS(waypoint.infos.coordinates['long'], true);
             coordinates = `${lat.deg}°${lat.min}.${Math.ceil(Number(lat.sec / 100))}${lat.dir}/${long.deg}°${long.min}.${Math.ceil(Number(long.sec / 100))}${long.dir}[color]green`;
         }
-        const isDeparture = waypoint === mcdu.flightPlanManager.getOrigin();
-        const isDestination = waypoint === mcdu.flightPlanManager.getDestination();
-        const isWaypoint = !isDeparture && !isDestination;
+        const isPpos = waypoint === undefined || waypointIndexFP === 0 && waypoint !== mcdu.flightPlanManager.getOrigin();
+        const isFrom = waypointIndexFP === mcdu.flightPlanManager.getActiveWaypointIndex() - 1;
+        const isDeparture = waypoint === mcdu.flightPlanManager.getOrigin() && !isPpos; // TODO this is bogus... compare icaos
+        const isDestination = waypoint === mcdu.flightPlanManager.getDestination() && !isPpos; // TODO this is bogus... compare icaos
+        const isWaypoint = !isDeparture && !isDestination && !isPpos;
 
-        let waypointIdent = "---";
+        let waypointIdent = isPpos ? "PPOS" : '---';
         if (waypoint) {
             waypointIdent = waypoint.ident;
             if (isDeparture) {
-                const departureRunway = mcdu.flightPlanManager.getDepartureRunway();
-                if (departureRunway) {
-                    waypointIdent += Avionics.Utils.formatRunway(departureRunway.designation);
+                const originRunway = mcdu.flightPlanManager.getOriginRunway();
+                if (originRunway) {
+                    waypointIdent += Avionics.Utils.formatRunway(originRunway.designation);
                 }
             } else if (isDestination) {
-                const approachRunway = mcdu.flightPlanManager.getApproachRunway();
-                if (approachRunway) {
-                    waypointIdent += Avionics.Utils.formatRunway(approachRunway.designation);
+                const destinationRunway = mcdu.flightPlanManager.getDestinationRunway();
+                if (destinationRunway) {
+                    waypointIdent += Avionics.Utils.formatRunway(destinationRunway.designation);
                 }
             }
         }
@@ -51,8 +51,11 @@ class CDULateralRevisionPage {
             mcdu.onRightInput[0] = () => {
                 CDUAvailableArrivalsPage.ShowPage(mcdu, waypoint);
             };
-        } else if (isDeparture) {
-            arrivalFixInfoCell = "FIX INFO>[color]inop";
+        } else if (isDeparture || isPpos || isFrom) {
+            arrivalFixInfoCell = "FIX INFO>";
+            mcdu.onRightInput[0] = () => {
+                CDUFixInfoPage.ShowPage(mcdu);
+            };
         }
 
         let crossingLabel = "";
@@ -69,7 +72,7 @@ class CDULateralRevisionPage {
 
         let nextWptLabel = "";
         let nextWpt = "";
-        const isPreflight = mcdu.currentFlightPhase === FmgcFlightPhases.PREFLIGHT;
+        const isPreflight = mcdu.flightPhaseManager.phase === FmgcFlightPhases.PREFLIGHT;
         if ((isDeparture && isPreflight) || isWaypoint || isDestination) {
             if (isDestination) {
                 // TODO remove this once we support waypoints after the destination (otherwise sim crash)
@@ -78,11 +81,12 @@ class CDULateralRevisionPage {
             } else {
                 nextWptLabel = "NEXT WPT{sp}";
                 nextWpt = "[{sp}{sp}{sp}{sp}][color]cyan";
-                mcdu.onRightInput[2] = async (value) => {
-                    mcdu.insertWaypoint(value, waypointIndexFP + 1, (result) => {
-                        if (result) {
-                            CDUFlightPlanPage.ShowPage(mcdu);
+                mcdu.onRightInput[2] = async (value, scratchpadCallback) => {
+                    mcdu.insertWaypoint(value, waypointIndexFP + 1, (success) => {
+                        if (!success) {
+                            scratchpadCallback();
                         }
+                        CDUFlightPlanPage.ShowPage(mcdu);
                     });
                 };
             }
@@ -90,12 +94,17 @@ class CDULateralRevisionPage {
 
         let holdCell = "";
         if (isWaypoint) {
-            holdCell = "<HOLD[color]inop";
+            holdCell = "<HOLD";
             mcdu.leftInputDelay[2] = () => {
                 return mcdu.getDelaySwitchPage();
             };
             mcdu.onLeftInput[2] = () => {
-                mcdu.addNewMessage(NXFictionalMessages.notYetImplemented);
+                const nextLeg = mcdu.flightPlanManager.getWaypoint(waypointIndexFP + 1);
+                if (nextLeg && nextLeg.additionalData.legType >= 12 && nextLeg.additionalData.legType <= 14 /* HA, HF, HM */) {
+                    CDUHoldAtPage.ShowPage(mcdu, waypointIndexFP + 1);
+                } else {
+                    CDUHoldAtPage.ShowPage(mcdu, waypointIndexFP);
+                }
             };
         }
 
@@ -109,9 +118,17 @@ class CDULateralRevisionPage {
 
         let newDestLabel = "";
         let newDestCell = "";
-        if (!isDestination) {
-            newDestLabel = "NEW DEST{sp}[color]inop";
-            newDestCell = "[{sp}{sp}][color]inop";
+        if (!isDestination && !isPpos) {
+            newDestLabel = "NEW DEST{sp}";
+            newDestCell = "[{sp}{sp}][color]cyan";
+
+            mcdu.onRightInput[3] = (value) => {
+                mcdu.setDestinationAfterWaypoint(value, waypointIndexFP + 1, (result) => {
+                    if (result) {
+                        CDUFlightPlanPage.ShowPage(mcdu);
+                    }
+                });
+            };
         }
 
         let airwaysCell = "";
@@ -121,7 +138,7 @@ class CDULateralRevisionPage {
                 return mcdu.getDelaySwitchPage();
             };
             mcdu.onRightInput[4] = () => {
-                A320_Neo_CDU_AirwaysFromWaypointPage.ShowPage(mcdu, waypoint);
+                A320_Neo_CDU_AirwaysFromWaypointPage.ShowPage(mcdu, waypointIndexFP);
             };
         }
 

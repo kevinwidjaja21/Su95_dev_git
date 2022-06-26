@@ -12,7 +12,7 @@ class CDUProgressPage {
         const adirsUsesGpsAsPrimary = SimVar.GetSimVarValue("L:A32NX_ADIRS_USES_GPS_AS_PRIMARY", "Bool");
         const gpsPrimaryStatus = adirsUsesGpsAsPrimary ? "{green}GPS PRIMARY{end}" : "";
         let flCrz = "-----";
-        switch (mcdu.currentFlightPhase) {
+        switch (mcdu.flightPhaseManager.phase) {
             case FmgcFlightPhases.PREFLIGHT:
             case FmgcFlightPhases.TAKEOFF: {
                 if (mcdu._cruiseEntered) {
@@ -36,7 +36,7 @@ class CDUProgressPage {
             }
         }
         let flightPhase;
-        switch (mcdu.currentFlightPhase) {
+        switch (mcdu.flightPhaseManager.phase) {
             case FmgcFlightPhases.PREFLIGHT:
             case FmgcFlightPhases.TAKEOFF:
                 flightPhase = "TO";
@@ -61,9 +61,11 @@ class CDUProgressPage {
                 break;
         }
 
-        mcdu.onLeftInput[0] = (value) => {
+        mcdu.onLeftInput[0] = (value, scratchpadCallback) => {
             if (mcdu.trySetCruiseFlCheckInput(value)) {
                 CDUProgressPage.ShowPage(mcdu);
+            } else {
+                scratchpadCallback();
             }
         };
         mcdu.leftInputDelay[1] = () => {
@@ -88,9 +90,15 @@ class CDUProgressPage {
                 progBearingDist = `{small}{green}\xa0${mcdu.progBearing.toFixed(0).padStart(3, "0")}°\xa0/${mcdu.progDistance.toFixed(distDigits).padStart(3)}{end}{end}`;
             }
         }
-        mcdu.onRightInput[3] = (input) => {
-            mcdu.trySetProgWaypoint(input, () => {
-                CDUProgressPage.ShowPage(mcdu);
+        // the actual query takes long enough...
+        mcdu.rightInputDelay[3] = () => 0;
+        mcdu.onRightInput[3] = (input, scratchpadCallback) => {
+            mcdu.trySetProgWaypoint(input, (success) => {
+                if (success) {
+                    CDUProgressPage.ShowPage(mcdu);
+                } else {
+                    scratchpadCallback(input);
+                }
             });
         };
         mcdu.setTemplate([
@@ -108,12 +116,16 @@ class CDUProgressPage {
             ["REQUIRED", "ESTIMATED", "ACCUR{sp}"],
             ["{small}3.4NM{end}[color]cyan", "{small}0.07NM{end}[color]green", "HIGH[color]green"]
         ]);
+
+        // regular update due to showing dynamic data on this page
         mcdu.page.SelfPtr = setTimeout(() => {
             if (mcdu.page.Current === mcdu.page.ProgressPage) {
                 CDUProgressPage.ShowPage(mcdu);
             }
-        }, mcdu.PageTimeout.Prog);
+        }, mcdu.PageTimeout.Default);
+
     }
+
     static ShowReportPage(mcdu) {
         mcdu.clearDisplay();
         mcdu.page.Current = mcdu.page.ProgressPageReport;
@@ -121,9 +133,11 @@ class CDUProgressPage {
         if (isFinite(mcdu.cruiseFlightLevel)) {
             altCell = mcdu.cruiseFlightLevel.toFixed(0);
         }
-        mcdu.onRightInput[0] = (value) => {
+        mcdu.onRightInput[0] = (value, scratchpadCallback) => {
             if (mcdu.setCruiseFlightLevelAndTemperature(value)) {
                 CDUProgressPage.ShowReportPage(mcdu);
+            } else {
+                scratchpadCallback();
             }
         };
         let toWaypoint;
@@ -184,6 +198,7 @@ class CDUProgressPage {
             [destCell, "", destUTCCell + " " + destDistCell]
         ]);
     }
+
     static ShowPredictiveGPSPage(mcdu, overrideDestETA = "") {
         mcdu.clearDisplay();
         mcdu.page.Current = mcdu.page.ProgressPagePredictiveGPS;

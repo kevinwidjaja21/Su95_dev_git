@@ -5,9 +5,12 @@
     "es2021": true
   },
   "ignorePatterns": [
-    "/PackageSources/html_ui/JS/fmgc/**",
+    "/PackageSources/html_ui/JS_SU95/fmgc/**",
+    "/PackageSources/html_ui/JS_SU95/atsu/**",
+    "/PackageSources/html_ui/JS_SU95/sentry-client/**",
     "/PackageSources/html_ui/Pages/VCockpit/Instruments/A32NX_SU95/**",
-    "typings/**"
+    "typings/**",
+    "/msfs-avionics-mirror/**"
   ],
   // DO NOT CHANGE THIS FILE (unless you are an admin) (if admin, make sure you change the same file in the latest asobo branch as well)
   "rules": {

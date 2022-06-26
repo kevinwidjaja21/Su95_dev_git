@@ -1,15 +1,37 @@
 class CDUAocMessageSentDetail {
-    static ShowPage(mcdu, message, offset = 0) {
+    static ShowPage(mcdu, messages, messageIndex, offset = 0) {
         mcdu.clearDisplay();
-        const lines = message["content"];
+        const message = messages[messageIndex];
+        const lines = message.serialize(Atsu.AtsuMessageSerializationFormat.MCDU).split("\n");
 
-        const currentMesssageIndex = mcdu.getSentMessageIndex(message["id"]);
-        const currentMesssageCount = currentMesssageIndex + 1;
-        const msgArrows = mcdu.sentMessages.length > 1 ? " {}" : "";
+        // mark message as read
+        mcdu.atsu.messageRead(message.UniqueMessageID);
+
+        const msgArrows = messages.length > 1 ? " {}" : "";
+
+        if (lines.length > 8) {
+            let up = false;
+            let down = false;
+            if (lines[offset + 1]) {
+                mcdu.onUp = () => {
+                    offset += 1;
+                    CDUAocMessageSentDetail.ShowPage(mcdu, messages, messageIndex, offset);
+                };
+                up = true;
+            }
+            if (lines[offset - 1]) {
+                mcdu.onDown = () => {
+                    offset -= 1;
+                    CDUAocMessageSentDetail.ShowPage(mcdu, messages, messageIndex, offset);
+                };
+                down = true;
+            }
+            mcdu.setArrows(up, down, false, false);
+        }
 
         mcdu.setTemplate([
             ["AOC SENT MSG"],
-            [`[b-text]${message["time"]} SENT[color]green`, `${currentMesssageCount}/${mcdu.sentMessages.length}${msgArrows}`],
+            [`[b-text]${message.Timestamp.mcduTimestamp()} TO ${message.Station}[color]green`, `${messageIndex + 1}/${messages.length}${msgArrows}`],
             [`[s-text]${lines[offset] ? lines[offset] : ""}`],
             [`[b-text]${lines[offset + 1] ? lines[offset + 1] : ""}`],
             [`[s-text]${lines[offset + 2] ? lines[offset + 2] : ""}`],
@@ -19,41 +41,21 @@ class CDUAocMessageSentDetail {
             [`[s-text]${lines[offset + 6] ? lines[offset + 6] : ""}`],
             [`[b-text]${lines[offset + 7] ? lines[offset + 7] : ""}`],
             [`[s-text]${lines[offset + 8] ? lines[offset + 8] : ""}`],
-            ["RETURN TO"],
-            ["<SENT MSGS", "PRINT*[color]cyan"]
+            ["\xa0SENT MSGS"],
+            ["<RETURN", "PRINT*[color]cyan"]
         ]);
 
-        if (lines.length > 8) {
-            let up = false;
-            let down = false;
-            if (lines[offset + 1]) {
-                mcdu.onUp = () => {
-                    offset += 1;
-                    CDUAocMessageSentDetail.ShowPage(mcdu, message, offset);
-                };
-                up = true;
-            }
-            if (lines[offset - 1]) {
-                mcdu.onDown = () => {
-                    offset -= 1;
-                    CDUAocMessageSentDetail.ShowPage(mcdu, message, offset);
-                };
-                down = true;
-            }
-            mcdu.setArrows(up, down, false, false);
-        }
-
         mcdu.onNextPage = () => {
-            const nextMessage = mcdu.getSentMessage(message["id"], 'next');
-            if (nextMessage) {
-                CDUAocMessageSentDetail.ShowPage(mcdu, nextMessage);
+            const nextMesssageIndex = messageIndex + 1;
+            if (nextMesssageIndex < messages.length) {
+                CDUAocMessageSentDetail.ShowPage(mcdu, messages, nextMesssageIndex);
             }
         };
 
         mcdu.onPrevPage = () => {
-            const previousMessage = mcdu.getSentMessage(message["id"], 'previous');
-            if (previousMessage) {
-                CDUAocMessageSentDetail.ShowPage(mcdu, previousMessage);
+            const previousMesssageIndex = messageIndex - 1;
+            if (previousMesssageIndex >= 0) {
+                CDUAocMessageSentDetail.ShowPage(mcdu, messages, previousMesssageIndex);
             }
         };
 
@@ -65,8 +67,12 @@ class CDUAocMessageSentDetail {
             CDUAocMessagesSent.ShowPage(mcdu);
         };
 
+        mcdu.rightInputDelay[5] = () => {
+            return mcdu.getDelaySwitchPage();
+        };
+
         mcdu.onRightInput[5] = () => {
-            mcdu.printPage(lines);
+            mcdu.atsu.printMessage(message);
         };
 
     }

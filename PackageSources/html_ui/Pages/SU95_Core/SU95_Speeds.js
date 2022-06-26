@@ -33,7 +33,7 @@ class A32NX_Speeds {
         /** Using true fhi for comparison */
         const isTo = fhi === SimVar.GetSimVarValue("L:A32NX_TO_CONFIG_FLAPS", "number");
         /** Change fhi to differentiate between 1 and 1 + F */
-        if (fhi === 1 && SimVar.GetSimVarValue("FLAPS HANDLE INDEX", "Enum") === 1) {
+        if (fhi === 1 && SimVar.GetSimVarValue("L:A32NX_FLAPS_CONF_INDEX", "Enum") === 1) {
             fhi = 5;
         }
         const gw = this.round(SimVar.GetSimVarValue("TOTAL WEIGHT", "kg")) / 1000;
@@ -54,7 +54,7 @@ class A32NX_Speeds {
 
         this.lastFhi = fhi;
         this.lastGw = gw;
-        this.cgw = Math.ceil(((gw > 50 ? 50 : gw) - 24) / 2); //somehow changing this can break speed indication
+        this.cgw = Math.ceil(((gw > 50 ? 50 : gw) - 24) / 2);
         this.ldgPos = ldg;
         this.alt = alt;
 

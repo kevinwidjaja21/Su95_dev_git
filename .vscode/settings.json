@@ -43,11 +43,17 @@
     "editor.formatOnSave": true,
     "editor.formatOnPaste": false
   },
+  "cmake.configureOnOpen": false,
+  "files.associations": {
+    "memory": "cpp"
+  },
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "editor.fontSize": 10,
   "debug.console.fontSize": 10,
   "markdown.preview.fontSize": 10,
   "terminal.integrated.fontSize": 10,
   "workbench.colorTheme": "Default Light+",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
-  "editor.wordWrap": "on"
+  "editor.wordWrap": "on"						 
 }

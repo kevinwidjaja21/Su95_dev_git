@@ -1,125 +1,79 @@
 class CDUAocMessagesSent {
-    static ShowPage(mcdu, messages = null, offset = 5) {
+    static ShowPage(mcdu, messages = null, page = 0) {
         if (!messages) {
-            messages = mcdu.getSentMessages();
+            messages = mcdu.atsu.aoc.outputMessages();
         }
         mcdu.clearDisplay();
+        mcdu.page.Current = mcdu.page.AOCSentMsgs;
+
+        page = Math.max(0, Math.min(Math.floor((messages.length - 1) / 5), page));
+
+        // regular update due to showing dynamic data on this page
+        mcdu.page.SelfPtr = setTimeout(() => {
+            if (mcdu.page.Current === mcdu.page.AOCSentMsgs) {
+                CDUAocMessagesSent.ShowPage(mcdu, null, page);
+            }
+        }, mcdu.PageTimeout.Slow);
+
+        const offset = 5 + page * 5;
 
         const msgTimeHeaders = [];
         msgTimeHeaders.length = 6;
         for (let i = 5; i > 0; i--) {
             let header = "";
-            if (messages[offset - i]) {
-                header += messages[offset - i]["time"] + " - SENT[color]green";
+            if (messages.length > (offset - i) && messages[offset - i]) {
+                header += `${messages[offset - i].Timestamp.mcduTimestamp()} TO ${messages[offset - i].Station}[color]green`;
             }
             msgTimeHeaders[i] = header;
         }
 
+        let left = false, right = false;
+        if (messages.length > ((page + 1) * 5)) {
+            mcdu.onNextPage = () => {
+                CDUAocMessagesSent.ShowPage(mcdu, messages, page + 1);
+            };
+            right = true;
+        }
+        if (page > 0) {
+            mcdu.onPrevPage = () => {
+                CDUAocMessagesSent.ShowPage(mcdu, messages, page - 1);
+            };
+            left = true;
+        }
+        mcdu.setArrows(false, false, left, right);
+
         mcdu.setTemplate([
             ["AOC SENT MSGS"],
             [msgTimeHeaders[5]],
-            [`${messages[offset - 5] ? "<" + messages[offset - 5]["type"] : "NO MESSAGES"}`],
+            [`${messages[offset - 5] ? "<" + translateAtsuMessageType(messages[offset - 5].Type) : "NO MESSAGES"}`],
             [msgTimeHeaders[4]],
-            [`${messages[offset - 4] ? "<" + messages[offset - 4]["type"] : ""}`],
+            [`${messages[offset - 4] ? "<" + translateAtsuMessageType(messages[offset - 4].Type) : ""}`],
             [msgTimeHeaders[3]],
-            [`${messages[offset - 3] ? "<" + messages[offset - 3]["type"] : ""}`],
+            [`${messages[offset - 3] ? "<" + translateAtsuMessageType(messages[offset - 3].Type) : ""}`],
             [msgTimeHeaders[2]],
-            [`${messages[offset - 2] ? "<" + messages[offset - 2]["type"] : ""}`],
+            [`${messages[offset - 2] ? "<" + translateAtsuMessageType(messages[offset - 2].Type) : ""}`],
             [msgTimeHeaders[1]],
-            [`${messages[offset - 1] ? "<" + messages[offset - 1]["type"] : ""}`],
-            [""],
+            [`${messages[offset - 1] ? "<" + translateAtsuMessageType(messages[offset - 1].Type) : ""}`],
+            ["\xa0AOC MENU"],
             ["<RETURN"]
         ]);
 
-        if (messages.length > 4) {
-            mcdu.onNextPage = () => {
-                if (messages[offset - 1]) {
-                    offset *= 2;
-                }
-                CDUAocMessagesSent.ShowPage(mcdu, messages, offset);
+        for (let i = 0; i < 5; i++) {
+            mcdu.leftInputDelay[i] = () => {
+                return mcdu.getDelaySwitchPage();
             };
-            mcdu.onPrevPage = () => {
-                if (messages[offset - 1]) {
-                    offset /= 2;
+
+            mcdu.onLeftInput[i] = (value) => {
+                if (messages[offset - 5 + i]) {
+                    if (value === FMCMainDisplay.clrValue) {
+                        mcdu.atsu.removeMessage(messages[offset - 5 + i].UniqueMessageID);
+                        CDUAocMessagesSent.ShowPage(mcdu);
+                    } else {
+                        CDUAocMessageSentDetail.ShowPage(mcdu, messages, offset - 5 + i);
+                    }
                 }
-                CDUAocMessagesSent.ShowPage(mcdu, messages, offset);
             };
         }
-
-        mcdu.leftInputDelay[0] = () => {
-            return mcdu.getDelaySwitchPage();
-        };
-
-        mcdu.onLeftInput[0] = (value) => {
-            if (messages[offset - 5]) {
-                if (value === FMCMainDisplay.clrValue) {
-                    mcdu.deleteSentMessage(offset - 5);
-                    CDUAocMessagesSent.ShowPage(mcdu, messages, offset);
-                } else {
-                    CDUAocMessageSentDetail.ShowPage(mcdu, messages[offset - 5]);
-                }
-            }
-        };
-
-        mcdu.leftInputDelay[1] = () => {
-            return mcdu.getDelaySwitchPage();
-        };
-
-        mcdu.onLeftInput[1] = (value) => {
-            if (messages[offset - 4]) {
-                if (value === FMCMainDisplay.clrValue) {
-                    mcdu.deleteSentMessage(offset - 4);
-                    CDUAocMessagesSent.ShowPage(mcdu, messages, offset);
-                } else {
-                    CDUAocMessageSentDetail.ShowPage(mcdu, messages[offset - 4]);
-                }
-            }
-        };
-
-        mcdu.leftInputDelay[2] = () => {
-            return mcdu.getDelaySwitchPage();
-        };
-
-        mcdu.onLeftInput[2] = (value) => {
-            if (messages[offset - 3]) {
-                if (value === FMCMainDisplay.clrValue) {
-                    mcdu.deleteSentMessage(offset - 3);
-                    CDUAocMessagesSent.ShowPage(mcdu, messages, offset);
-                } else {
-                    CDUAocMessageSentDetail.ShowPage(mcdu, messages[offset - 3]);
-                }
-            }
-        };
-
-        mcdu.leftInputDelay[3] = () => {
-            return mcdu.getDelaySwitchPage();
-        };
-
-        mcdu.onLeftInput[3] = (value) => {
-            if (messages[offset - 2]) {
-                if (value === FMCMainDisplay.clrValue) {
-                    mcdu.deleteSentMessage(offset - 2);
-                    CDUAocMessagesSent.ShowPage(mcdu, messages, offset);
-                } else {
-                    CDUAocMessageSentDetail.ShowPage(mcdu, messages[offset - 2]);
-                }
-            }
-        };
-
-        mcdu.leftInputDelay[4] = () => {
-            return mcdu.getDelaySwitchPage();
-        };
-
-        mcdu.onLeftInput[4] = (value) => {
-            if (messages[offset - 1]) {
-                if (value === FMCMainDisplay.clrValue) {
-                    mcdu.deleteSentMessage(offset - 1);
-                    CDUAocMessagesSent.ShowPage(mcdu, messages, offset);
-                } else {
-                    CDUAocMessageSentDetail.ShowPage(mcdu, messages[offset - 1]);
-                }
-            }
-        };
 
         mcdu.leftInputDelay[5] = () => {
             return mcdu.getDelaySwitchPage();

@@ -1,11 +1,5 @@
 /// <reference path="./Types.d.ts" />
 
-import {
-    Angl16, Celcius, Degrees, Feet, FeetPerMinute, Gallons, Heading, InchesOfMercury, Kilograms, Knots,
-    Mach, Millibar, NauticalMiles, Percent, PercentOver100, PressurePerSquareInch, Radians, RadiansPerSecond,
-    RotationsPerMinute, Seconds
-} from "../../../types";
-
 declare global {
     class GlassCockpitSettings {
         FuelFlow:                ColorRangeDisplay;
@@ -193,20 +187,18 @@ declare global {
     }
 
     enum ApproachType {
-        APPROACH_TYPE_UNKNOWN,
-        APPROACH_TYPE_VFR,
-        APPROACH_TYPE_HEL,
-        APPROACH_TYPE_TACAN,
-        APPROACH_TYPE_NDB,
-        APPROACH_TYPE_LORAN,
-        APPROACH_TYPE_RNAV,
-        APPROACH_TYPE_VOR,
+        APPROACH_TYPE_UNKNOWN = 0,
         APPROACH_TYPE_GPS,
+        APPROACH_TYPE_VOR,
+        APPROACH_TYPE_NDB,
+        APPROACH_TYPE_ILS,
+        APPROACH_TYPE_LOCALIZER,
         APPROACH_TYPE_SDF,
         APPROACH_TYPE_LDA,
-        APPROACH_TYPE_LOC,
-        APPROACH_TYPE_MLS,
-        APPROACH_TYPE_ILS
+        APPROACH_TYPE_VORDME,
+        APPROACH_TYPE_NDBDME,
+        APPROACH_TYPE_RNAV,
+        APPROACH_TYPE_LOCALIZER_BACK_COURSE,
     }
 
     enum WorldRegion {
@@ -366,6 +358,7 @@ declare global {
          * Equal to getEngineCommandedN1
          */
         function getAutopilotCommandedN1(engineIndex: number): Percent | null;
+        function getEngineActive(engineIndex: number): true;
         function getEngineType(): EngineType | null;
         function getEngineRPM(engineIndex: number): RotationsPerMinute | null;
         function getEnginePower(engineIndex: number): Percent | null;
@@ -420,7 +413,6 @@ declare global {
         function getMaxWeight(): Kilograms | null;
         function getGearPosition(): Percent | null;
         function getUnitIsMetric(): boolean | null;
-        function getCurrentFlightPhase(forceSimVarCall?: boolean): FlightPhase | null;
         function getWorldRegion(): WorldRegion;
     }
 }

@@ -9,34 +9,6 @@ class ADIRS {
         return knobValue === adirs3ToFO ? 3 : 2;
     }
 
-    /**
-     * Retrieves an ADIRS value of the given name and type.
-     *
-     * @returns {(number|NaN)} Returns the value when available.
-     * Returns NaN when the value is not available, for example due to the ADR being off.
-     */
-    static getValue(name, type) {
-        const value = SimVar.GetSimVarValue(name, type);
-        return ADIRS.parseValue(value);
-    }
-
-    /**
-     * Parses the given ADIRS value. When the value indicates
-     * "unavailable", it is converted into NaN.
-     */
-    static parseValue(value) {
-        const unavailable = -1000000;
-        return Math.abs(value - unavailable) < 0.0001 ? NaN : value;
-    }
-
-    static getVerticalSpeed(inertialReferenceSource, airDataReferenceSource) {
-        // When available, the IR V/S has priority over the ADR barometric V/S.
-        const verticalSpeed = ADIRS.getValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_VERTICAL_SPEED`, 'feet per minute');
-        return !Number.isNaN(verticalSpeed)
-            ? verticalSpeed
-            : ADIRS.getValue(`L:A32NX_ADIRS_ADR_${airDataReferenceSource}_BAROMETRIC_VERTICAL_SPEED`, 'feet per minute');
-    }
-
     static getNdInertialReferenceSource(displayIndex) {
         return ADIRS.getNdSupplier(displayIndex, SimVar.GetSimVarValue('L:A32NX_ATT_HDG_SWITCHING_KNOB', 'Enum'));
     }
@@ -51,29 +23,52 @@ class ADIRS {
 
     static mapNotAvailable(displayIndex) {
         const inertialReferenceSource = ADIRS.getNdInertialReferenceSource(displayIndex);
-        return Number.isNaN(ADIRS.getValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_LATITUDE`, 'degree')) ||
-            Number.isNaN(ADIRS.getValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_LONGITUDE`, 'degree'));
+        return !Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_LATITUDE`).isNormalOperation() ||
+            !Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_IR_${inertialReferenceSource}_LONGITUDE`).isNormalOperation();
     }
 
     static getLatitude() {
-        return ADIRS.getLocation('latitude');
+        return ADIRS.getFromAnyAdiru('IR', 'LATITUDE');
     }
 
     static getLongitude() {
-        return ADIRS.getLocation('longitude');
+        return ADIRS.getFromAnyAdiru('IR', 'LONGITUDE');
     }
 
-    static getLocation(type) {
+    static getTrueAirspeed() {
+        return ADIRS.getFromAnyAdiru('ADR', 'TRUE_AIRSPEED');
+    }
+
+    static getCalibratedAirspeed() {
+        return ADIRS.getFromAnyAdiru('ADR', 'COMPUTED_AIRSPEED');
+    }
+
+    static getGroundSpeed() {
+        return ADIRS.getFromAnyAdiru('IR', 'GROUND_SPEED');
+    }
+
+    // FIXME there should be baro corrected altitude 1 (capt) and 2 (f/o)
+    static getBaroCorrectedAltitude() {
+        return ADIRS.getFromAnyAdiru('ADR', 'ALTITUDE');
+    }
+
+    /**
+     *
+     * @param {'IR' | 'ADR'} type IR or ADR
+     * @param {string} param the name of the param
+     * @returns {Arinc429Word}
+     */
+    static getFromAnyAdiru(type, param) {
         // In the real aircraft, FMGC 1 is supplied by ADIRU 1, and FMGC 2 by ADIRU 2. When any is unavailable
         // the FMGC switches to ADIRU 3. If only one ADIRU is available, both FMGCs use the same ADIRU.
         // As we don't have a split FMGC, we'll just use the following code for now.
-        for (let adiruNumber = 1; adiruNumber <= 3; adiruNumber++) {
-            const longitude = ADIRS.getValue(`L:A32NX_ADIRS_IR_${adiruNumber}_${type.toUpperCase()}`, `degree ${type}`);
-            if (!Number.isNaN(longitude)) {
-                return longitude;
+        const fromAdiru = 1;
+        const toAdiru = 3;
+        for (let adiruNumber = fromAdiru; adiruNumber <= toAdiru; adiruNumber++) {
+            const arincWord = Arinc429Word.fromSimVarValue(`L:A32NX_ADIRS_${type}_${adiruNumber}_${param}`);
+            if (arincWord.isNormalOperation() || adiruNumber === toAdiru) {
+                return arincWord;
             }
         }
-
-        return NaN;
     }
 }

@@ -159,7 +159,7 @@ class CDUIRSInit {
                     activeReference = originAirportLon;
                 }
                 if (activeReference['deg'] >= 90 && !lon || activeReference['deg'] >= 180 && lon) {
-                    mcdu.addNewMessage(NXSystemMessages.entryOutOfRange);
+                    mcdu.setScratchpadMessage(NXSystemMessages.entryOutOfRange);
                 } else {
                     activeReference['sec'] = activeReference['sec'] + 1;
                     if (activeReference['sec'] >= 9) {
@@ -182,7 +182,7 @@ class CDUIRSInit {
                     activeReference = originAirportLon;
                 }
                 if (activeReference['deg'] <= -90 && !lon || activeReference['deg'] <= -180 && lon) {
-                    mcdu.addNewMessage(NXSystemMessages.entryOutOfRange);
+                    mcdu.setScratchpadMessage(NXSystemMessages.entryOutOfRange);
                 } else {
                     activeReference['sec'] = activeReference['sec'] - 1;
                     if (activeReference['sec'] < 0) {
@@ -201,7 +201,7 @@ class CDUIRSInit {
         autoRefresh();
         function autoRefresh() {
             setTimeout(() => {
-                if (mcdu.getTitle() === 'IRS INIT') {
+                if (mcdu.page.Current === mcdu.page.IRSInit) {
                     CDUIRSInit.ShowPage(mcdu, lon = lon,
                         originAirportLat = originAirportLat, originAirportLon = originAirportLon,
                         referenceName = referenceName, originAirportCoordinates = originAirportCoordinates,

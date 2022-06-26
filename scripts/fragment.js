@@ -4,7 +4,7 @@ const fs = require('fs');
 const execute = async () => {
     try {
         const result = await fragmenter.pack({
-            baseDir: './Packages',
+            baseDir: './PackageSources',
             outDir: './build-modules',
             modules: [{
                 name: 'effects',

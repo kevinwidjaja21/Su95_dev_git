@@ -31,6 +31,10 @@
       ]
     },
     "additions": [
+	  {
+        "gltf": "./sound_nodes/sound_nodes.gltf",
+        "bin": "./sound_nodes/sound_nodes.bin"
+      },
       {
         "gltf": "./onbat/onbat.gltf",
         "bin": "./onbat/onbat.bin"
@@ -50,10 +54,6 @@
       {
         "gltf": "./printer/print-torn.gltf",
         "bin": "./printer/print-torn.bin"
-      },
-      {
-        "gltf": "./glass/glass.gltf",
-        "bin": "./glass/glass.bin"
       },
       {
         "gltf": "./cup/cup.gltf",
@@ -78,6 +78,22 @@
       {
         "gltf": "./buttondecals/buttondecals.gltf",
         "bin": "./buttondecals/buttondecals.bin"
+      },
+      {
+        "gltf": "./mcdu-annunc/mcdu-annunc.gltf",
+        "bin": "./mcdu-annunc/mcdu-annunc.bin"
+      },
+      {
+        "gltf": "./inop/inop.gltf",
+        "bin": "./inop/inop.bin"
+      },
+      {
+        "gltf": "./master-warn/master-warn.gltf",
+        "bin": "./master-warn/master-warn.bin"
+      },
+      {
+        "gltf": "./glass/glass.gltf",
+        "bin": "./glass/glass.bin"
       },
       {
         "gltf": "./interior-cover/interior_cover.gltf",
@@ -115,9 +131,9 @@
           "x0_PUSH_MPR_MS0PLUS_SEQ1_vertices#0_TEXCOORD_1"
         ],
         "data": [
-          [0.705078125, 0.020416259765625],
-          [0.7158200144767761, 0.0],
-          [0.7158203125, 0.020416259765625],
+          [0.985282, 0.072396],
+          [0.998726, 0.046845],
+          [0.998726, 0.072396],
           [0.383056640625, 0.55615234375],
           [0.353271484375, 0.53369140625],
           [0.383056640625, 0.53369140625],
@@ -126,7 +142,51 @@
           [0.29886749386787415, 0.00017684698104858398],
           [0.29886749386787415, 0.02059304714202881],
           [0.28661468625068665, 0.00017684698104858398],
-          [0.705078125, 0.0]
+          [0.985282, 0.046845]
+        ]
+      },
+      {
+        "accessors": [
+          "x0_PUSH_MPL_POEMINUS_SEQ1_vertices#0_TEXCOORD_0",
+          "x0_PUSH_MPL_POEMINUS_SEQ1_vertices#0_TEXCOORD_1",
+          "x0_PUSH_MPR_POEMINUS_SEQ1_vertices#0_TEXCOORD_0",
+          "x0_PUSH_MPR_POEMINUS_SEQ1_vertices#0_TEXCOORD_1"
+        ],
+        "data": [
+          [0.983703, 0.043945],
+          [0.953247, 0.067627],
+          [0.953247, 0.043945],
+          [0.261474609375, 0.020416259765625],
+          [0.2491455078125, 0.0],
+          [0.261474609375, 0.0],
+          [0.2491455078125, 0.020416259765625],
+          [0.727905, -0.00037],
+          [0.721558, 0.02005],
+          [0.721558, -0.00037],
+          [0.727905, 0.02005],
+          [0.983703, 0.067627]
+        ]
+      },
+      {
+        "accessors": [
+          "x0_PUSH_MPL_POEPLUS_SEQ1_vertices#0_TEXCOORD_0",
+          "x0_PUSH_MPL_POEPLUS_SEQ1_vertices#0_TEXCOORD_1",
+          "x0_PUSH_MPR_POEPLUS_SEQ1_vertices#0_TEXCOORD_0",
+          "x0_PUSH_MPR_POEPLUS_SEQ1_vertices#0_TEXCOORD_1"
+        ],
+        "data": [
+          [0.983703, 0.043945],
+          [0.953247, 0.067627],
+          [0.953247, 0.043945],
+          [0.261474609375, 0.020416259765625],
+          [0.2491455078125, 0.0],
+          [0.261474609375, 0.0],
+          [0.2491455078125, 0.020416259765625],
+          [0.998726, 0.046845],
+          [0.985282, 0.072396],
+          [0.985282, 0.046845],
+          [0.998726, 0.072396],
+          [0.983703, 0.067627]
         ]
       },
       {
@@ -581,6 +641,33 @@
         ]
       },
       {
+        "node": "KNOB_ATC_ALT",
+        "outputSamplers": [
+          [
+            [-0.106376, 0.339822, -0.038718, 0.933652],
+            [-0.106376, -0.339822, 0.038718, 0.933652]
+          ]
+        ]
+      },
+      {
+        "node": "KNOB_ATC_1",
+        "outputSamplers": [
+          [
+            [-0.106376, 0.339822, -0.038718, 0.933652],
+            [-0.106376, -0.339822, 0.038718, 0.933652]
+          ]
+        ]
+      },
+      {
+        "node": "SWITCH_EFIS_FO_CONSOLE",
+        "outputSamplers": [
+          [
+            [-0.74896, 0.0, 0.0, 0.66262],
+            [-0.39875, 0.0, 0.0, 0.91706]
+          ]
+        ]
+      },
+      {
         "accessors": [
           "x0_PUSH_ECAM_ENG_SEQ2_vertices#0_TEXCOORD_0",
           "x0_PUSH_ECAM_ENG_SEQ2_vertices#0_TEXCOORD_1"
@@ -746,6 +833,62 @@
           [0.587402, 0.973633],
           [0.587402, 0.958984],
           [0.621582, 0.973633]
+        ]
+      },
+      {
+        "accessors": [
+          "x0_PUSH_RADIOL_SEL_SEQ2_vertices#0_TEXCOORD_0",
+          "x0_PUSH_RADIOL_SEL_SEQ2_vertices#0_TEXCOORD_1",
+          "x0_PUSH_RADIOR_SEL_SEQ2_vertices#0_TEXCOORD_0",
+          "x0_PUSH_RADIOR_SEL_SEQ2_vertices#0_TEXCOORD_1"
+        ],
+        "data": [
+          [0.400669, 0.736029],
+          [0.382114, 0.753607],
+          [0.382358, 0.736029],
+          [0.400913, 0.753607]
+        ]
+      }
+    ],
+    "splitAnimations": [
+      {
+        "animation": "PUSH_AUTOPILOT_MASTERCAUT_L",
+        "newAnimations": [
+          {
+            "name": "PUSH_GLARE_MASTERCAUT_L",
+            "indices": [0],
+            "targetNode": "PUSH_GLARE_MASTERCAUT_L"
+          }
+        ]
+      },
+      {
+        "animation": "PUSH_AUTOPILOT_MASTERCAUT_R",
+        "newAnimations": [
+          {
+            "name": "PUSH_GLARE_MASTERCAUT_R",
+            "indices": [0],
+            "targetNode": "PUSH_GLARE_MASTERCAUT_R"
+          }
+        ]
+      },
+      {
+        "animation": "PUSH_AUTOPILOT_MASTERAWARN_L",
+        "newAnimations": [
+          {
+            "name": "PUSH_GLARE_MASTERWARN_L",
+            "indices": [0],
+            "targetNode": "PUSH_GLARE_MASTERWARN_L"
+          }
+        ]
+      },
+      {
+        "animation": "PUSH_AUTOPILOT_MASTERAWARN_R",
+        "newAnimations": [
+          {
+            "name": "PUSH_GLARE_MASTERWARN_R",
+            "indices": [0],
+            "targetNode": "PUSH_GLARE_MASTERWARN_R"
+          }
         ]
       }
     ]

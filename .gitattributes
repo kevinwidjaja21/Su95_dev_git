@@ -1,4 +1,3 @@
-# Auto detect text files and perform LF normalization
 * text=auto
 
 # Ensure LF for shell files, even on Windows, so that bash inside Docker does not panic
