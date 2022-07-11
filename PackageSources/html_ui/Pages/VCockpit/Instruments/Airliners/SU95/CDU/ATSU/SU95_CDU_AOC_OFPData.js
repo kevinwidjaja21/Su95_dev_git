@@ -56,7 +56,7 @@ class CDUAocOfpData {
         }
 
         async function setDefaultWeights(simbriefPaxWeight, simbriefBagWeight) {
-            const perPaxWeight = (simbriefPaxWeight === 0) ? 84 : simbriefPaxWeight;
+            const perPaxWeight = (simbriefPaxWeight === 0) ? 85 : simbriefPaxWeight;
             const perBagWeight = (simbriefBagWeight === 0) ? 20 : simbriefBagWeight;
             SimVar.SetSimVarValue("L:A32NX_WB_PER_PAX_WEIGHT", "Number", parseInt(perPaxWeight));
             SimVar.SetSimVarValue("L:A32NX_WB_PER_BAG_WEIGHT", "Number", parseInt(perBagWeight));
@@ -101,17 +101,17 @@ class CDUAocOfpData {
                 paxRemaining -= pax;
             }
 
-            await fillStation(paxStations['rows22_29'], .28 , numberOfPax);
-            await fillStation(paxStations['rows14_21'], .28, numberOfPax);
-            await fillStation(paxStations['rows7_13'], .25 , numberOfPax);
-            await fillStation(paxStations['rows1_6'], 1 , paxRemaining);
+            await fillStation(paxStations['rows16_20'], .26 , numberOfPax);
+            await fillStation(paxStations['rows11_15'], .26, numberOfPax);
+            await fillStation(paxStations['rows6_10'], .26 , numberOfPax);
+            await fillStation(paxStations['rows1_5'], 1 , paxRemaining);
             return;
         }
 
         async function setTargetCargo(numberOfPax, simbriefFreight) {
             const BAG_WEIGHT = SimVar.GetSimVarValue("L:A32NX_WB_PER_BAG_WEIGHT", "Number");
             const bagWeight = numberOfPax * BAG_WEIGHT;
-            const maxLoadInCargoHold = 9435; // from flight_model.cfg
+            const maxLoadInCargoHold = 4200; // from flight_model.cfg
             const loadableCargoWeight = Math.min(bagWeight + parseInt(simbriefFreight), maxLoadInCargoHold);
 
             let remainingWeight = loadableCargoWeight;
@@ -123,16 +123,16 @@ class CDUAocOfpData {
                 await SimVar.SetSimVarValue(`L:${station.simVar}_DESIRED`, "Number", parseInt(weight));
             }
 
-            await fillCargo(cargoStations['fwdBag'], .361 , loadableCargoWeight);
-            await fillCargo(cargoStations['aftBag'], .220, loadableCargoWeight);
-            await fillCargo(cargoStations['aftCont'], .251, loadableCargoWeight);
+            await fillCargo(cargoStations['fwdBag'], .464 , loadableCargoWeight);
+            await fillCargo(cargoStations['aftBag'], .138, loadableCargoWeight);
+            await fillCargo(cargoStations['aftCont'], .289, loadableCargoWeight);
             await fillCargo(cargoStations['aftBulk'], 1, remainingWeight);
             return;
         }
 
         const currentZfwcg = getZfwcg();
         if (currentZfwcg !== undefined) {
-            const cgColor = currentZfwcg >= 16 && currentZfwcg <= 40 ? 'green' : 'red';
+            const cgColor = currentZfwcg >= 8 && currentZfwcg <= 50 ? 'green' : 'red';
             zfwcg = `${currentZfwcg.toFixed(1)}{end}[color]${cgColor}`;
         }
 
@@ -191,14 +191,14 @@ class CDUAocOfpData {
             ["W/B"],
             ["TOTAL PAX", "PAYLOAD"],
             [buildTotalPaxValue(), `${Math.round(NXUnits.kgToUser(getTotalPayload()))}[color]green`],
-            [paxStations.rows1_6.name, "ZFW"],
-            [buildStationValue(paxStations.rows1_6), `${Math.round(NXUnits.kgToUser(getZfw()))}[color]green`],
-            [paxStations.rows7_13.name, "ZFW CG"],
-            [buildStationValue(paxStations.rows7_13), zfwcg],
-            [paxStations.rows14_21.name, "CARGO HOLD"],
-            [buildStationValue(paxStations.rows14_21), buildTotalCargoValue()],
-            [paxStations.rows22_29.name, "OFP REQUEST"],
-            [buildStationValue(paxStations.rows22_29), requestButton],
+            [paxStations.rows1_5.name, "ZFW"],
+            [buildStationValue(paxStations.rows1_5), `${Math.round(NXUnits.kgToUser(getZfw()))}[color]green`],
+            [paxStations.rows6_10.name, "ZFW CG"],
+            [buildStationValue(paxStations.rows6_10), zfwcg],
+            [paxStations.rows11_15.name, "CARGO HOLD"],
+            [buildStationValue(paxStations.rows11_15), buildTotalCargoValue()],
+            [paxStations.rows16_20.name, "OFP REQUEST"],
+            [buildStationValue(paxStations.rows16_20), requestButton],
             ["\xa0AOC MENU", "BOARDING\xa0"],
             ["<RETURN", loadButton]
         ];
@@ -242,7 +242,7 @@ class CDUAocOfpData {
 const payloadConstruct = new A32NX_PayloadConstructor();
 const paxStations = payloadConstruct.paxStations;
 const cargoStations = payloadConstruct.cargoStations;
-const MAX_SEAT_AVAILABLE = 174;
+const MAX_SEAT_AVAILABLE = 98;
 
 /**
      * Calculate %MAC ZWFCG of all stations

@@ -10,7 +10,7 @@ class NXDataStore {
     }
 
     static get(key, defaultVal) {
-        const val = GetStoredData(`A32NX_${key}`);
+        const val = GetStoredData(`SU95_${key}`);
         if (!val) {
             return defaultVal;
         }
@@ -18,12 +18,12 @@ class NXDataStore {
     }
 
     static set(key, val) {
-        SetStoredData(`A32NX_${key}`, val);
-        this.listener.triggerToAllSubscribers('A32NX_NXDATASTORE_UPDATE', key, val);
+        SetStoredData(`SU95_${key}`, val);
+        this.listener.triggerToAllSubscribers('SU95_NXDATASTORE_UPDATE', key, val);
     }
 
     static subscribe(key, callback) {
-        return Coherent.on('A32NX_NXDATASTORE_UPDATE', (updatedKey, value) => {
+        return Coherent.on('SU95_NXDATASTORE_UPDATE', (updatedKey, value) => {
             if (key === '*' || key === updatedKey) {
                 callback(updatedKey, value);
             }

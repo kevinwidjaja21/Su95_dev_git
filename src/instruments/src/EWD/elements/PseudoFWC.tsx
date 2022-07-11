@@ -899,7 +899,7 @@ const PseudoFWC: React.FC = () => {
                 noSmoking === 1 && seatBelt === 1 ? 3 : 2,
                 cabinReady ? 5 : 4,
                 spoilersArmed ? 7 : 6,
-                flapsHandle >= 1 && flapsHandle <= 3 ? 9 : 8,
+                flapsHandle >= 1 && flapsHandle <= 2 ? 9 : 8,
                 toconfig ? 11 : 10,
             ],
             codesToReturn: ['000001001', '000001002', '000001003', '000001004', '000001005', '000001006', '000001007', '000001008', '000001009', '000001010', '000001011', '000001012'],

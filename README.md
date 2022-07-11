@@ -47,5 +47,6 @@ Microsoft Flight Simulator © Microsoft Corporation. SSJ project was created und
 The contents of distribution packages built from the sources in this repository are therefore licensed as follows:
 
 - in the case of original source code from the SSJ project and FBW, or compiled binaries generated from it, under GPLv3.
-- in the case of original or FBW 3D assets, under CC BY-NC 4.0.
+- in the case of original or FBW texture, graphics or 3D assets, under CC BY-NC 4.0.
 - in the case of assets covered by the "Game Content Usage Rules", under the license granted by those rules.
+- in the case of original or modified exterior 3D model, graphics, sound or 3D assets created by Edgar Guinart Lopez, under proprietary freeware license

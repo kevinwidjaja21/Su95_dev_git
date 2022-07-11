@@ -1,0 +1,11 @@
+{
+  "LocalisationPackage": {
+    "Language": "nb-NO",
+    "Strings": {
+      "ATCCOM.ATC_NAME SUKHOI1.0.text": "Sukhoi",
+      "ATCCOM.ATC_NAME SUKHOI1.0.tts": "Sukhoi",
+	  "ATCCOM.AC_MODEL SU95.0.text": "SU95",
+      "ATCCOM.AC_MODEL SU95.0.tts": "SU95"
+    }
+  }
+}

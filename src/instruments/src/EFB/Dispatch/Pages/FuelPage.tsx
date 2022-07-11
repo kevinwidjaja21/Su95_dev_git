@@ -11,12 +11,13 @@ import { useSimVar } from '../../../Common/simVars';
 import { usePersistentProperty } from '../../../Common/persistence';
 
 export const FuelPage = () => {
-    const totalFuelGallons = 4255;
+    const totalFuelGallons = 4215;
     const outerCellGallon = 110;
     const innerCellGallon = 1260;
     const centerTankGallon = 1475;
-    const wingTotalRefuelTimeSeconds = 1020;
-    const CenterTotalRefuelTimeSeconds = 180;
+    const wingTotalRefuelTimeSeconds = 624;
+    const CenterTotalRefuelTimeSeconds = 336;
+    const defuel_multiplier = 3.75;
     const [usingMetrics] = usePersistentProperty('CONFIG_USING_METRIC_UNIT', '1');
 
     const currentUnit = () => {
@@ -208,6 +209,9 @@ export const FuelPage = () => {
         }
         if (estimatedTimeSeconds < 35) {
             return ' 0.5';
+        }
+        if ((totalTarget) < (totalCurrentGallon())) { // defueling time
+            estimatedTimeSeconds = estimatedTimeSeconds * defuel_multiplier;
         }
         return ` ${Math.round(estimatedTimeSeconds / 60)}`;
     };

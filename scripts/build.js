@@ -72,26 +72,6 @@ const title = `A32NX (${titlePostfix})`;
 // Development will show a yellow label
 // All other branches show a red label
 
-function copyDDSFiles(src_dds) {
-    const TARGET_PATH = '/SimObjects/AirPlanes/SU95/TEXTURE/A320NEO_COCKPIT_DECALSTEXT_ALBD.TIF.dds';
-    // destination will be created or overwritten by default.
-    fs.copyFile(path.join(path.resolve(__dirname, '..', 'src'), src_dds), path.join(A32NX, TARGET_PATH),
-        (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log('copying ' + src_dds + ` to ` + TARGET_PATH + "failed: " + err);
-        });
-}
-
-if (edition === 'stable') {
-    copyDDSFiles('/Textures/decals 4k/A320NEO_COCKPIT_DECALSTEXT_ALBD.TIF-stable.dds');
-} else if (GIT_BRANCH === 'master') {
-    copyDDSFiles('/Textures/decals 4k/A320NEO_COCKPIT_DECALSTEXT_ALBD.TIF-master.dds');
-} else {
-    copyDDSFiles('/Textures/decals 4k/A320NEO_COCKPIT_DECALSTEXT_ALBD.TIF-exp.dds');
-}
-
 const contentEntries = [];
 let totalPackageSize = 0;
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IconClipboard, IconMap, IconCalculator, IconSettings, IconTruck, IconBuildingLighthouse, IconAlertTriangle } from '@tabler/icons';
-import logo from '../Assets/fbw-logo.svg';
+import logo from '../Assets/eas-logo.svg';
 
 type ToolbarProps = {
     setPageIndex: (index) => void;

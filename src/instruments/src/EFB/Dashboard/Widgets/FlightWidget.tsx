@@ -6,7 +6,7 @@ import {
     IconPlaneArrival,
 } from '@tabler/icons';
 import { SimbriefData } from '../../Efb';
-import fuselage from '../../Assets/320neo-outline-nose.svg';
+import fuselage from '../../Assets/SU95-outline-nose.svg';
 
 type FlightWidgetProps = {
     simbriefData: SimbriefData,

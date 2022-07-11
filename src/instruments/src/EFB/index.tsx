@@ -12,7 +12,7 @@ import { useInteractionEvent } from '../util';
 import './Assets/Reset.scss';
 import './Assets/Efb.scss';
 
-import logo from './Assets/fbw-logo.svg';
+import logo from './Assets/eas-logo.svg';
 
 const ScreenLoading = () => (
     <div className="loading-screen">
