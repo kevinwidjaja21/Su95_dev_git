@@ -5,7 +5,7 @@
     -->
     <Template Name="FBW_SSJ_LIGHTING_Switch_Light_Landing_Template">
         <UseTemplate Name="ASOBO_LIGHTING_Switch_Light_Wing_Template">
-            <LIGHT_TYPE>WING</LIGHT_TYPE>
+            <LIGHT_TYPE>LANDING</LIGHT_TYPE>
             <WWISE_EVENT_1>lswitch</WWISE_EVENT_1>
             <WWISE_EVENT_2>lswitch</WWISE_EVENT_2>
             <NORMALIZED_TIME_1>0.1</NORMALIZED_TIME_1>
