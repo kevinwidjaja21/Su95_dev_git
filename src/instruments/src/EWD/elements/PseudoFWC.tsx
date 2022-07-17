@@ -635,7 +635,7 @@ const PseudoFWC: React.FC = () => {
                 && toconfigFailed
             )
             || (
-                [3, 4, 5].includes(flightPhase) && (slatsAngle < 18 || slatsAngle > 22)
+                [3, 4, 5].includes(flightPhase) && (slatsAngle < 18 || slatsAngle > 24)
             ),
             whichCodeToReturn: [0, 1],
             codesToReturn: ['270008501', '270008502'],
@@ -653,7 +653,7 @@ const PseudoFWC: React.FC = () => {
                 && toconfigFailed
             )
             || (
-                [3, 4, 5].includes(flightPhase) && (flapsAngle < 10 || flapsAngle > 20)
+                [3, 4, 5].includes(flightPhase) && (flapsAngle < 9 || flapsAngle > 17)
             ),
             whichCodeToReturn: [0, 1],
             codesToReturn: ['270009001', '270009002'],

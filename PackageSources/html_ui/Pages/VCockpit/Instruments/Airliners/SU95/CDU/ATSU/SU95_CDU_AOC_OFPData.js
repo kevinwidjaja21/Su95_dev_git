@@ -22,7 +22,7 @@
  * - You can either fetch the weight from SimBrief or
  * - You can enter/edit manually each field
  */
-class CDUAocOfpData {
+ class CDUAocOfpData {
     static ShowPage(mcdu) {
         mcdu.clearDisplay();
         mcdu.page.Current = mcdu.page.AOCOfpData;
@@ -101,9 +101,9 @@ class CDUAocOfpData {
                 paxRemaining -= pax;
             }
 
+            await fillStation(paxStations['rows6_10'], .26 , numberOfPax);
             await fillStation(paxStations['rows16_20'], .26 , numberOfPax);
             await fillStation(paxStations['rows11_15'], .26, numberOfPax);
-            await fillStation(paxStations['rows6_10'], .26 , numberOfPax);
             await fillStation(paxStations['rows1_5'], 1 , paxRemaining);
             return;
         }
@@ -123,10 +123,16 @@ class CDUAocOfpData {
                 await SimVar.SetSimVarValue(`L:${station.simVar}_DESIRED`, "Number", parseInt(weight));
             }
 
-            await fillCargo(cargoStations['fwdBag'], .464 , loadableCargoWeight);
-            await fillCargo(cargoStations['aftBag'], .138, loadableCargoWeight);
+            //await fillCargo(cargoStations['fwdBag'], .464 , loadableCargoWeight);
+            //await fillCargo(cargoStations['aftBag'], .138, loadableCargoWeight);
+            //await fillCargo(cargoStations['aftCont'], .289, loadableCargoWeight);
+            //await fillCargo(cargoStations['aftBulk'], 1, remainingWeight);
+
+            await fillCargo(cargoStations['aftBulk'], .109, loadableCargoWeight);
             await fillCargo(cargoStations['aftCont'], .289, loadableCargoWeight);
-            await fillCargo(cargoStations['aftBulk'], 1, remainingWeight);
+            await fillCargo(cargoStations['aftBag'], .461, loadableCargoWeight);
+            await fillCargo(cargoStations['fwdBag'], 1 , remainingWeight);
+
             return;
         }
 
@@ -249,11 +255,11 @@ const MAX_SEAT_AVAILABLE = 98;
      */
 function getZfwcg() {
 
-    const leMacZ = -5.386; // Accurate to 3 decimals, replaces debug weight values
-    const macSize = 13.454; // Accurate to 3 decimals, replaces debug weight values
+    const leMacZ = -3.900; // Accurate to 3 decimals, replaces debug weight values
+    const macSize = 11.950; // Accurate to 3 decimals, replaces debug weight values
 
     const emptyWeight = (SimVar.GetSimVarValue("EMPTY WEIGHT", "Kilograms"));
-    const emptyPosition = -8.75; // Value from flight_model.cfg
+    const emptyPosition = -5.66; // Value from flight_model.cfg
     const emptyMoment = emptyPosition * emptyWeight;
     const PAX_WEIGHT = SimVar.GetSimVarValue("L:A32NX_WB_PER_PAX_WEIGHT", "Number");
 
