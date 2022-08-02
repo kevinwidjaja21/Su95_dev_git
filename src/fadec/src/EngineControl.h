@@ -123,7 +123,7 @@ class EngineControl {
       egtImbalance = (rand() % 20) + 1;
 
       // Obtain FF imbalance (Max 36 Kg/h)
-      ffImbalance = (rand() % 36) + 1;
+      ffImbalance = (rand() % 18) + 1;
 
       // Obtain N2 imbalance (Max 0.3%)
       n2Imbalance = (rand() % 30) + 1;
@@ -871,8 +871,8 @@ class EngineControl {
       fuelLeft = (fuelLeftPre - (fuelBurn1 * KGS_TO_LBS)) + xfrAuxLeft + (xfrCenter / 2);     // LBS
       fuelRight = (fuelRightPre - (fuelBurn2 * KGS_TO_LBS)) + xfrAuxRight + (xfrCenter / 2);  // LBS
 
-      double leftQuantity  = simVars->getTankLeftQuantity() * fuelWeightGallon; // LBS
-      double rightQuantity = simVars->getTankRightQuantity() * fuelWeightGallon; // LBS
+      double leftQuantity  = 9882.4; //1475 gal * 6.7 lbs/gal - 0.1
+      double rightQuantity = 9882.4; //1475 gal * 6.7 lbs/gal - 0.1
 
       // Checking for Inner Tank overflow - Will be taken off with Rust code
       if (fuelLeft > leftQuantity && fuelRight > rightQuantity) {

@@ -192,8 +192,8 @@ const PseudoFWC: React.FC = () => {
     // FIXME The landing gear triggers the dual engine failure on loading
     const aircraftOnGround = SimVar.GetSimVarValue('SIM ON GROUND', 'Bool');
     const [landingGearDown] = useSimVar('GEAR HANDLE POSITION', 'bool', 500);
-    const [landingLight2Retracted] = useSimVar('L:LANDING_2_Retracted', 'bool', 500);
-    const [landingLight3Retracted] = useSimVar('L:LANDING_3_Retracted', 'bool', 500);
+    const [landingLight2Retracted] = useSimVar('LIGHT LANDING:2', 'bool', 500);
+    const [landingLight3Retracted] = useSimVar('LIGHT LANDING:3', 'bool', 500);
     const [autoBrakesArmedMode] = useSimVar('L:A32NX_AUTOBRAKES_ARMED_MODE', 'enum', 500);
     const [antiskidActive] = useSimVar('ANTISKID BRAKES ACTIVE', 'bool', 500);
 
@@ -1264,7 +1264,7 @@ const PseudoFWC: React.FC = () => {
         '0000190': // LDG LT
         {
             flightPhaseInhib: [],
-            simVarIsActive: !!(!landingLight2Retracted || !landingLight3Retracted),
+            simVarIsActive: !!(landingLight2Retracted || landingLight3Retracted),
             whichCodeToReturn: [0],
             codesToReturn: ['000019001'],
             memoInhibit: false,
