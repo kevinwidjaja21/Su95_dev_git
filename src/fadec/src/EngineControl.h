@@ -123,7 +123,7 @@ class EngineControl {
       egtImbalance = (rand() % 20) + 1;
 
       // Obtain FF imbalance (Max 36 Kg/h)
-      ffImbalance = (rand() % 18) + 1;
+      ffImbalance = (rand() % 36) + 1;
 
       // Obtain N2 imbalance (Max 0.3%)
       n2Imbalance = (rand() % 30) + 1;
