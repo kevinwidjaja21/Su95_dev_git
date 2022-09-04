@@ -1,0 +1,3 @@
+[submodule "msfs-avionics-mirror"]
+	path = msfs-avionics-mirror
+	url = https://github.com/microsoft/msfs-avionics-mirror.git

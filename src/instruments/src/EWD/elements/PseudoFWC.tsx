@@ -286,6 +286,8 @@ const PseudoFWC: React.FC = () => {
     const [pack2On] = useSimVar('L:A32NX_OVHD_COND_PACK_2_PB_IS_ON', 'bool');
     const [excessPressure] = useSimVar('L:A32NX_PRESS_EXCESS_CAB_ALT', 'bool', 500);
 
+    const [SteepApproach] = useSimVar('L:SU95_STEEP_APPROACH', 'bool', 200);
+
     /* WARNINGS AND FAILURES */
     const landASAPRed: boolean = !!(!aircraftOnGround
     && (
@@ -1349,6 +1351,17 @@ const PseudoFWC: React.FC = () => {
             sysPage: -1,
             side: 'RIGHT',
         },
+        '0000770': // STEEP APP
+        {
+            flightPhaseInhib: [],
+            simVarIsActive: SteepApproach === 1,
+            whichCodeToReturn: [0],
+            codesToReturn: ['000077001'],
+            memoInhibit: false,
+            failure: 0,
+            sysPage: -1,
+            side: 'RIGHT',
+        },
     };
 
     /* TO CONFIG */
@@ -1649,6 +1662,7 @@ const PseudoFWC: React.FC = () => {
         unit,
         usrStartRefueling,
         wingAntiIce,
+        SteepApproach,
     ]);
 
     useEffect(() => {

@@ -53,11 +53,12 @@ void SpoilersHandler::setSimulationVariables(double simulationTime_new,
                                              double landingGearCompression_2_new,
                                              double flapsHandleIndex_new,
                                              bool isAngleOfAttackProtectionActive_new,
-                                             double aileronPosition_new) {
+                                             double aileronPosition_new,
+                                             bool SteepApproachEnabled_2) {
   update(simulationTime_new, isArmed, handlePosition, isAutopilotEngaged_new, groundSpeed_new, thrustLeverAngle_1_new,
          thrustLeverAngle_2_new, getGearStrutCompressionFromAnimation(landingGearCompression_1_new),
          getGearStrutCompressionFromAnimation(landingGearCompression_2_new), flapsHandleIndex_new, isAngleOfAttackProtectionActive_new,
-         aileronPosition_new);
+         aileronPosition_new, SteepApproachEnabled_2);
 }
 
 void SpoilersHandler::onEventSpoilersOn() {
@@ -98,7 +99,7 @@ void SpoilersHandler::onEventSpoilersArmSet(bool value) {
 
 void SpoilersHandler::update(bool isArmed_new, double handlePosition_new) {
   update(simulationTime, isArmed_new, handlePosition_new, isAutopilotEngaged, groundSpeed, thrustLeverAngle_1, thrustLeverAngle_2,
-         landingGearCompression_1, landingGearCompression_2, flapsHandleIndex, isAngleOfAttackProtectionActive, aileronPosition);
+         landingGearCompression_1, landingGearCompression_2, flapsHandleIndex, isAngleOfAttackProtectionActive, aileronPosition, SteepApproachEnabled_3);
 }
 
 void SpoilersHandler::update(double simulationTime_new,
@@ -112,10 +113,11 @@ void SpoilersHandler::update(double simulationTime_new,
                              double landingGearCompression_2_new,
                              double flapsHandleIndex_new,
                              bool isAngleOfAttackProtectionActive_new,
-                             double aileronPosition_new) {
+                             double aileronPosition_new,
+                             bool SteepApproachEnabled_2) {
   // inhibit condition -------------------------------------------------------------------------------------------------
-
-  if ((flapsHandleIndex == FLAPS_HANDLE_INDEX_FULL) || areAboveMct(thrustLeverAngle_1_new, thrustLeverAngle_2_new) ||
+  // add steep approach override
+  if ((flapsHandleIndex == FLAPS_HANDLE_INDEX_FULL && !SteepApproachEnabled_2) || areAboveMct(thrustLeverAngle_1_new, thrustLeverAngle_2_new) ||
       isAngleOfAttackProtectionActive_new) {
     if (!conditionInhibit) {
       targetSimPosition = POSITION_RETRACTED;
