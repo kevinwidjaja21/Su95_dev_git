@@ -450,6 +450,9 @@ void FlyByWireInterface::setupLocalVariables() {
   idRealisticTillerEnabled = make_unique<LocalVariable>("A32NX_REALISTIC_TILLER_ENABLED");
   idTillerHandlePosition = make_unique<LocalVariable>("A32NX_TILLER_HANDLE_POSITION");
   idNoseWheelPosition = make_unique<LocalVariable>("A32NX_NOSE_WHEEL_POSITION");
+
+  // add variable for steep approach toggle
+  SteepApproachEnabled = make_unique<LocalVariable>("SU95_STEEP_APPROACH");
 }
 
 bool FlyByWireInterface::handleFcuInitialization(double sampleTime) {
@@ -752,6 +755,7 @@ bool FlyByWireInterface::updateAdditionalData(double sampleTime) {
   additionalData.realisticTillerEnabled = idRealisticTillerEnabled->get() == 1;
   additionalData.tillerHandlePosition = idTillerHandlePosition->get();
   additionalData.noseWheelPosition = idNoseWheelPosition->get();
+ additionalData.SteepApproachEnabled_1 = SteepApproachEnabled->get();
 
   return true;
 }
@@ -1774,7 +1778,7 @@ bool FlyByWireInterface::updateSpoilers(double sampleTime) {
   spoilersHandler->setSimulationVariables(
       simData.simulationTime, autopilotStateMachineOutput.enabled_AP1 == 1 || autopilotStateMachineOutput.enabled_AP2 == 1,
       simData.V_gnd_kn, thrustLeverAngle_1->get(), thrustLeverAngle_2->get(), simData.gear_animation_pos_1, simData.gear_animation_pos_2,
-      flapsHandleIndexFlapConf->get(), flyByWireOutput.sim.data_computed.high_aoa_prot_active == 1, flyByWireOutput.output.xi_pos);
+      flapsHandleIndexFlapConf->get(), flyByWireOutput.sim.data_computed.high_aoa_prot_active == 1, flyByWireOutput.output.xi_pos, SteepApproachEnabled->get());
 
   // update sim position
   spoilersHandler->updateSimPosition(sampleTime);

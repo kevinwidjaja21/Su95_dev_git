@@ -1,0 +1,22 @@
+{
+  "name": "ssj_test1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx rollup -c",
+    "copy_instrument": "cp -r build/ ../PackageSources/html_ui/Pages/VCockpit/Instruments/Test_instrument/test1/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "msfssdk": "file:../msfs-avionics-mirror/src/sdk/build",
+    "rollup": "^2.78.1",
+    "rollup-plugin-import-css": "^3.0.3",
+    "typescript": "^4.7.4"
+  }
+}

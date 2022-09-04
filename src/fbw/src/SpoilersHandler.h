@@ -23,7 +23,8 @@ class SpoilersHandler {
                               double landingGearCompression_2_new,
                               double flapsHandleIndex_new,
                               bool isAngleOfAttackProtectionActive_new,
-                              double aileronPosition_new);
+                              double aileronPosition_new,
+                              bool SteepApproachEnabled);
   void updateSimPosition(double dt);
 
   void onEventSpoilersOn();
@@ -86,6 +87,9 @@ class SpoilersHandler {
   double aileronPosition = 0.0;
   bool isAngleOfAttackProtectionActive = false;
 
+  bool SteepApproachEnabled_2 = true;
+  bool SteepApproachEnabled_3 = true;
+
   bool isGroundSpoilersActive = false;
 
   void update(bool isArmed_new, double handlePosition_new);
@@ -101,7 +105,8 @@ class SpoilersHandler {
               double landingGearCompression_2_new,
               double flapsHandleIndex_new,
               bool isAngleOfAttackProtectionActive_new,
-              double aileronPosition_new);
+              double aileronPosition_new,
+              bool SteepApproachEnabled);
 
   static double getGearStrutCompressionFromAnimation(double animationPosition);
 

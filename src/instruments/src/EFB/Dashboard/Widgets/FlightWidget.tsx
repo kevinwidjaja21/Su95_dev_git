@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSimVar } from '@instruments/common/simVars';
 import {
     IconBox,
     IconPlane,
@@ -15,6 +16,8 @@ type FlightWidgetProps = {
 
 const FlightWidget = (props: FlightWidgetProps) => {
     const { simbriefData } = props;
+
+    const [SteepApproach, setSteepApproach] = useSimVar('L:SU95_STEEP_APPROACH', 'bool', 200);
 
     let schedInParsed = '--:--';
     let schedOutParsed = '--:--';
@@ -122,7 +125,7 @@ const FlightWidget = (props: FlightWidgetProps) => {
                             <span className="text-lg font-mono font-light">{crzAlt}</span>
                         </div>
                     </div>
-                    <div className="flex items-center justify-center">
+                    <div className="flex">
                         <button
                             type="button"
                             onClick={() => props.fetchSimbrief()}
@@ -131,6 +134,13 @@ const FlightWidget = (props: FlightWidgetProps) => {
                             <IconBox className="mr-2" size={23} stroke={1.5} strokeLinejoin="miter" />
                             {' '}
                             FROM SIMBRIEF
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setSteepApproach(!SteepApproach)}
+                            className="ml-1 w-1/2 text-white bg-green-500 p-2 flex items-center justify-center rounded-lg focus:outline-none text-lg"
+                        >
+                            STEEP APP
                         </button>
                     </div>
                 </div>
