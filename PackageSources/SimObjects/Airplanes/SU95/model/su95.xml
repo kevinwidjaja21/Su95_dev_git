@@ -10,10 +10,10 @@
     <!-- This can be used when node movement depends on the simvars in a more complex way. -->
     <!-- >>>>> WINGLFEX REMOVED for SU95 <<<<< -->
     <Behaviors>
-        <Include ModelBehaviorFile="A32NX\Exterior\A32NX_Exterior_Includes.xml"/>
+        <Include ModelBehaviorFile="SU95\Exterior\A32NX_Exterior_Includes.xml"/>
         <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
         <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
-        <Include Path="A32NX\generated\A32NX_Exterior.xml"/>
+        <Include Path="SU95\generated\A32NX_Exterior.xml"/>
         <Component ID="HANDLING">
             <UseTemplate Name="FBW_HANDLING_Elevator_Template">
                 <ANIM_NAME>elevator_percent_key</ANIM_NAME>
@@ -214,8 +214,7 @@
             <!-- APU INTAKE -->
             <UseTemplate Name="ASOBO_GT_Anim">
                 <ANIM_NAME>APU_intake</ANIM_NAME>
-                <ANIM_CODE>(L:A32NX_APU_N_RAW, percent) 0 ></ANIM_CODE>
-                <ANIM_SIMVAR_UNITS>Percent</ANIM_SIMVAR_UNITS>
+                <ANIM_CODE>(L:A32NX_APU_N_RAW, percent) 25 *</ANIM_CODE>
                 <ANIM_LENGTH>100</ANIM_LENGTH>
             </UseTemplate>
         </Component>
