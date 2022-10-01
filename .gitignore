@@ -67,6 +67,12 @@ src/instruments/buildSrc/custom/*
 /PackageSources/MCDU SERVER/
 /src/mcdu-server/client/build
 !/PackageSources/CORS SERVER/*
-/PackageSources/SimObjects/AirPlanes/SU95/TEXTURE/A320NEO_COCKPIT_DECALSTEXT_ALBD.TIF.dds
 msfs-avionics-mirror/src/sdk/build/**
 *.tgz
+SSJ_test1
+/PackageSources/SimObjects/AirPlanes/SU95/texture/*.DDS
+/PackageSources/SimObjects/AirPlanes/SU95/texture/*.json
+!/PackageSources/SimObjects/AirPlanes/SU95/texture/A320NEO_COCKPIT_INPUTS02_ALBD.PNG.dds
+!/PackageSources/SimObjects/AirPlanes/SU95/texture/A320NEO_COCKPIT_INPUTS02_ALBD.PNG.DDS.json
+!/PackageSources/SimObjects/AirPlanes/SU95/texture/A320NEO_COCKPIT_MAINPANEL_ALBD.PNG.dds
+!/PackageSources/SimObjects/AirPlanes/SU95/texture/A320NEO_COCKPIT_MAINPANEL_ALBD.PNG.DDS.json

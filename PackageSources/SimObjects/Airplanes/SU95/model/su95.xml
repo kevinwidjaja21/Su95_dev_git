@@ -113,12 +113,19 @@
                 <NODE_ID_STILL>WHEEL_RIGHT</NODE_ID_STILL>
                 <NODE_ID_BLURRED>WHEEL_RIGHT_BLURRED</NODE_ID_BLURRED>
             </UseTemplate>
+            <!--
             <UseTemplate Name="ASOBO_GT_Anim_Code">
                 <NODE_ID>c_wheel</NODE_ID>
                 <ANIM_NAME>c_wheel</ANIM_NAME>
                 <ANIM_CODE>(L:A32NX_NOSE_WHEEL_POSITION)</ANIM_CODE>
                 <ANIM_LENGTH>1</ANIM_LENGTH>
             </UseTemplate>
+            -->
+            <UseTemplate Name="ASOBO_GEAR_Steering_Template">
+				<NODE_ID>c_wheel</NODE_ID>
+                <ANIM_NAME>c_wheel</ANIM_NAME>
+			</UseTemplate>
+
         </Component>
         <Component ID="ENGINE">
             <UseTemplate Name="A32NX_ENGINE_Turbine_Template">
@@ -150,10 +157,16 @@
         </Component>
         <Component ID="INTERACTIVE_POINTS">
             <!-- CARGO DOOR -->
+            <!--
             <UseTemplate Name="ASOBO_GT_Anim">
                 <ANIM_NAME>door_cargo</ANIM_NAME>
                 <ANIM_CODE>(L:A32NX_FWD_DOOR_CARGO_POSITION)</ANIM_CODE>
                 <ANIM_LENGTH>100</ANIM_LENGTH>
+            </UseTemplate>
+            -->
+            <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+                <ID>5</ID>
+                <ANIM_NAME>door_cargo</ANIM_NAME>
             </UseTemplate>
             <!-- CARGO DOOR HINGE -->
             <UseTemplate Name="ASOBO_GT_Anim">
