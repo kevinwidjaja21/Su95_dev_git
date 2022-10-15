@@ -16,12 +16,12 @@ void AnimationAileronHandler::update(bool autopilotActive,
                                      double flapsPosition,
                                      double position,
                                      double dt) {
-  // inhibit condition for anti-droop
-  if (!areGroundSpoilersActive && groundSpoilersActive && autopilotActive) {
-    antiDroopInhibited = true;
-  } else if (!groundSpoilersActive) {
-    antiDroopInhibited = false;
-  }
+  // inhibit condition for anti-droop (disabled)
+  // if (!areGroundSpoilersActive && groundSpoilersActive && autopilotActive) {
+  //   antiDroopInhibited = true;
+  // } else if (!groundSpoilersActive) {
+  //   antiDroopInhibited = false;
+  // }
   areGroundSpoilersActive = groundSpoilersActive;
 
   // anti-droop
