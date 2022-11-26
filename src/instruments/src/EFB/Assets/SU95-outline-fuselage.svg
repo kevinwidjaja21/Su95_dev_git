@@ -9,10 +9,10 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="svg2"
-   width="1064"
-   height="1142"
-   viewBox="0 0 1064 1142"
-   sodipodi:docname="SU95-outline-upright.svg"
+   width="1142"
+   height="1064"
+   viewBox="0 0 1142 1064"
+   sodipodi:docname="SU95-outline-fuselage.svg"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
    inkscape:export-filename="F:\MSFS_project\a32nx\src\instruments\src\EFB\Asset_SSJ\SU95-outline-upright_edit1.png"
    inkscape:export-xdpi="95.800003"
@@ -43,23 +43,26 @@
      inkscape:window-width="1920"
      inkscape:window-height="1027"
      id="namedview4"
-     showgrid="false"
-     inkscape:zoom="0.70710681"
-     inkscape:cx="583.65034"
-     inkscape:cy="356.42701"
+     showgrid="true"
+     inkscape:zoom="1"
+     inkscape:cx="680.80317"
+     inkscape:cy="401.61149"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2"
      inkscape:document-rotation="0"
-     inkscape:pagecheckerboard="false">
+     inkscape:pagecheckerboard="true"
+     showborder="true"
+     showguides="true">
     <inkscape:grid
        type="xygrid"
-       id="grid875" />
+       id="grid875"
+       enabled="false" />
   </sodipodi:namedview>
   <g
      id="g812"
-     transform="translate(-21.902123,-5.2209709)"
+     transform="rotate(-90,539.37541,544.59638)"
      style="display:inline">
     <g
        id="g14"
@@ -95,7 +98,7 @@
        transform="translate(-0.15225221,-0.0994255)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -120,7 +123,7 @@
        transform="translate(-0.1522522,31.761384)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -145,7 +148,7 @@
        transform="translate(-0.1522522,63.622183)">
       <polygon
          class="cls-4"
-         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
+         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
          id="polygon188-1-4-2-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -170,7 +173,7 @@
        transform="translate(-0.15225221,95.482993)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-3"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -195,7 +198,7 @@
        transform="translate(-0.1522522,127.34378)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-2"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -220,7 +223,7 @@
        transform="translate(-0.1522522,159.20458)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-0"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -245,7 +248,7 @@
        transform="translate(-0.15225221,191.06538)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-9"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -270,7 +273,7 @@
        transform="translate(-0.1522522,222.92619)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-5"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -295,7 +298,7 @@
        transform="translate(-0.1522522,254.78698)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-96"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -320,7 +323,7 @@
        transform="translate(-0.15225221,286.64776)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-8"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -345,7 +348,7 @@
        transform="translate(-0.1522522,318.50859)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-55"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -370,7 +373,7 @@
        transform="translate(-0.1522522,350.36942)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-556"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -395,7 +398,7 @@
        transform="translate(-0.1522522,382.23021)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-21"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -420,7 +423,7 @@
        transform="translate(-0.15225221,414.09101)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -445,7 +448,7 @@
        transform="translate(-0.15225221,445.9518)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -470,7 +473,7 @@
        transform="translate(-0.15225221,477.81263)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-63"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -495,7 +498,7 @@
        transform="translate(-0.15225221,509.67338)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -520,7 +523,7 @@
        transform="translate(-0.15225221,541.53423)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-93"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -545,7 +548,7 @@
        transform="translate(-0.1522522,573.39503)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-4-61"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -570,7 +573,7 @@
        transform="translate(-0.1522522,605.25585)">
       <polygon
          class="cls-4"
-         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
+         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
          id="polygon188-1-4-2-4-30"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -595,7 +598,7 @@
        transform="translate(21.371833,-0.0994255)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-9-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -620,7 +623,7 @@
        transform="translate(21.244812,31.761384)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -645,7 +648,7 @@
        transform="translate(21.062086,63.622183)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-9-7-1-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -670,7 +673,7 @@
        transform="translate(21.115086,95.482993)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -695,7 +698,7 @@
        transform="translate(21.310736,127.34378)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-0"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -720,7 +723,7 @@
        transform="translate(21.344236,159.20458)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -745,7 +748,7 @@
        transform="translate(21.301209,191.06538)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-64"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -770,7 +773,7 @@
        transform="translate(21.285236,222.92619)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-3"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -795,7 +798,7 @@
        transform="translate(21.136086,254.78698)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-06"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -820,7 +823,7 @@
        transform="translate(21.136086,286.64776)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -845,7 +848,7 @@
        transform="translate(21.189086,318.50859)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-72"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -870,7 +873,7 @@
        transform="translate(21.202586,350.36942)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-71"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -895,7 +898,7 @@
        transform="translate(21.236086,382.23021)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-77"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -920,7 +923,7 @@
        transform="translate(21.192086,414.09101)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-04"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -945,7 +948,7 @@
        transform="translate(21.359236,445.9518)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-12"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -970,7 +973,7 @@
        transform="translate(21.079385,477.81263)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-74"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -995,7 +998,7 @@
        transform="translate(21.092886,509.67338)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-31"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1020,7 +1023,7 @@
        transform="translate(21.126883,541.53423)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-5"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1045,7 +1048,7 @@
        transform="translate(21.264536,573.39503)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-1-60"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1070,7 +1073,7 @@
        transform="translate(21.067386,605.25585)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-9-7-1-1-066"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1095,7 +1098,7 @@
        transform="translate(42.792557,-0.0994255)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-9-9-8"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1120,7 +1123,7 @@
        transform="translate(42.562326,31.761384)">
       <polygon
          class="cls-4"
-         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
+         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
          id="polygon188-1-9-9-8-5"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1145,7 +1148,7 @@
        transform="translate(42.3796,63.622183)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-9-8-5-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1170,7 +1173,7 @@
        transform="translate(42.4326,95.482993)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1195,7 +1198,7 @@
        transform="translate(42.62825,127.34378)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-2"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1220,7 +1223,7 @@
        transform="translate(42.66175,159.20458)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-8"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1245,7 +1248,7 @@
        transform="translate(42.618723,191.06538)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1270,7 +1273,7 @@
        transform="translate(42.60275,222.92619)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-0"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1295,7 +1298,7 @@
        transform="translate(42.4536,254.78698)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-61"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1320,7 +1323,7 @@
        transform="translate(42.4536,286.64776)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1345,7 +1348,7 @@
        transform="translate(42.5066,318.50859)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-85"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1370,7 +1373,7 @@
        transform="translate(42.5201,350.36942)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-48"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1395,7 +1398,7 @@
        transform="translate(42.5536,382.23021)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-24"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1420,7 +1423,7 @@
        transform="translate(42.5096,414.09101)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-45"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1445,7 +1448,7 @@
        transform="translate(42.67675,445.9518)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-5"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1470,7 +1473,7 @@
        transform="translate(42.3969,477.81263)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-68"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1495,7 +1498,7 @@
        transform="translate(42.4104,509.67338)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-83"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1520,7 +1523,7 @@
        transform="translate(42.444397,541.53423)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1545,7 +1548,7 @@
        transform="translate(42.58205,573.39503)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-9-9-8-5-7-3"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1570,7 +1573,7 @@
        transform="translate(42.3849,605.25585)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-9-8-5-7-86"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1595,7 +1598,7 @@
        transform="translate(-54.213774,31.771574)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-4-2-2"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1620,7 +1623,7 @@
        transform="translate(-54.213774,63.632374)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-4-2-4-37"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1645,7 +1648,7 @@
        transform="translate(-54.213774,95.493184)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-3-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1670,7 +1673,7 @@
        transform="translate(-54.213774,127.35398)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-2-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1695,7 +1698,7 @@
        transform="translate(-54.213774,159.21478)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-0-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1720,7 +1723,7 @@
        transform="translate(-54.213774,191.07558)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-9-3"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1745,7 +1748,7 @@
        transform="translate(-54.213774,222.93639)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-5-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1770,7 +1773,7 @@
        transform="translate(-54.213774,254.79718)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-96-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1795,7 +1798,7 @@
        transform="translate(-54.213774,286.65796)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-8-3"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1820,7 +1823,7 @@
        transform="translate(-54.213774,318.51879)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-55-9"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1845,7 +1848,7 @@
        transform="translate(-54.213774,350.37962)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-556-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1870,7 +1873,7 @@
        transform="translate(-54.213774,382.24041)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-21-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1895,7 +1898,7 @@
        transform="translate(-54.213774,414.10121)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-1-0"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1920,7 +1923,7 @@
        transform="translate(-54.213774,445.962)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-6-4"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1945,7 +1948,7 @@
        transform="translate(-54.213774,477.82283)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-63-8"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1970,7 +1973,7 @@
        transform="translate(-54.213774,509.68358)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-4-3"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -1995,7 +1998,7 @@
        transform="translate(-54.213774,541.54443)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-93-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2020,7 +2023,7 @@
        transform="translate(-54.213774,573.40523)">
       <polygon
          class="cls-4"
-         points="101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 "
+         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
          id="polygon188-1-4-2-4-61-8"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2045,7 +2048,7 @@
        transform="translate(-54.213774,605.26605)">
       <polygon
          class="cls-4"
-         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
+         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
          id="polygon188-1-4-2-4-30-8"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2070,7 +2073,7 @@
        transform="translate(-32.81671,31.771574)">
       <polygon
          class="cls-4"
-         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
+         points="100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 "
          id="polygon188-1-9-7-1-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2095,7 +2098,7 @@
        transform="translate(-32.999436,63.632374)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-9-7-1-1-2"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2120,7 +2123,7 @@
        transform="translate(-32.946436,95.493184)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-6-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2145,7 +2148,7 @@
        transform="translate(-32.750786,127.35398)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-0-2"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2170,7 +2173,7 @@
        transform="translate(-32.717286,159.21478)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-7-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2195,7 +2198,7 @@
        transform="translate(-32.760313,191.07558)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-64-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2220,7 +2223,7 @@
        transform="translate(-32.776286,222.93639)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-3-2"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2245,7 +2248,7 @@
        transform="translate(-32.925436,254.79718)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-06-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2270,7 +2273,7 @@
        transform="translate(-32.925436,286.65796)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-1-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2295,7 +2298,7 @@
        transform="translate(-32.872436,318.51879)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-72-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2320,7 +2323,7 @@
        transform="translate(-32.858936,350.37962)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-71-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2345,7 +2348,7 @@
        transform="translate(-32.825436,382.24041)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-77-6"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2370,7 +2373,7 @@
        transform="translate(-32.869436,414.10121)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-04-5"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2395,7 +2398,7 @@
        transform="translate(-32.702286,445.962)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-12-3"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2420,7 +2423,7 @@
        transform="translate(-32.982137,477.82283)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-74-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2445,7 +2448,7 @@
        transform="translate(-32.968636,509.68358)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-31-8"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2470,7 +2473,7 @@
        transform="translate(-32.934639,541.54443)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-5-0"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2495,7 +2498,7 @@
        transform="translate(-32.796986,573.40523)">
       <polygon
          class="cls-4"
-         points="100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 101.64,269.64 "
+         points="109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 "
          id="polygon188-1-9-7-1-1-60-1"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
@@ -2520,7 +2523,7 @@
        transform="translate(-32.994136,605.26605)">
       <polygon
          class="cls-4"
-         points="101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 109.01,263.11 109.01,269.64 "
+         points="109.01,263.11 109.01,269.64 101.64,269.64 100.29,268.63 100.29,263.72 101.64,263.11 "
          id="polygon188-1-9-7-1-1-066-7"
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5px;stroke-miterlimit:10"
          transform="matrix(0,2.5771375,-2.7996896,0,1303.888,-57.46141)" />
