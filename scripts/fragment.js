@@ -4,6 +4,7 @@ const fs = require('fs');
 const execute = async () => {
     try {
         const result = await fragmenter.pack({
+            packOptions: { splitFileSize: 536_870_912, keepCompleteModulesAfterSplit: true },
             baseDir: './PackageSources',
             outDir: './build-modules',
             modules: [{
@@ -30,9 +31,6 @@ const execute = async () => {
             }, {
                 name: 'Panels',
                 sourceDir: './SimObjects/AirPlanes/SU95/panel'
-            }, {
-                name: 'MarketplaceData',
-                sourceDir: './MarketplaceData'
             }]
         });
         console.log(result);
