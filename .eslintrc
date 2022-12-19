@@ -5,10 +5,10 @@
     "es2021": true
   },
   "ignorePatterns": [
-    "/PackageSources/html_ui/JS_SU95/fmgc/**",
-    "/PackageSources/html_ui/JS_SU95/atsu/**",
-    "/PackageSources/html_ui/JS_SU95/sentry-client/**",
-    "/PackageSources/html_ui/Pages/VCockpit/Instruments/A32NX_SU95/**",
+    "/flybywire-aircraft-a320-neo/html_ui/JS/fmgc/**",
+    "/flybywire-aircraft-a320-neo/html_ui/JS/atsu/**",
+    "/flybywire-aircraft-a320-neo/html_ui/JS/sentry-client/**",
+    "/flybywire-aircraft-a320-neo/html_ui/Pages/VCockpit/Instruments/A32NX/**",
     "typings/**",
     "/msfs-avionics-mirror/**"
   ],

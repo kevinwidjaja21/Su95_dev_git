@@ -1,10 +1,10 @@
 build.*.js
 buildSrc/*
-PackageSources/html_ui/Pages/SU95_Core/math.js
-PackageSources/html_ui/JS_SU95/atsu/*
-PackageSources/html_ui/JS_SU95/fmgc/*
-PackageSources/html_ui/JS_SU95/generated/*.js
-PackageSources/html_ui/JS_SU95/sentry-client/*
+flybywire-aircraft-a320-neo/html_ui/Pages/A32NX_Core/math.js
+flybywire-aircraft-a320-neo/html_ui/JS/atsu/*
+flybywire-aircraft-a320-neo/html_ui/JS/fmgc/*
+flybywire-aircraft-a320-neo/html_ui/JS/generated/*.js
+flybywire-aircraft-a320-neo/html_ui/JS/sentry-client/*
 igniter.config.mjs
 msfs-avionics-mirror/*
 src/fmgc/src/flightplanning/DirectTo.ts
