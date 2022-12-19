@@ -363,7 +363,7 @@ const s = [
 /**
  * Vfe for Flaps/Slats
  * @type {number[]}
- * Changed bsed on SSJ100 FCOM
+ * Changed based on SSJ100 FCOM
  */
 const vfeFS = [
     210, // Config 1 + F
@@ -435,7 +435,7 @@ function _addWindComponent(vw) {
  * @returns {number} angle diff
  * @private
  */
-function _getAngleDiff(a, b) {
+function _getdiffAngle(a, b) {
     return 180 - Math.abs(Math.abs(a - b) - 180);
 }
 
@@ -602,7 +602,7 @@ class NXSpeedsUtils {
      * @returns {number} velocity headwind
      */
     static getHeadwind(v, a, b) {
-        return v * Math.cos(_getAngleDiff(a, b) * (Math.PI / 180));
+        return v * Math.cos(_getdiffAngle(a, b) * (Math.PI / 180));
     }
 
     /**
@@ -623,7 +623,7 @@ class NXSpeedsUtils {
      */
     static getVtargetGSMini(vapp, windDiff) {
         return Math.max(vapp, Math.min(Math.round(vapp + windDiff), Math.round(
-            SimVar.GetSimVarValue("L:A32NX_FLAPS_HANDLE_INDEX", "Number") === 4 ? Simplane.getMaxSpeed(Aircraft.A320_NEO) - 5 : Simplane.getNextFlapsExtendSpeed(Aircraft.A320_NEO)
+            SimVar.GetSimVarValue("L:A32NX_FLAPS_HANDLE_INDEX", "Number") === 4 ? SimVar.GetSimVarValue("L:A32NX_SPEEDS_VMAX", "Number") - 5 : SimVar.GetSimVarValue("L:A32NX_SPEEDS_VFEN", "Number")
         )));
     }
 
