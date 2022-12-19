@@ -49,7 +49,7 @@ Face=1, 1, 1
 
 [ParticleAttributes.0]
 Blend Mode=2
-Texture=a32nx-flash.png
+Texture=a32nx-su95-flash.png
 Bounce=0.0
 Color Start=118, 120, 124, 1
 Color End=10, 10, 10, 1
@@ -117,7 +117,7 @@ Face=1, 1, 1
 
 [ParticleAttributes.1]
 Blend Mode=2
-Texture=a32nx-flash.png
+Texture=a32nx-su95-flash.png
 Color Start=118, 120, 124, 1
 Color End=10, 10, 10, 1
 uv1=0.0, 0.0
