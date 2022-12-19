@@ -154,7 +154,7 @@ export class FbwAircraftSentryClient {
         return new Promise<boolean>((resolve) => {
             popup.showPopUp(
                 'SU95 - ERROR REPORTING',
-                'Are you willing to help EAS by enabling anonymous reporting of errors that may occur in the future? '
+                'Are you willing to help Eastern Aviation Simulation by enabling anonymous reporting of errors that may occur in the future? '
                 + 'This is 100% optional and we will never collect your personal data, but it will help us diagnose issues quickly.',
                 'normal',
                 () => resolve(true),

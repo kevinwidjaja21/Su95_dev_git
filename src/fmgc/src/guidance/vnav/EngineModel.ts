@@ -1,12 +1,12 @@
 import { Common } from './common';
 
 export class EngineModel {
-    // In pounds of force. Used as a multiplier for results of table 1506 SSJ
-    static maxThrust = 17760;
+    // In pounds of force. Used as a multiplier for results of table 1506
+    static maxThrust = 17760 ;
 
     /**
      * Table 1502 - CN2 vs CN1 @ Mach 0, 0.2, 0.9
-     * n2_to_n1_table --> SSJ
+     * n2_to_n1_table
      * @param i row index (n2)
      * @param j 1 = Mach 0, 2 = Mach 0.2, 3 = Mach 0.9
      * @returns Corrected N1 (CN1)
@@ -30,7 +30,7 @@ export class EngineModel {
 
     /**
      * Table 1503 - Turbine LoMach (0) CN2 vs. Throttle @ IAP Ratio 1.00000000, 1.20172257, 1.453783983, 2.175007333, 3.364755652, 4.47246108, 5.415178313
-     * mach_0_corrected_commanded_ne_table --> Same as SSJ
+     * mach_0_corrected_commanded_ne_table
      * @param i row index (thrust lever position)
      * @param j IAP ratio
      * @returns Corrected N2 (CN2)
@@ -49,8 +49,8 @@ export class EngineModel {
 
     /**
      * Table 1504 - Turbine HiMach (0.9) CN2 vs. Throttle @ IAP Ratio 1.00000000, 1.20172257, 1.453783983, 2.175007333, 3.364755652, 4.47246108, 5.415178313
-     * mach_hi_corrected_commanded_ne_table --> Same as SSJ
-     * @param i row index (thrust ever position)
+     * mach_hi_corrected_commanded_ne_table
+     * @param i row index (thrust lever position)
      * @param j IAP ratio
      * @returns Corrected N2 (CN2)
      */
@@ -74,12 +74,12 @@ export class EngineModel {
      * @returns Corrected net thrust (pounds of force)
      */
     static table1506 = [
-        [0, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
-        [0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000],
-        [20, 0.0606902, 0.040966677, 0.024447102, 0.011732209, -0.015369465, -0.0352764, -0.057252622, -0.21819146, -0.352276422, -0.573678571],
-        [25, 0.0971108, 0.053026443, 0.029986217, 0.017197657, -0.008606291, -0.025280409, -0.02469632, -0.16040768, -0.296627314, -0.513035577],
-        [30, 0.132593843, 0.061750546, 0.033713934, 0.02282692, 0.015738, 0.003817246, -0.027145835, -0.06022284, -0.091095136, -0.429711333],
-        [35, 0.187982249, 0.096543691, 0.062918648, 0.039673725, 0.022567632, 0.005831511, -0.002843002, -0.024168, -0.077320246, -0.340031151],
+        [0, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [20, 0.04248314, 0.03482167545, 0.024447102, 0.011732209, -0.015369465, -0.0352764, -0.057252622, -0.21819146, -0.352276422, -0.573678571],
+        [25, 0.07526087, 0.0470609681625, 0.029986217, 0.017197657, -0.008606291, -0.025280409, -0.02469632, -0.16040768, -0.296627314, -0.513035577],
+        [30, 0.11270476655, 0.05711925505, 0.033713934, 0.02282692, 0.015738, 0.003817246, -0.027145835, -0.06022284, -0.091095136, -0.429711333],
+        [35, 0.173883580325, 0.0929233025875, 0.062918648, 0.039673725, 0.022567632, 0.005831511, -0.002843002, -0.024168, -0.077320246, -0.340031151],
         [40, 0.242846062, 0.127236626, 0.102761227, 0.060847218, 0.053323505, 0.047996049, 0.03019593, 0.05754104, 0.059985365, -0.254330626],
         [45, 0.296482415, 0.199472172, 0.131840527, 0.099496992, 0.084908235, 0.074648291, 0.057002233, 0.01961954, -0.06348691, -0.177995938],
         [50, 0.349343345, 0.253023135, 0.1806023, 0.14166133, 0.119363164, 0.102586118, 0.082705221, 0.05026414, -0.008147031, -0.112476786],
@@ -187,6 +187,8 @@ export class EngineModel {
             2.77667e-04, -6.17180e+02, -7.20713e-02, 2.19013e-07, 2.49418e-02, -7.31662e-01, -1.00003e-05,
             -3.79466e+01, 1.34552e-03, 5.72612e-09, -2.71950e+02, 8.58469e-02, -2.72912e-06, 2.02928e-11];
 
+        const ssjCoefficients = 0.88;
+
         const flow = coefficients[0] + coefficients[1] + (coefficients[2] * cn1) + (coefficients[3] * mach) + (coefficients[4] * alt)
                     + (coefficients[5] * cn1 ** 2) + (coefficients[6] * cn1 * mach) + (coefficients[7] * cn1 * alt)
                     + (coefficients[8] * mach ** 2) + (coefficients[9] * mach * alt) + (coefficients[10] * alt ** 2)
@@ -195,7 +197,7 @@ export class EngineModel {
                     + (coefficients[17] * mach ** 3) + (coefficients[18] * mach ** 2 * alt) + (coefficients[19] * mach * alt ** 2)
                     + (coefficients[20] * alt ** 3);
 
-        return flow * 0.88;
+        return flow * ssjCoefficients;
     }
 
     // static getCN1fromUncorrectedThrust(thrust: number)

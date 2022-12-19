@@ -183,7 +183,7 @@ export class DecelPathBuilder {
                 TEMP_VAPP, // TODO placeholder value
                 999, // TODO placeholder value
                 26, // TODO placeholder value
-                107_000, // TODO placeholder value
+                61_000, // TODO placeholder value
                 5_000, // TODO placeholder value
                 2, // TODO placeholder value
                 0, // TODO placeholder value
@@ -241,7 +241,7 @@ export class DecelPathBuilder {
                     999,
                     999,
                     26,
-                    107_000,
+                    61_000,
                     initialFuelWeight,
                     2,
                     0,
@@ -295,7 +295,7 @@ export class DecelPathBuilder {
                 999,
                 999,
                 26,
-                107_000,
+                61_000,
                 initialFuelWeight,
                 2,
                 0,

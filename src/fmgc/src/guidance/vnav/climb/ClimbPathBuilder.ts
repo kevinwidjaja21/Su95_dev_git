@@ -24,7 +24,7 @@ export class ClimbPathBuilder {
 
         console.log(`mach: ${JSON.stringify(machSrs)}`);
 
-        const zeroFuelWeight = 101853.57;
+        const zeroFuelWeight = 58113.83;
         const fuelWeight = SimVar.GetSimVarValue('FUEL TOTAL QUANTITY WEIGHT', 'lbs');
         console.log(`fuelWeight: ${JSON.stringify(fuelWeight)}`);
 

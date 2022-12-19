@@ -21,6 +21,7 @@ pushd "${DIR}/obj"
 clang++ \
   -c \
   ${CLANG_ARGS} \
+  -std=c++20 \
   -Wno-unused-command-line-argument \
   -Wno-ignored-attributes \
   -Wno-macro-redefined \
@@ -36,11 +37,11 @@ clang++ \
   -fno-exceptions \
   -fms-extensions \
   -fvisibility=hidden \
+  -O3 \
   -I "${MSFS_SDK}/WASM/include" \
   -I "${MSFS_SDK}/SimConnect SDK/include" \
-  -I "${DIR}/src" \
-  "${DIR}/src/FadecGauge.cpp" \
-  -o fadec.o
+  -I "${DIR}/../fbw/src/inih" \
+  "${DIR}/src/FadecGauge.cpp"
 
 # restore directory
 popd

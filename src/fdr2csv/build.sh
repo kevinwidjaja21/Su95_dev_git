@@ -3,7 +3,7 @@
 # get directory of this script relative to root
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-OUTPUT="${DIR}/../../SU95/"
+OUTPUT="${DIR}/../../Su95_git_dev/"
 
 set -ex
 

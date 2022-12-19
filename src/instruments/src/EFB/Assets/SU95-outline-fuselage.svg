@@ -46,19 +46,16 @@
      showgrid="true"
      inkscape:zoom="1"
      inkscape:cx="680.80317"
-     inkscape:cy="401.61149"
+     inkscape:cy="361.61149"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2"
      inkscape:document-rotation="0"
-     inkscape:pagecheckerboard="true"
-     showborder="true"
-     showguides="true">
+     inkscape:pagecheckerboard="false">
     <inkscape:grid
        type="xygrid"
-       id="grid875"
-       enabled="false" />
+       id="grid875" />
   </sodipodi:namedview>
   <g
      id="g812"
