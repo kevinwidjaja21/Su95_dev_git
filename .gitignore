@@ -48,8 +48,8 @@ node_modules
 /src/instruments/src/EFB/dist
 /src/instruments/buildSrc/custom/*
 /src/autothrottle/target
-/PackageSources/SimObjects/AirPlanes/SU95/model/*.gltf
-/PackageSources/SimObjects/AirPlanes/SU95/model/*.bin
+/PackageSources/SimObjects/AirPlanes/SU95/model/A320_NEO_INTERIOR_LOD**.gltf
+/PackageSources/SimObjects/AirPlanes/SU95/model/A320_NEO_INTERIOR_LOD**.bin
 *.wasm
 /target
 /src/instruments/src/EFB/web/
