@@ -41,7 +41,7 @@ class A32NX_PayloadConstructor {
                 pax: 0,
                 paxTarget: 0,
                 stationIndex: 3 + 1,
-                position: -320,
+                position: -20,
                 seatsRange: [74, 98],
                 simVar: "SU95_PAX_TOTAL_ROWS_16_20"
             },
